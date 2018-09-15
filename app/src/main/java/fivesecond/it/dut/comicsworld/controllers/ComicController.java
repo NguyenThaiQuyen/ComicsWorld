@@ -14,7 +14,7 @@ public class ComicController {
         return sInstance;
     }
 
-    ArrayList<Comic> mComicList;
+    private ArrayList<Comic> mComicList;
     private ComicController() {
         mComicList = new ArrayList<>();
     }
