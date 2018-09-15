@@ -8,11 +8,11 @@ public class Comic {
     private int chaps;
     private String description;
     private int view;
-    private float rated;
+    private float rating;
     private int idComment;
     private String author;
 
-    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rated, int idComment, String author) {
+    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author) {
         this.id = id;
         this.name = name;
         this.idType = idType;
@@ -20,7 +20,7 @@ public class Comic {
         this.chaps = chaps;
         this.description = description;
         this.view = view;
-        this.rated = rated;
+        this.rating = rating;
         this.idComment = idComment;
         this.author = author;
     }
@@ -81,12 +81,12 @@ public class Comic {
         this.view = view;
     }
 
-    public float getRated() {
-        return rated;
+    public float getrating() {
+        return rating;
     }
 
-    public void setRated(float rated) {
-        this.rated = rated;
+    public void setrating(float rating) {
+        this.rating = rating;
     }
 
     public int getIdComment() {
@@ -115,7 +115,7 @@ public class Comic {
                 ", chaps=" + chaps +
                 ", description='" + description + '\'' +
                 ", view=" + view +
-                ", rated=" + rated +
+                ", rating=" + rating +
                 ", idComment=" + idComment +
                 ", author='" + author + '\'' +
                 '}';
