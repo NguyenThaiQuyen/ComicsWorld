@@ -20,6 +20,7 @@
             android:name=".HomeScreenActivity"
             android:label="@string/title_activity_home_screen"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListComicsActivity" />
     </application>
 
 </manifest>
