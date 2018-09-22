@@ -26,4 +26,9 @@
     <dimen name="text_size_desc">11sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    
+    <dimen name="text_size_title1">22sp</dimen>
+    <dimen name="text_size_nameComic">15sp</dimen>
+
+
 </resources>
