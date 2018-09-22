@@ -3,6 +3,7 @@ package fivesecond.it.dut.comicsworld;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,5 +15,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ListComicsActivity.class);
 
         startActivity(intent);
+
+        ArrayAdapter a = new ArrayAdapter(MainActivity.this, )
     }
 }
