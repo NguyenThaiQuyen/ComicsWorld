@@ -26,9 +26,21 @@
     <dimen name="text_size_desc">11sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    
+
     <dimen name="text_size_title1">22sp</dimen>
     <dimen name="text_size_nameComic">15sp</dimen>
 
+    <dimen name="edt_margin_left">15dp</dimen>
+    <dimen name="edt_margin_right">15dp</dimen>
+    <dimen name="edt_margin_top">15dp</dimen>
+    <dimen name="edt_margin_bottom">15dp</dimen>
+
+    <dimen name="logo">68sp</dimen>
+
+    <dimen name="text_padding">10dp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_question_icon">25sp</dimen>
+    <dimen name="sign_up_margin_bottom">25dp</dimen>
 
 </resources>

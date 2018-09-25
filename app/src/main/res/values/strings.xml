@@ -12,4 +12,13 @@
     <string name="top">Top</string>
     <string name="popular">Popular</string>
     <string name="rated">Rated</string>
+
+    <string name="logo">Comics World</string>
+
+    <string name="hint_email_phone">Email or phone</string>
+    <string name="hint_pass">Password</string>
+    <string name="text_login">Log In</string>
+
+
+
 </resources>
