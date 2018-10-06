@@ -1,6 +1,8 @@
 package fivesecond.it.dut.comicsworld.models;
 
-public class Type {
+import java.io.Serializable;
+
+public class Type implements Serializable {
     private int id ;
     private String name ;
 
@@ -16,6 +18,7 @@ public class Type {
 
     public Type() {
     }
+
 
     public void setId(int id) {
         this.id = id;

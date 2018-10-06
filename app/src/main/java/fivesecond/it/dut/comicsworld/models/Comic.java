@@ -1,6 +1,10 @@
 package fivesecond.it.dut.comicsworld.models;
 
-public class Comic {
+import android.graphics.drawable.Drawable;
+
+import java.io.Serializable;
+
+public class Comic implements Serializable {
     private int id;
     private String name;
     private int idType;
