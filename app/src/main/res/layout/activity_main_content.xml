@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainContentActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edt_margin_top"
+        android:orientation="horizontal"
+        android:weightSum="8">
+
+        <ImageView
+            android:id="@+id/imvCover"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_marginLeft="@dimen/edt_margin_top"
+            android:layout_marginRight="@dimen/edt_margin_top"
+            android:background="@drawable/photo_cover" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/txtNameComic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Conan Chapter 1"
+                android:textColor="@android:color/background_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aoyama Gōshō"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="5" />
+
+            <Button
+                android:id="@+id/btnRead"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:text="READ"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@color/colorPrimaryDark"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/edt_margin_right"
+        android:layout_marginLeft="@dimen/edt_margin_left"
+        android:layout_marginRight="@dimen/edt_margin_right"
+        android:layout_marginStart="@dimen/edt_margin_left"
+        android:layout_marginTop="@dimen/edt_margin_top"
+        android:text="* Description"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/edt_margin_left"
+        android:layout_marginRight="@dimen/edt_margin_right"
+        android:gravity="center_vertical"
+        android:text="     Đáng lẽ lúc này tớ phải đang sống những ngày cấp 3 vui vẻ cùng bạn bè chứ nhỉ?
+     Nhưng thực tế thì sao nào? Tớ thấy chán ngấy vì lúc nào cũng phải đối mặt với những vụ án lắm rồi!
+     Đừng nhắc đến chuyện của Ran nữa, chỉ thêm khổ tâm mà thôi! Ôi, Ran! Chị Ran đi đâu mất rồi!?"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginEnd="@dimen/edt_margin_right"
+        android:layout_marginLeft="@dimen/edt_margin_left"
+        android:layout_marginRight="@dimen/edt_margin_right"
+        android:layout_marginStart="@dimen/edt_margin_left"
+        android:layout_marginTop="@dimen/edt_margin_top">
+
+        <TextView
+            android:id="@+id/txt_chap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Chapter"
+            android:textColor="@android:color/background_dark"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_chap1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chương 1: Vượt sông trong đêm vắng tiếng roi vang âm thầm"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/txt_chap2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chương 2: Ảo ảnh ở phòng hậu cần"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

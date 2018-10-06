@@ -16,6 +16,7 @@ import fivesecond.it.dut.comicsworld.controllers.TypeController;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.Type;
 
+
 public class MainActivity extends AppCompatActivity {
 
     ListView lvType;
