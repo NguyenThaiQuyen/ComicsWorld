@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     tools:context=".MainActivity">
 
-    <ListView
-        android:id="@+id/lvType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/txtTopic"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginLeft="@dimen/edt_margin_left"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="@dimen/edt_margin_right"
+        android:layout_marginBottom="@dimen/edt_margin_bottom"
+        android:gravity="center"
+        android:text="@string/logo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/bgHeader"
+        android:textSize="@dimen/logo"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTopic"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="265dp"
+        android:background="@drawable/border"
+        android:padding="@dimen/padding_header"
+        android:text="START"
+        android:textColor="@color/text_Commics"
+        android:textSize="28sp" />
+</RelativeLayout>
