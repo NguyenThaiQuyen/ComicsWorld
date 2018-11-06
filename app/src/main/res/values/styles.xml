@@ -14,15 +14,10 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
-<<<<<<< HEAD
 
-    <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light" />
-=======
 
     <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light" />
 
 
-
->>>>>>> 4e90b3116182f195f13dec1a2e13ba6d411f3b93
 
 </resources>

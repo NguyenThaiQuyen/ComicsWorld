@@ -15,8 +15,9 @@ public class Comic implements Serializable {
     private float rating;
     private int idComment;
     private String author;
+    private String id_url;
 
-    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author) {
+    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author, String id_url) {
         this.id = id;
         this.name = name;
         this.idType = idType;
@@ -27,6 +28,7 @@ public class Comic implements Serializable {
         this.rating = rating;
         this.idComment = idComment;
         this.author = author;
+        this.id_url = id_url;
     }
 
     public int getId() {
@@ -107,6 +109,14 @@ public class Comic implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getIdUrl() {
+        return id_url;
+    }
+
+    public void setIdUrl(String id_url) {
+        this.id_url = id_url;
     }
 
     @Override

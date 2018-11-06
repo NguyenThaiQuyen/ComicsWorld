@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import fivesecond.it.dut.comicsworld.models.Type;
 
-public class TypeController {
+public class TypeController implements Serializable{
 
     private static TypeController sInstance = null;
 

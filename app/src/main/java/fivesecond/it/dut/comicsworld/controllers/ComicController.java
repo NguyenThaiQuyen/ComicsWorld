@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.Type;
 
-public class ComicController {
+public class ComicController implements Serializable{
     private static ComicController sInstance = null;
 
     public static ComicController getInstance() {
