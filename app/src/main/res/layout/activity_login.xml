@@ -19,7 +19,7 @@
         android:text="@string/logo"
         android:textSize="@dimen/logo"
         android:textStyle="bold"
-        android:textColor="@color/text_Commics"
+        android:textColor="@color/textCommics"
         android:gravity="center"/>
 
     <EditText
