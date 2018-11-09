@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      // Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+       Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
 //
 //        TypeController.getInstance().load();
 //        ComicController.getInstance().load();
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 //                Intent intent = new Intent(MainActivity.this, ListComicsActivity.class);
 //                intent.putExtra("pass_list", list);
 //
-              // startActivity(intent);
+               startActivity(intent);
 //            }
 //        });
 
