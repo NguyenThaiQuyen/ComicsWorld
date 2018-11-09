@@ -21,14 +21,33 @@ public class ListComicsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
-        lvListComic = findViewById(R.id.lvListComic);
+        
+        init();
+        setWidgets();
+        getWidgets();
+        addListener();
+    }
 
+    private void init() {
         Intent intent = getIntent();
         mList = (ArrayList<Comic>)intent.getSerializableExtra("pass_list");
-
-
-        lvListComic = findViewById(R.id.lvListComic);
         mAdapter = new ListComicsAdapter(this, R.layout.item_list_comics, mList);
+    }
+
+    private void getWidgets() {
+        lvListComic = findViewById(R.id.lvListComic);
+    }
+
+    private void setWidgets() {
         lvListComic.setAdapter(mAdapter);
     }
+
+    private void addListener() {
+
+    }
+
+
+
+
+
 }

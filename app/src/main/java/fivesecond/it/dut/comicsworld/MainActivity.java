@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import fivesecond.it.dut.comicsworld.adapters.ListComicsAdapter;
 import fivesecond.it.dut.comicsworld.controllers.ComicController;
 import fivesecond.it.dut.comicsworld.controllers.TypeController;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -28,33 +29,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
        Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
-//
-//        TypeController.getInstance().load();
-//        ComicController.getInstance().load();
-//
-//        lvType = findViewById(R.id.lvType);
-//        mList = TypeController.getInstance().getTypeName();
-//
-//        mAdapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1,
-//                mList);
-//        lvType.setAdapter(mAdapter);
-//
-//        lvType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getApplicationContext(),
-//                        "Selected: " + mList[i], Toast.LENGTH_SHORT).show();
-//
-//                Type type = TypeController.getInstance().getTypeList().get(i);
-//                ArrayList<Comic> list = ComicController.getInstance().getComicList(type);
-//
-//                Intent intent = new Intent(MainActivity.this, ListComicsActivity.class);
-//                intent.putExtra("pass_list", list);
-//
-               startActivity(intent);
-//            }
-//        });
+
+        init();
+        setWidgets();
+        getWidgets();
+        addListener();
 
     }
+
+    private void init() {
+        TypeController.getInstance().load();
+        ComicController.getInstance().load();
+        mList = TypeController.getInstance().getTypeName();
+
+        mAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                mList);
+    }
+
+    private void getWidgets() {
+        lvType = findViewById(R.id.lvType);
+    }
+
+    private void setWidgets() {
+
+        lvType.setAdapter(mAdapter);
+    }
+
+    private void addListener() {
+        lvType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),
+                        "Selected: " + mList[i], Toast.LENGTH_SHORT).show();
+
+                Type type = TypeController.getInstance().getTypeList().get(i);
+                ArrayList<Comic> list = ComicController.getInstance().getComicList(type);
+
+                Intent intent = new Intent(MainActivity.this, ListComicsActivity.class);
+                intent.putExtra("pass_list", list);
+
+                startActivity(intent);
+            }
+        });
+    }
+
+
 }
