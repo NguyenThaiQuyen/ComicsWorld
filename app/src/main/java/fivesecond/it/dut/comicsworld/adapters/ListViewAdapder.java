@@ -1,6 +1,9 @@
 package fivesecond.it.dut.comicsworld.adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,63 +13,80 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+
 
 import fivesecond.it.dut.comicsworld.R;
 import fivesecond.it.dut.comicsworld.models.Comic;
 
-public class ListComicsAdapter extends ArrayAdapter<Comic> {
-    private Context mContext;
-    private int mLayoutId;
-    private ArrayList<Comic> mList;
+public class ListViewAdapder extends ArrayAdapter<Comic> {
 
-    public ListComicsAdapter(Context context, int resource, ArrayList<Comic> list) {
+    private ArrayList<Comic> mList;
+    private int mLayoutId;
+    private Context mContext;
+
+    public ListViewAdapder(Context context, int resource, ArrayList<Comic> list) {
         super(context, resource, list);
-        mContext = context;
-        mLayoutId = resource;
         mList = list;
+        mLayoutId = resource;
+        mContext = context;
     }
 
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        final ViewHolder viewHolder;
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
         if(convertView == null){
-            System.out.println("Create new");
+
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mLayoutId, parent, false);
 
             viewHolder = new ViewHolder();
 
             viewHolder.txtName = convertView.findViewById(R.id.txtName);
-            viewHolder.txtAuthor = convertView.findViewById(R.id.txtAuthor);
-            viewHolder.txtDesc = convertView.findViewById(R.id.txtDesc);
+            viewHolder.raBar = convertView.findViewById(R.id.raBar);
             viewHolder.imgThumbnail = convertView.findViewById(R.id.imgThumbnail);
-            viewHolder.rating = convertView.findViewById(R.id.rating);
 
             convertView.setTag(viewHolder);
         }
         else{
-            System.out.println("re-use");
+
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
         Comic comic = mList.get(position);
+
+        viewHolder.raBar.setRating(comic.getRating());
+
+
         viewHolder.txtName.setText(comic.getName());
-        viewHolder.txtAuthor.setText(comic.getAuthor());
-        viewHolder.txtDesc.setText(comic.getDescription());
-//        viewHolder.imgThumbnail.setBackground(comic.getThumbnail());
-        viewHolder.rating.setRating(comic.getrating());
+
+        FirebaseStorage mStore = FirebaseStorage.getInstance();
+        StorageReference storageRef = mStore.getReference();
 
 
-        //Background does later
+        storageRef.child("thumbs/"+comic.getThumbnail()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri.toString()).into(viewHolder.imgThumbnail);
+            }
+        });
+
+
         return convertView;
     }
 
     private class ViewHolder{
         public TextView txtName;
-        public TextView txtAuthor;
-        public TextView txtDesc;
         public ImageView imgThumbnail;
-        public RatingBar rating;
+        public RatingBar raBar;
     }
+
 }
+

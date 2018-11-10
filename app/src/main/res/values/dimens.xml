@@ -17,13 +17,14 @@
     <dimen name="margin_bar">15dp</dimen>
     <dimen name="text_size_bar">19sp</dimen>
 
+    <dimen name="padding_comic">8dp</dimen>
     <dimen name="margin_bottom_comic">15dp</dimen>
     <dimen name="thubnail_width">95dp</dimen>
-    <dimen name="thumbnail_height">65dp</dimen>
+    <dimen name="thumbnail_height">120dp</dimen>
     <dimen name="margin_right_thumbnail">15dp</dimen>
-    <dimen name="text_size_title">14sp</dimen>
+    <dimen name="text_size_title">16sp</dimen>
     <dimen name="text_size_author">11sp</dimen>
-    <dimen name="text_size_desc">11sp</dimen>
+    <dimen name="text_size_desc">13sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import fivesecond.it.dut.comicsworld.adapters.ListComicsAdapter;
 import fivesecond.it.dut.comicsworld.controllers.ComicController;
 import fivesecond.it.dut.comicsworld.controllers.TypeController;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -28,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
-
-        init();
-        setWidgets();
-        getWidgets();
-        addListener();
+       Intent intent = new Intent(MainActivity.this, TestPreferences.class);
+        startActivity(intent);
+//        init();
+//        setWidgets();
+//        getWidgets();
+//        addListener();
 
     }
 

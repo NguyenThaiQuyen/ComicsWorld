@@ -15,9 +15,9 @@ public class Comic implements Serializable {
     private float rating;
     private int idComment;
     private String author;
-    private String id_url;
+    private String url;
 
-    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author, String id_url) {
+    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author, String url) {
         this.id = id;
         this.name = name;
         this.idType = idType;
@@ -28,7 +28,7 @@ public class Comic implements Serializable {
         this.rating = rating;
         this.idComment = idComment;
         this.author = author;
-        this.id_url = id_url;
+        this.url = url;
     }
 
     public int getId() {
@@ -87,11 +87,11 @@ public class Comic implements Serializable {
         this.view = view;
     }
 
-    public float getrating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setrating(float rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -111,12 +111,12 @@ public class Comic implements Serializable {
         this.author = author;
     }
 
-    public String getIdUrl() {
-        return id_url;
+    public String getUrl() {
+        return url;
     }
 
-    public void setIdUrl(String id_url) {
-        this.id_url = id_url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -132,6 +132,7 @@ public class Comic implements Serializable {
                 ", rating=" + rating +
                 ", idComment=" + idComment +
                 ", author='" + author + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

@@ -8,18 +8,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_bottom_comic">
+        android:layout_marginBottom="@dimen/margin_bottom_comic"
+        android:padding="@dimen/padding_comic">
         <ImageView
             android:id="@+id/imgThumbnail"
             android:layout_width="@dimen/thubnail_width"
             android:layout_height="@dimen/thumbnail_height"
-            android:background="@drawable/thumbnail"
-            android:layout_marginRight="@dimen/margin_right_thumbnail"/>
+            android:layout_marginRight="@dimen/margin_right_thumbnail"
+            android:scaleType="centerCrop" />
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:weightSum="4">
+            android:weightSum="6">
             <TextView
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
@@ -28,7 +30,8 @@
                 android:text="You, me and fate"
                 android:layout_alignParentRight="true"
                 android:textStyle="bold"
-                android:textSize="@dimen/text_size_title"/>
+                android:textSize="@dimen/text_size_title"
+                />
             <TextView
                 android:id="@+id/txtAuthor"
                 android:layout_width="match_parent"
@@ -38,8 +41,21 @@
                 android:layout_alignParentRight="true"
                 android:textStyle="italic"
                 android:textSize="@dimen/text_size_author"/>
+
+            <TextView
+                android:id="@+id/txtChap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Chap: 1"
+                android:layout_alignParentRight="true"
+
+                android:textSize="@dimen/text_size_desc"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+
             <RatingBar
-                android:id="@+id/rating"
+                android:id="@+id/raBar"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -48,12 +64,14 @@
                 android:rating="5" />
             <TextView
                 android:id="@+id/txtDesc"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Nothing gonna change my love for you ..."
+                android:layout_weight="2"
+                android:text="Nothing gonna hello change move  for you ..."
                 android:layout_alignParentRight="true"
-                android:textSize="@dimen/text_size_desc"/>
+                android:textSize="@dimen/text_size_desc"
+                android:maxLines="2"
+                android:ellipsize="end"/>
         </LinearLayout>
     </LinearLayout>
 

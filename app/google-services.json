@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "185145040920",
+    "firebase_url": "https://comicsworld-9a357.firebaseio.com",
+    "project_id": "comicsworld-9a357",
+    "storage_bucket": "comicsworld-9a357.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185145040920:android:63fdcc8a02e316a3",
+        "android_client_info": {
+          "package_name": "fivesecond.it.dut.comicsworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185145040920-t7s4cs9kgv3srk2r9pr8infocbqmklvt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fivesecond.it.dut.comicsworld",
+            "certificate_hash": "0687656518ca19ca6c3c1a9e56bfec12a1380e28"
+          }
+        },
+        {
+          "client_id": "185145040920-k70ee5gu1rdnrqkfrpqji01lvch59pn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4VKc2fY99RBdLqPzcHDzy53h6e_kTKNg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185145040920-k70ee5gu1rdnrqkfrpqji01lvch59pn1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
