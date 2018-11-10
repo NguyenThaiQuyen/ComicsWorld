@@ -3,12 +3,12 @@ package fivesecond.it.dut.comicsworld.adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -51,6 +51,9 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
             viewHolder.txtName = convertView.findViewById(R.id.txtName);
             viewHolder.raBar = convertView.findViewById(R.id.raBar);
             viewHolder.imgThumbnail = convertView.findViewById(R.id.imgThumbnail);
+            viewHolder.txtAuthor = convertView.findViewById(R.id.txtAuthor);
+            viewHolder.txtChap = convertView.findViewById(R.id.txtChap);
+            viewHolder.txtDesc = convertView.findViewById(R.id.txtDesc);
 
             convertView.setTag(viewHolder);
         }
@@ -61,16 +64,18 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
 
         Comic comic = mList.get(position);
 
-        viewHolder.raBar.setRating(comic.getRating());
-
 
         viewHolder.txtName.setText(comic.getName());
+        viewHolder.txtAuthor.setText(comic.getAuthor());
+        viewHolder.txtDesc.setText(comic.getDesc());
+        viewHolder.txtChap.setText(String.valueOf(comic.getChap()));
+        viewHolder.raBar.setRating(comic.getRating());
 
         FirebaseStorage mStore = FirebaseStorage.getInstance();
         StorageReference storageRef = mStore.getReference();
 
 
-        storageRef.child("thumbs/"+comic.getThumbnail()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("thumbs/"+comic.getThumb()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
 
             public void onSuccess(Uri uri) {
@@ -84,6 +89,9 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
 
     private class ViewHolder{
         public TextView txtName;
+        public TextView txtAuthor;
+        public TextView txtChap;
+        public TextView txtDesc;
         public ImageView imgThumbnail;
         public RatingBar raBar;
     }

@@ -41,8 +41,7 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
 
     protected Void doInBackground(Void... voids) {
         DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
-        Query query = databaseReference.child("comics").equalTo(String.valueOf(idType), "idType");
-        query.addChildEventListener(new ChildEventListener() {
+        databaseReference.child("comics").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Comic comic = dataSnapshot.getValue(Comic.class);

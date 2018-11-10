@@ -49,10 +49,7 @@
                 android:layout_weight="1"
                 android:text="Chap: 1"
                 android:layout_alignParentRight="true"
-
-                android:textSize="@dimen/text_size_desc"
-                android:singleLine="true"
-                android:ellipsize="end"/>
+                android:textSize="@dimen/text_size_desc" />
 
             <RatingBar
                 android:id="@+id/raBar"

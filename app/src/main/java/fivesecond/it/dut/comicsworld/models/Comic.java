@@ -5,102 +5,32 @@ import android.graphics.drawable.Drawable;
 import java.io.Serializable;
 
 public class Comic implements Serializable {
-    private int id;
-    private String name;
-    private int idType;
-    private String thumbnail;
-    private int chaps;
-    private String description;
-    private int view;
-    private float rating;
-    private int idComment;
+
     private String author;
+    private int chap;
+    private String desc;
+    private int idComment;
+    private int idType;
+    private String name;
+    private float rating;
+    private String thumb;
     private String url;
+    private int view;
 
-    public Comic(int id, String name, int idType, String thumbnail, int chaps, String description, int view, float rating, int idComment, String author, String url) {
-        this.id = id;
-        this.name = name;
-        this.idType = idType;
-        this.thumbnail = thumbnail;
-        this.chaps = chaps;
-        this.description = description;
-        this.view = view;
-        this.rating = rating;
-        this.idComment = idComment;
+    public Comic(){
+
+    }
+    public Comic(String author, int chap, String desc, int idComment, int idType, String name, float rating, String thumb, String url, int view) {
         this.author = author;
-        this.url = url;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getIdType() {
-        return idType;
-    }
-
-    public void setIdType(int idType) {
-        this.idType = idType;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public int getChaps() {
-        return chaps;
-    }
-
-    public void setChaps(int chaps) {
-        this.chaps = chaps;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getView() {
-        return view;
-    }
-
-    public void setView(int view) {
-        this.view = view;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public int getIdComment() {
-        return idComment;
-    }
-
-    public void setIdComment(int idComment) {
+        this.chap = chap;
+        this.desc = desc;
         this.idComment = idComment;
+        this.idType = idType;
+        this.name = name;
+        this.rating = rating;
+        this.thumb = thumb;
+        this.url = url;
+        this.view = view;
     }
 
     public String getAuthor() {
@@ -111,6 +41,62 @@ public class Comic implements Serializable {
         this.author = author;
     }
 
+    public int getChap() {
+        return chap;
+    }
+
+    public void setChap(int chap) {
+        this.chap = chap;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getIdComment() {
+        return idComment;
+    }
+
+    public void setIdComment(int idComment) {
+        this.idComment = idComment;
+    }
+
+    public int getIdType() {
+        return idType;
+    }
+
+    public void setIdType(int idType) {
+        this.idType = idType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -119,20 +105,27 @@ public class Comic implements Serializable {
         this.url = url;
     }
 
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
     @Override
     public String toString() {
         return "Comic{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", idType=" + idType +
-                ", thumbnail='" + thumbnail + '\'' +
-                ", chaps=" + chaps +
-                ", description='" + description + '\'' +
-                ", view=" + view +
-                ", rating=" + rating +
+                "author='" + author + '\'' +
+                ", chap=" + chap +
+                ", desc='" + desc + '\'' +
                 ", idComment=" + idComment +
-                ", author='" + author + '\'' +
+                ", idType=" + idType +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                ", thumb='" + thumb + '\'' +
                 ", url='" + url + '\'' +
+                ", view=" + view +
                 '}';
     }
 }
