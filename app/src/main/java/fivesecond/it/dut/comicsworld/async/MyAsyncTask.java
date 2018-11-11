@@ -35,8 +35,8 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
         lvtest = parContext.findViewById(R.id.lvListComic);
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(parContext, R.layout.item_list_comics, mList);
-        lvtest.setAdapter(mAdapter);
 
+        lvtest.setAdapter(mAdapter);
     }
 
     protected Void doInBackground(Void... voids) {
@@ -77,8 +77,8 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
     protected void onProgressUpdate(Comic... comics) {
 
         mList.add(comics[0]);
-
         mAdapter.notifyDataSetChanged();
+
     }
 }
 

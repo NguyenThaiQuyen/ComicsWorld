@@ -16,13 +16,11 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+
 
 
 import fivesecond.it.dut.comicsworld.R;
@@ -66,7 +64,7 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        final Comic comic = mList.get(position);
+        Comic comic = mList.get(position);
 
 
         viewHolder.txtName.setText(comic.getName());
@@ -78,15 +76,15 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
         FirebaseStorage mStore = FirebaseStorage.getInstance();
         StorageReference storageRef = mStore.getReference();
 
+
         storageRef.child("thumbs/"+comic.getThumb()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) {
-                String url = uri.toString();
-                Picasso.get().load(url).into(viewHolder.imgThumbnail);
-            }
-            //
-        });
 
+            public void onSuccess(Uri uri) {
+
+                Picasso.get().load(uri.toString()).into(viewHolder.imgThumbnail);
+            }
+        });
 
 
         return convertView;
