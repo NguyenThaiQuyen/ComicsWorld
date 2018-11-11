@@ -36,9 +36,10 @@ public class ListComicsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
-new MyAsyncTask(this, 1).execute();
 
-        //init();
+        new LoadComicContent(this, 1).execute();
+
+        init();
         setWidgets();
         getWidgets();
         addListener();
@@ -48,13 +49,6 @@ new MyAsyncTask(this, 1).execute();
 //        Intent intent = getIntent();
 //        mList = (ArrayList<Comic>)intent.getSerializableExtra("type");
         //new MyAsyncTask(this, 1).execute();
-
-
-        FirebaseStorage mStore = FirebaseStorage.getInstance();
-        StorageReference storageRef = mStore.getReference();
-
-
-
 
     }
 

@@ -27,16 +27,16 @@ public class LoadComicContent extends AsyncTask<Void, String, Void> {
     ListView lvtest;
     ArrayList<String> mList;
     ArrayAdapter<String> mAdapter;
-    int number;
+    int id;
 
-    public LoadComicContent(Activity ctx)
+    public LoadComicContent(Activity ctx, int idComic)
     {
         parContext = ctx;
         lvtest = parContext.findViewById(R.id.lvListComic);
         mList = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(parContext, android.R.layout.simple_list_item_1, mList);
         lvtest.setAdapter(mAdapter);
-        number = 1;
+        id = idComic;
 
     }
     @Override
@@ -45,22 +45,21 @@ public class LoadComicContent extends AsyncTask<Void, String, Void> {
         FirebaseStorage mStore = FirebaseStorage.getInstance();
         StorageReference storageRef = mStore.getReference();
 
-        while(number > 0) {
-
-            storageRef.child("thumbs/" + number + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    String url = uri.toString();
-                    publishProgress(url);
-                    number++;
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    number = 0;
-                }
-            });;
-        }
+//        int i = 1;
+//        while ()
+//        storageRef.child("comics/1" + number + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                String url = uri.toString();
+//                publishProgress(url);
+//                number++;
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                number = 0;
+//            }
+//        });;
 
         return null;
     }
