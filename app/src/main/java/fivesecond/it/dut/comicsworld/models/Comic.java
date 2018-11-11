@@ -1,7 +1,5 @@
 package fivesecond.it.dut.comicsworld.models;
 
-import android.graphics.drawable.Drawable;
-
 import java.io.Serializable;
 
 public class Comic implements Serializable {
@@ -10,7 +8,7 @@ public class Comic implements Serializable {
     private int chap;
     private String desc;
     private int idComment;
-    private int idType;
+    private String idType;
     private String name;
     private float rating;
     private String thumb;
@@ -20,7 +18,8 @@ public class Comic implements Serializable {
     public Comic(){
 
     }
-    public Comic(String author, int chap, String desc, int idComment, int idType, String name, float rating, String thumb, String url, int view) {
+
+    public Comic(String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int view) {
         this.author = author;
         this.chap = chap;
         this.desc = desc;
@@ -65,11 +64,11 @@ public class Comic implements Serializable {
         this.idComment = idComment;
     }
 
-    public int getIdType() {
+    public String getIdType() {
         return idType;
     }
 
-    public void setIdType(int idType) {
+    public void setIdType(String idType) {
         this.idType = idType;
     }
 
@@ -120,7 +119,7 @@ public class Comic implements Serializable {
                 ", chap=" + chap +
                 ", desc='" + desc + '\'' +
                 ", idComment=" + idComment +
-                ", idType=" + idType +
+                ", idType='" + idType + '\'' +
                 ", name='" + name + '\'' +
                 ", rating=" + rating +
                 ", thumb='" + thumb + '\'' +

@@ -47,8 +47,8 @@ public class TypeController implements Serializable{
 
     public void fakeData()
     {
-        mTypeList.add(new Type(1, "Action"));
-        mTypeList.add(new Type(2, "Adventure"));
-        mTypeList.add(new Type(3, "Love Story"));
+        mTypeList.add(new Type("1", "Action"));
+        mTypeList.add(new Type("2", "Adventure"));
+        mTypeList.add(new Type("3", "Love Story"));
     }
 }

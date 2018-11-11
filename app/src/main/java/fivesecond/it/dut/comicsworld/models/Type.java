@@ -3,15 +3,15 @@ package fivesecond.it.dut.comicsworld.models;
 import java.io.Serializable;
 
 public class Type implements Serializable {
-    private int id ;
+    private String id ;
     private String name ;
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public Type(int id, String name) {
+    public Type(String id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -20,7 +20,7 @@ public class Type implements Serializable {
     }
 
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
 
     }
