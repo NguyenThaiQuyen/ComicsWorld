@@ -44,4 +44,7 @@
     <dimen name="text_size_question_icon">25sp</dimen>
     <dimen name="sign_up_margin_bottom">25dp</dimen>
 
+    <dimen name="padding_content_comic">8dp</dimen>
+    <dimen name="margin_bottom_content_comic">8dp</dimen>
+
 </resources>

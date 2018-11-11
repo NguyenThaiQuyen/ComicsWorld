@@ -1,43 +1,71 @@
 package fivesecond.it.dut.comicsworld;
 
+
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import fivesecond.it.dut.comicsworld.async.LoadComicContent;
-import fivesecond.it.dut.comicsworld.async.MyAsyncTask;
+import fivesecond.it.dut.comicsworld.adapters.ListViewContentAdapter;
 
 
 public class ListComicsActivity extends AppCompatActivity {
+
+    ListView lvtest;
+    ArrayList<String> mList;
+    ListViewContentAdapter mAdapter;
+    public boolean checkLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
 
-        new LoadComicContent(this, 1).execute();
+        lvtest = findViewById(R.id.lvListComic);
+        mList = new ArrayList<>();
+       mAdapter = new ListViewContentAdapter(this, R.layout.item_content_comic, mList);
+       lvtest.setAdapter(mAdapter);
+       checkLoading = true;
+        Toast.makeText(getApplicationContext(), String.valueOf(4), Toast.LENGTH_SHORT).show();
+
+        FirebaseStorage mStore = FirebaseStorage.getInstance();
+        StorageReference storageRef = mStore.getReference();
+
+       int i = 1;
+        while (i<2)
+        {       // Toast.makeText(getApplicationContext(), String.valueOf(4), Toast.LENGTH_SHORT).show();
+
+           // final int j = i;
+            storageRef.child("comics/1/1/" + String.valueOf(44) + ".jpg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                   // checkLoading = false;
+                }
+
+            }).addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+//                    mList.add(uri.toString());
+//                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), String.valueOf(44), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+
+            i++;
+        }
+        Toast.makeText(getApplicationContext(), "finish", Toast.LENGTH_SHORT).show();
 
         init();
         setWidgets();
