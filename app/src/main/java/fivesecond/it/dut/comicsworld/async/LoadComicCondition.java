@@ -1,5 +1,7 @@
 package fivesecond.it.dut.comicsworld.async;
 
+
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,7 @@ import fivesecond.it.dut.comicsworld.R;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
 import fivesecond.it.dut.comicsworld.models.Comic;
 
-public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
+public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
 
     Activity parContext;
     int idType;
@@ -28,7 +31,7 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
     ArrayList<Comic> mList;
     ListViewAdapder mAdapter;
 
-    public MyAsyncTask(Activity ctx, int _idType)
+    public LoadComicCondition(Activity ctx, int _idType)
     {
         parContext = ctx;
         idType = _idType;
@@ -40,33 +43,21 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
     }
 
     protected Void doInBackground(Void... voids) {
-        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("comics").addChildEventListener(new ChildEventListener() {
+        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
+
+
+        Query query = databaseReference.orderByChild("idType").equalTo(idType);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Comic comic = dataSnapshot.getValue(Comic.class);
-
-                publishProgress(comic);
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSniapshot: dataSnapshot.getChildren()) {
+                        Comic comic = postSniapshot.getValue(Comic.class);
+                     publishProgress(comic);
+                }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -81,4 +72,5 @@ public class MyAsyncTask extends AsyncTask<Void, Comic, Void> {
 
     }
 }
+
 
