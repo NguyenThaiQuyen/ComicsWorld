@@ -12,7 +12,11 @@ public class ListComicsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
+
         init();
+        setWidgets();
+        getWidgets();
+        addListener();
 
     }
 
@@ -20,11 +24,6 @@ public class ListComicsActivity extends AppCompatActivity {
 //        Intent intent = getIntent();
 //        mList = (ArrayList<Comic>)intent.getSerializableExtra("type");
         new LoadComicCondition(this, 2).execute();
-
-
-
-
-
 
     }
 

@@ -70,11 +70,9 @@ public class ListViewAdapder extends ArrayAdapter<Comic> {
         viewHolder.txtName.setText(comic.getName());
         viewHolder.txtAuthor.setText(comic.getAuthor());
         viewHolder.txtDesc.setText(comic.getDesc());
-        viewHolder.txtChap.setText(String.valueOf(comic.getChap()));
+        viewHolder.txtChap.setText("Chap: " + String.valueOf(comic.getChap()));
         viewHolder.raBar.setRating(comic.getRating());
-
-
-                     Picasso.get().load(comic.getThumb()).into(viewHolder.imgThumbnail);
+        Picasso.get().load(comic.getThumb()).into(viewHolder.imgThumbnail);
 
 
         return convertView;

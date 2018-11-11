@@ -67,7 +67,7 @@ public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
 
     protected void onProgressUpdate(Comic... comics) {
 
-        mList.add(comics[0]);
+        mList.add(0, comics[0]);
         mAdapter.notifyDataSetChanged();
 
     }
