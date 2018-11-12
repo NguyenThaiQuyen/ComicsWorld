@@ -5,8 +5,14 @@ import java.util.ArrayList;
 
 import fivesecond.it.dut.comicsworld.models.Comic;
 
-public class ComicController implements Serializable{
+public class ComicController implements Serializable {
+    private ArrayList<Comic> mComicList;
+
     private static ComicController sInstance = null;
+    private ComicController() {
+        mComicList = new ArrayList<>();
+
+    }
 
     public static ComicController getInstance() {
         if(sInstance == null) {
@@ -15,24 +21,28 @@ public class ComicController implements Serializable{
         return sInstance;
     }
 
-    private ArrayList<Comic> mComicList;
-    private ComicController() {
-        mComicList = new ArrayList<>();
-    }
 
-
-
-    public void addComic() {
-
-    }
-
-    public void load()
+    public ArrayList<Comic> getComicList()
     {
-        fakeData();
+        return mComicList;
     }
 
-    private void fakeData() {
+    public void addComicToList(Comic comic)
+    {
+        mComicList.add(comic);
     }
 
+    public ArrayList<Comic> getComicByIdType(String id)
+    {
+        ArrayList<Comic> result = new ArrayList<>();
 
+        for(Comic comic: mComicList)
+        {
+            if(comic.getIdType().equals(id))
+            {
+                result.add(comic);
+            }
+        }
+        return result;
+    }
 }

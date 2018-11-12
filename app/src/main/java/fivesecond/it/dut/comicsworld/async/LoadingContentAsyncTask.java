@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,20 +19,26 @@ import fivesecond.it.dut.comicsworld.adapters.ListViewContentAdapter;
 
 public class LoadingContentAsyncTask extends AsyncTask<Void, String, Void> {
     Activity parContext;
+    String url;
+    int chap;
+
     ListView lvtest;
     ArrayList<String> mList;
     ListViewContentAdapter mAdapter;
-    int id;
+
     boolean checkLoading;
 
-    public LoadingContentAsyncTask(Activity ctx, int idComic)
+    public LoadingContentAsyncTask(Activity ctx, String _url, int _chap)
     {
         parContext = ctx;
-        lvtest = parContext.findViewById(R.id.lvListComic);
+        url = _url;
+        chap = _chap;
+
+        lvtest = parContext.findViewById(R.id.lvComic);
         mList = new ArrayList<>();
         mAdapter = new ListViewContentAdapter(parContext, R.layout.item_content_comic, mList);
         lvtest.setAdapter(mAdapter);
-        id = idComic;
+
         checkLoading = true;
 
     }
@@ -45,10 +52,11 @@ public class LoadingContentAsyncTask extends AsyncTask<Void, String, Void> {
         while (checkLoading)
         {
             final int j = i;
-            storageRef.child("comics/1/1/" + String.valueOf(j) + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            storageRef.child("comics/" + url + "/" + String.valueOf(chap) + "/" + String.valueOf(j)+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     String url = uri.toString();
+                    Toast.makeText(parContext, url, Toast.LENGTH_SHORT).show();
                     publishProgress(url);
                 }
             }).addOnFailureListener(new OnFailureListener() {

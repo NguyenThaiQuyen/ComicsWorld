@@ -1,9 +1,12 @@
 package fivesecond.it.dut.comicsworld.async;
 
 
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -15,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import fivesecond.it.dut.comicsworld.MainContentActivity;
 import fivesecond.it.dut.comicsworld.R;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -47,15 +51,15 @@ public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
         Query query = databaseReference.orderByChild(attr).equalTo(con);
         query.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSniapshot: dataSnapshot.getChildren()) {
-                        Comic comic = postSniapshot.getValue(Comic.class);
-                     publishProgress(comic);
+                    Comic comic = postSniapshot.getValue(Comic.class);
+                    publishProgress(comic);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
@@ -67,6 +71,15 @@ public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
 
         mList.add(0, comics[0]);
         mAdapter.notifyDataSetChanged();
+
+       lvtest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               Intent intent = new Intent(parContext, MainContentActivity.class);
+               intent.putExtra("comic", mList.get(position));
+               parContext.startActivity(intent);
+           }
+       });
 
     }
 }
