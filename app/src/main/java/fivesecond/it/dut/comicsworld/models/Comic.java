@@ -1,5 +1,7 @@
 package fivesecond.it.dut.comicsworld.models;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Comic implements Serializable {
@@ -112,6 +114,7 @@ public class Comic implements Serializable {
         this.view = view;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Comic{" +
