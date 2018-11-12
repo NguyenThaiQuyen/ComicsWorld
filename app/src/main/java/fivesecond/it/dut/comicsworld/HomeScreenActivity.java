@@ -2,16 +2,16 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.controllers.TypeController;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Type;
 
 public class HomeScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +39,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
     List<MenuModel> childModelsList;
     MenuModel childModel;
     MenuModel model;
-
+    ArrayList<Type> mListType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
     private void inits() {
 
+        TypeController.getInstance().load();
+        mListType =  TypeController.getInstance().getTypeList();
 
     }
 
@@ -160,21 +164,13 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
         headerList.add(menuModel);
 
-        childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Ngon tinh", false, false);
-        childModelsList.add(childModel);
+        for(Type type : mListType)
+        {
+            childModelsList = new ArrayList<>();
+            childModel = new MenuModel(type.getName(), false, false);
+            childModelsList.add(childModel);
+        }
 
-        childModel = new MenuModel("Trinh tham", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Tieu thuyet", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Xa hoi", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Cuoi", false, false);
-        childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");
