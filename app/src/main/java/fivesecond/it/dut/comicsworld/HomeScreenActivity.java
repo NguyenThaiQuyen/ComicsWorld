@@ -1,8 +1,8 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,44 +12,81 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.ExpandableListView;
 
-public class HomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.models.MenuModel;
+
+public class HomeScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+    ExpandableListView expandableListView;
+
+    ExpandableListAdapter expandableListAdapter;
+    List<MenuModel> headerList = new ArrayList<>();
+    HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+
+    MenuModel menuModel;
+    List<MenuModel> childModelsList;
+    MenuModel childModel;
+    MenuModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_top);
 
-        //setSupportActionBar(toolbar);
+        inits();
+        setWidgets();
+        getWidgets();
+        addListeners();
+    }
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    private void inits() {
 
 
     }
 
+    private void setWidgets() {
+
+        toolbar = findViewById(R.id.toolbar);
+
+        expandableListView = findViewById(R.id.expandableListView);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
+    }
+
+    private void getWidgets() {
+
+        setSupportActionBar(toolbar);
+
+        prepareMenuData();
+        populateExpandableList();
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+    }
+
+    private void addListeners() {
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -60,7 +97,7 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_screen, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
 
@@ -75,6 +112,10 @@ public class HomeScreenActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if(id== R.id.home ){
+            finish();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -85,23 +126,111 @@ public class HomeScreenActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_share) {
+        if (id == R.id.nav_love) {
             // Handle the camera action
-        }
-        //else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        } else if (id == R.id.nav_save) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        } else if (id == R.id.nave_list_type) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nave_logout) {
+
+        }
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void prepareMenuData() {
+
+        menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Saved", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Ngon tinh", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Trinh tham", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Tieu thuyet", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Xa hoi", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Cuoi", false, false);
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            Log.d("API123","here");
+            childList.put(menuModel, childModelsList);
+        }
+
+        menuModel = new MenuModel("Share", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Log out", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+
+    }
+
+    private void populateExpandableList() {
+
+        expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
+        expandableListView.setAdapter(expandableListAdapter);
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                if (headerList.get(groupPosition).isGroup) {
+                    if (!headerList.get(groupPosition).hasChildren) {
+
+                        onBackPressed();
+                    }
+                }
+
+                return false;
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                if (childList.get(headerList.get(groupPosition)) != null) {
+                    model = childList.get(headerList.get(groupPosition)).get(childPosition);
+                        Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
+                        startActivity(intent);
+                        onBackPressed();
+                }
+
+                return false;
+            }
+        });
+    }
+
+
 }

@@ -13,13 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <FrameLayout
+        android:id="@+id/activity_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_home_screen"
-        app:menu="@menu/activity_home_screen_drawer" />
+        app:headerLayout="@layout/nav_header_home_screen">
+
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/nav_header_height"
+            android:background="@android:color/white"
+            android:dividerHeight="0dp"
+            android:groupIndicator="@null" />
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
