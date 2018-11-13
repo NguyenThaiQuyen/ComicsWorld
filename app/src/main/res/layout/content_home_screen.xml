@@ -11,23 +11,24 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:orientation="vertical"
-        android:weightSum="3">
+        android:weightSum="14">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:background="@drawable/wrap"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:orientation="vertical"
             android:weightSum="11"
             android:paddingLeft="10dp"
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:text="New Update"
+                android:text="New Upđate"
                 android:textColor="@color/bgHeader"
                 android:textSize="@dimen/text_size_title1" />
 
@@ -48,19 +49,22 @@
                 android:layout_height="0dp"
                 android:layout_weight="9"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="3">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp">
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/img1"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -68,7 +72,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txt1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -76,12 +83,15 @@
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp">
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/img2"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -89,7 +99,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txt2"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -97,12 +110,16 @@
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp"
+                    >
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/img3"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -110,29 +127,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:background="@drawable/content"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txt3"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -141,7 +139,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:orientation="vertical"
             android:weightSum="11"
             android:paddingLeft="10dp"
@@ -153,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="2"
-                android:text="New Update"
+                android:text="Top Views"
                 android:textColor="@color/bgHeader"
                 android:textSize="@dimen/text_size_title1" />
 
@@ -162,19 +160,22 @@
                 android:layout_height="0dp"
                 android:layout_weight="9"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="3">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp">
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/imgV1"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -182,7 +183,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txtV1"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -190,12 +194,15 @@
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp">
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/imgV2"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -203,7 +210,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txtV2"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -211,12 +221,16 @@
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:orientation="vertical"
-                    android:weightSum="10">
+                    android:weightSum="10"
+                    android:paddingRight="7dp"
+                    android:paddingLeft="7dp"
+                    >
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="8"
-                        android:background="@drawable/content"/>
+                        android:id="@+id/imgV3"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -224,28 +238,10 @@
                         android:layout_marginTop="5dp"
                         android:textSize="@dimen/text_size_nameComic"
                         android:textStyle="bold"
-                        android:text="Vương gia"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:background="@drawable/content"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:text="Vương gia"/>
+                        android:id="@+id/txtV3"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAlignment="center"/>
                 </LinearLayout>
 
             </LinearLayout>

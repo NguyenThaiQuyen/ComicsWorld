@@ -2,6 +2,7 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +32,7 @@ import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
+import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
@@ -41,7 +54,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel model;
 
     ArrayList<Type> mListType = new ArrayList<>();
-
+    ArrayList<Comic> mList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +65,70 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         setWidgets();
         getWidgets();
         addListeners();
+        load();
     }
+    protected void load() {
+        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
 
+        Query query = databaseReference.orderByChild("idType").equalTo("2");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSniapshot : dataSnapshot.getChildren()) {
+                    Comic comic = postSniapshot.getValue(Comic.class);
+
+                    mList.add(comic);
+
+                }
+                Comic comic1 = mList.get(1);
+                ImageView img1 = findViewById(R.id.img1);
+                TextView txtName1 = findViewById(R.id.txt1);
+                txtName1.setText(comic1.getName());
+                Picasso.get().load(comic1.getThumb()).into(img1);
+                Toast.makeText(HomeScreenActivity.this, comic1.getName(), Toast.LENGTH_SHORT).show();
+
+                Comic comic2 = mList.get(2);
+                ImageView img2 = findViewById(R.id.img2);
+                TextView txtName2 = findViewById(R.id.txt2);
+                txtName2.setText(comic2.getName());
+                Picasso.get().load(comic2.getThumb()).into(img2);
+                Toast.makeText(HomeScreenActivity.this, comic2.getName(), Toast.LENGTH_SHORT).show();
+
+                Comic comic3 = mList.get(3);
+                ImageView img3 = findViewById(R.id.img3);
+                TextView txtName3 = findViewById(R.id.txt3);
+                txtName3.setText(comic3.getName());
+                Picasso.get().load(comic3.getThumb()).into(img3);
+                Toast.makeText(HomeScreenActivity.this, comic3.getName(), Toast.LENGTH_SHORT).show();
+
+                Comic comicV1 = mList.get(0);
+                ImageView imgV1 = findViewById(R.id.imgV1);
+                TextView txtNameV1 = findViewById(R.id.txtV1);
+                txtNameV1.setText(comicV1.getName());
+                Picasso.get().load(comicV1.getThumb()).into(imgV1);
+                Toast.makeText(HomeScreenActivity.this, comicV1.getName(), Toast.LENGTH_SHORT).show();
+
+                Comic comicV2 = mList.get(4);
+                ImageView imgV2 = findViewById(R.id.imgV2);
+                TextView txtNameV2 = findViewById(R.id.txtV2);
+                txtNameV2.setText(comicV2.getName());
+                Picasso.get().load(comicV2.getThumb()).into(imgV2);
+                Toast.makeText(HomeScreenActivity.this, comicV2.getName(), Toast.LENGTH_SHORT).show();
+
+                Comic comicV3 = mList.get(5);
+                ImageView imgV3 = findViewById(R.id.imgV3);
+                TextView txtNameV3 = findViewById(R.id.txtV3);
+                txtNameV3.setText(comicV3.getName());
+                Picasso.get().load(comicV3.getThumb()).into(imgV3);
+                Toast.makeText(HomeScreenActivity.this, comicV3.getName(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     public void addToListType(Type type) {
         if(!mListType.contains(type))
         {
