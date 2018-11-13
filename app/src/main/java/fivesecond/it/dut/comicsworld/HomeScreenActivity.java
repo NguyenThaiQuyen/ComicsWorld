@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
-import fivesecond.it.dut.comicsworld.controllers.TypeController;
+import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
@@ -39,7 +39,9 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
     List<MenuModel> childModelsList;
     MenuModel childModel;
     MenuModel model;
-    ArrayList<Type> mListType;
+
+    ArrayList<Type> mListType = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +54,22 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         addListeners();
     }
 
-    private void inits() {
+    public void addToListType(Type type) {
+        if(!mListType.contains(type))
+        {
+            mListType.add(0, type);
+            childModel = new MenuModel(type.getName(), false, false);
+            childModelsList.add(0, childModel);
+        }
+    }
 
-        TypeController.getInstance().load();
-        mListType =  TypeController.getInstance().getTypeList();
+    public void removeLoading()
+    {
+        childModelsList.remove(childModelsList.size()-1);
+    }
+
+    private void inits() {
+       new LoadType(this).execute();
 
     }
 
@@ -151,6 +165,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
 
         menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
+
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
         }
@@ -164,12 +179,10 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
         menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
         headerList.add(menuModel);
 
-        for(Type type : mListType)
-        {
-            childModelsList = new ArrayList<>();
-            childModel = new MenuModel(type.getName(), false, false);
-            childModelsList.add(childModel);
-        }
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Loading ...", false, false);
+        childModelsList.add(0, childModel);
 
 
         if (menuModel.hasChildren) {
@@ -219,6 +232,7 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
                         Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
+                        intent.putExtra("idType", String.valueOf(childPosition + 1));
                         startActivity(intent);
                         onBackPressed();
                 }

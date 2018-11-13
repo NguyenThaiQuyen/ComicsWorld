@@ -1,5 +1,6 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,7 +14,13 @@ public class ListComicsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
 
-        new LoadComicCondition(this, "idType", "1").execute();
+        init();
+    }
+
+    private void init() {
+        Intent intent = getIntent();
+        String idType = intent.getStringExtra("idType");
+        new LoadComicCondition(this, "idType", idType).execute();
     }
 
 }
