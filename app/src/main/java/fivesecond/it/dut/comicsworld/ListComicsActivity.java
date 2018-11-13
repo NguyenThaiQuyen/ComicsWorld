@@ -11,8 +11,18 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,13 +54,17 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel childModel;
     MenuModel model;
  //
- ArrayList<Type> mListType = new ArrayList<>();
+    ArrayList<Type> mListType = new ArrayList<>();
 
     String id;
 
     ListView lvtest;
     ArrayList<Comic> mList;
+
     ListViewAdapder mAdapter;
+
+    //ArrayList<Comic> pullback;
+    //SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +81,17 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     public void notify(Comic comic)
     {
         mList.add(0, comic);
+        //pullback.add(0, comic);
         mAdapter.notifyDataSetChanged();
     }
+
     private void inits() {
         // data
 
         /*  */
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
+       // pullback = new ArrayList<>();
 
         Intent intent = getIntent();
         String idType = intent.getStringExtra("idType");
@@ -92,6 +109,8 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
         drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
+
+        //searchView = findViewById(R.id.nav_search);
     }
 
     private void getWidgets() {
@@ -123,6 +142,46 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                 startActivity(intent);
             }
         });
+
+
+
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                ArrayList<Comic> arrayList = new ArrayList<>();
+//                for (Comic c: pullback) {
+//                    if(c.getName().toLowerCase().contains(query.toLowerCase())) arrayList.add(c);
+//                }
+//                pullback.clear();
+//                pullback.addAll(arrayList);
+//                mAdapter.notifyDataSetChanged();
+//                System.out.println(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                ArrayList<Comic> arrayList = new ArrayList<>();
+//                pullback.clear();
+//                pullback.addAll(mList);
+//                for (Comic c: pullback) {
+//                    if(c.getName().toLowerCase().contains(newText.toLowerCase())) arrayList.add(c);
+//                }
+//                pullback.clear();
+//                pullback.addAll(arrayList);
+//                mAdapter.notifyDataSetChanged();
+//                return false;
+//            }
+//        });
+//
+//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                mList.clear();
+//                mList.addAll(pullback);
+//                return false;
+//            }
+//        });
 
     }
 
@@ -243,85 +302,3 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     }
 
 }
-//
-//    private void init() {
-////        Intent intent = getIntent();
-////        mList = (ArrayList<Comic>)intent.getSerializableExtra("type");
-//        lvtest = findViewById(R.id.lvListComic);
-//        mList = new ArrayList<>();
-//        pullback = new ArrayList<>();
-//        mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
-//
-//        lvtest.setAdapter(mAdapter);
-//
-//        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
-//
-//        Query query = databaseReference.orderByChild("idType").equalTo("2");
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot postSniapshot: dataSnapshot.getChildren()) {
-//                    Comic comic = postSniapshot.getValue(Comic.class);
-//                    mList.add(comic);
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//                pullback.addAll(mList);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
-//    private void getWidgets() {
-//
-//    }
-//
-//    private void setWidgets() {
-//        searchView = findViewById(R.id.search_view);
-//    }
-//
-//    private void addListener() {
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                ArrayList<Comic> arrayList = new ArrayList<>();
-//                for (Comic c: mList) {
-//                    if(c.getName().toLowerCase().contains(query.toLowerCase())) arrayList.add(c);
-//                }
-//                mList.clear();
-//                mList.addAll(arrayList);
-//                mAdapter.notifyDataSetChanged();
-//                System.out.println(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                ArrayList<Comic> arrayList = new ArrayList<>();
-//                mList.clear();
-//                mList.addAll(pullback);
-//                for (Comic c: mList) {
-//                    if(c.getName().toLowerCase().contains(newText.toLowerCase())) arrayList.add(c);
-//                }
-//                mList.clear();
-//                mList.addAll(arrayList);
-//                mAdapter.notifyDataSetChanged();
-//                return false;
-//            }
-//        });
-//
-//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                mList.clear();
-//                mList.addAll(pullback);
-//                return false;
-//            }
-//        });
-//    }
-//
-
-//}

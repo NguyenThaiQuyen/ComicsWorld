@@ -15,31 +15,27 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 import fivesecond.it.dut.comicsworld.R;
+import fivesecond.it.dut.comicsworld.ReadComic;
 import fivesecond.it.dut.comicsworld.adapters.ListViewContentAdapter;
 
 public class LoadingContentAsyncTask extends AsyncTask<Void, String, Void> {
-    Activity parContext;
+    ReadComic parContext;
     String url;
     int chap;
+    int i;
 
-    ListView lvtest;
-    ArrayList<String> mList;
-    ListViewContentAdapter mAdapter;
 
     boolean checkLoading;
 
-    public LoadingContentAsyncTask(Activity ctx, String _url, int _chap)
+    public LoadingContentAsyncTask(ReadComic ctx, String _url, int _chap)
     {
         parContext = ctx;
         url = _url;
         chap = _chap;
 
-        lvtest = parContext.findViewById(R.id.lvComic);
-        mList = new ArrayList<>();
-        mAdapter = new ListViewContentAdapter(parContext, R.layout.item_content_comic, mList);
-        lvtest.setAdapter(mAdapter);
-
         checkLoading = true;
+
+        i = 0;
 
     }
     @Override
@@ -48,34 +44,52 @@ public class LoadingContentAsyncTask extends AsyncTask<Void, String, Void> {
         FirebaseStorage mStore = FirebaseStorage.getInstance();
         StorageReference storageRef = mStore.getReference();
 
-        int i = 1;
-        while (checkLoading)
-        {
-            final int j = i;
-            storageRef.child("comics/" + url + "/" + String.valueOf(chap) + "/" + String.valueOf(j)+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//        int i = 1;
+//        while (checkLoading)
+//        {
+//            final int j = i;
+//            storageRef.child("comics/" + url + "/" + String.valueOf(chap) + "/" + String.valueOf(j)+ ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    String url = uri.toString();
+//                    publishProgress(url);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//
+//                    checkLoading = false;
+//                }
+//
+//            });
+//            i++;
+//        }
+//        return null;
+
+
+        while(checkLoading) {
+            storageRef.child("comics/" + url + "/" + String.valueOf(chap) + "/" + String.valueOf(i) + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     String url = uri.toString();
-                    Toast.makeText(parContext, url, Toast.LENGTH_SHORT).show();
                     publishProgress(url);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-
                     checkLoading = false;
+
                 }
 
             });
             i++;
         }
+
         return null;
     }
 
     protected void onProgressUpdate(String... strings) {
 
-        mList.add(strings[0]);
-
-        mAdapter.notifyDataSetChanged();
+        parContext.notify(strings[0]);
     }
 }

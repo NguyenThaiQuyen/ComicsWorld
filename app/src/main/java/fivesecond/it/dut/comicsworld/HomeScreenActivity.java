@@ -85,42 +85,36 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 TextView txtName1 = findViewById(R.id.txt1);
                 txtName1.setText(comic1.getName());
                 Picasso.get().load(comic1.getThumb()).into(img1);
-                Toast.makeText(HomeScreenActivity.this, comic1.getName(), Toast.LENGTH_SHORT).show();
 
                 Comic comic2 = mList.get(2);
                 ImageView img2 = findViewById(R.id.img2);
                 TextView txtName2 = findViewById(R.id.txt2);
                 txtName2.setText(comic2.getName());
                 Picasso.get().load(comic2.getThumb()).into(img2);
-                Toast.makeText(HomeScreenActivity.this, comic2.getName(), Toast.LENGTH_SHORT).show();
 
                 Comic comic3 = mList.get(3);
                 ImageView img3 = findViewById(R.id.img3);
                 TextView txtName3 = findViewById(R.id.txt3);
                 txtName3.setText(comic3.getName());
                 Picasso.get().load(comic3.getThumb()).into(img3);
-                Toast.makeText(HomeScreenActivity.this, comic3.getName(), Toast.LENGTH_SHORT).show();
 
                 Comic comicV1 = mList.get(0);
                 ImageView imgV1 = findViewById(R.id.imgV1);
                 TextView txtNameV1 = findViewById(R.id.txtV1);
                 txtNameV1.setText(comicV1.getName());
                 Picasso.get().load(comicV1.getThumb()).into(imgV1);
-                Toast.makeText(HomeScreenActivity.this, comicV1.getName(), Toast.LENGTH_SHORT).show();
 
                 Comic comicV2 = mList.get(4);
                 ImageView imgV2 = findViewById(R.id.imgV2);
                 TextView txtNameV2 = findViewById(R.id.txtV2);
                 txtNameV2.setText(comicV2.getName());
                 Picasso.get().load(comicV2.getThumb()).into(imgV2);
-                Toast.makeText(HomeScreenActivity.this, comicV2.getName(), Toast.LENGTH_SHORT).show();
 
                 Comic comicV3 = mList.get(5);
                 ImageView imgV3 = findViewById(R.id.imgV3);
                 TextView txtNameV3 = findViewById(R.id.txtV3);
                 txtNameV3.setText(comicV3.getName());
                 Picasso.get().load(comicV3.getThumb()).into(imgV3);
-                Toast.makeText(HomeScreenActivity.this, comicV3.getName(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
