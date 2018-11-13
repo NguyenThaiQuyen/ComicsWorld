@@ -2,11 +2,19 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -15,10 +23,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.models.Comic;
+import fivesecond.it.dut.comicsworld.models.MenuModel;
 
-public class MainContentActivity extends AppCompatActivity {
+public class MainContentActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener  {
     ListView lvChap ;
     TextView txtNameComic;
     TextView txtAuthor;
@@ -31,6 +43,22 @@ public class MainContentActivity extends AppCompatActivity {
     ArrayList<String> chap;
     Comic comic;
 
+    // navigation
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+    ExpandableListView expandableListView;
+
+    ExpandableListAdapter expandableListAdapter;
+    List<MenuModel> headerList = new ArrayList<>();
+    HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
+
+    MenuModel menuModel;
+    List<MenuModel> childModelsList;
+    MenuModel childModel;
+    MenuModel model;
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +74,7 @@ public class MainContentActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         Intent intent = getIntent();
         comic = (Comic)intent.getSerializableExtra("comic");
         chap = new ArrayList<>();
@@ -59,6 +88,16 @@ public class MainContentActivity extends AppCompatActivity {
 
 
     private void setWidgets() {
+        // naviagtion
+        toolbar = findViewById(R.id.toolbar);
+
+        expandableListView = findViewById(R.id.expandableListView);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
+        //
+
         lvChap=findViewById(R.id.lvChap);
         txtAuthor = findViewById(R.id.txtAuthor);
         txtNameComic = findViewById(R.id.txtNameComic);
@@ -70,6 +109,18 @@ public class MainContentActivity extends AppCompatActivity {
     }
 
     private void getWidgets() {
+        // navigation
+        setSupportActionBar(toolbar);
+
+        prepareMenuData();
+        populateExpandableList();
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        //
         txtChap.setText("Chapter (" + comic.getChap() + ")");
         txtNameComic.setText(comic.getName());
         txtAuthor.setText(comic.getAuthor());
@@ -80,6 +131,9 @@ public class MainContentActivity extends AppCompatActivity {
     }
 
     private void addListener() {
+        // naviagtion
+        navigationView.setNavigationItemSelectedListener(this);
+        //
         btnRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,5 +156,126 @@ public class MainContentActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_love) {
+            // Handle the camera action
+        } else if (id == R.id.nav_save) {
+
+        } else if (id == R.id.nave_list_type) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nave_logout) {
+
+        }
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void prepareMenuData() {
+
+        menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Saved", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Ngon tinh", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Trinh tham", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Tieu thuyet", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Xa hoi", false, false);
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Cuoi", false, false);
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            Log.d("API123","here");
+            childList.put(menuModel, childModelsList);
+        }
+
+        menuModel = new MenuModel("Share", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+        menuModel = new MenuModel("Log out", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+
+    }
+
+    private void populateExpandableList() {
+
+        expandableListAdapter = new ExpandableListAdapter(this, headerList, childList);
+        expandableListView.setAdapter(expandableListAdapter);
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                if (headerList.get(groupPosition).isGroup) {
+                    if (!headerList.get(groupPosition).hasChildren) {
+
+                        onBackPressed();
+                    }
+                }
+
+                return false;
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                if (childList.get(headerList.get(groupPosition)) != null) {
+                    model = childList.get(headerList.get(groupPosition)).get(childPosition);
+                    Intent intent = new Intent(MainContentActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                    onBackPressed();
+                }
+
+                return false;
+            }
+        });
+    }
 
 }
