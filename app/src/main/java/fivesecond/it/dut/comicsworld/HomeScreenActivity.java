@@ -207,6 +207,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
                         Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
                         intent.putExtra("idType", String.valueOf(childPosition + 1));
+                        intent.putExtra("listType", mListType);
                         startActivity(intent);
                         onBackPressed();
                 }

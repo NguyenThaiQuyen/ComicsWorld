@@ -10,15 +10,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
 import fivesecond.it.dut.comicsworld.async.LoadComicCondition;
+
+import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Type;
 
 public class ListComicsActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,16 +44,19 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel childModel;
     MenuModel model;
  //
+ ArrayList<Type> mListType = new ArrayList<>();
+
     String id;
+
+    ListView lvtest;
+    ArrayList<Comic> mList;
+    ListViewAdapder mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
 
-        Intent intent = getIntent();
-        String idType = intent.getStringExtra("idType");
-        new LoadComicCondition(this, "idType", idType).execute();
         inits();
         setWidgets();
         getWidgets();
@@ -55,11 +64,27 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
     }
 
+    public void notify(Comic comic)
+    {
+        mList.add(0, comic);
+        mAdapter.notifyDataSetChanged();
+    }
     private void inits() {
+        // data
 
+        /*  */
+        mList = new ArrayList<>();
+        mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
+
+        Intent intent = getIntent();
+        String idType = intent.getStringExtra("idType");
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
+        new LoadComicCondition(this, "idType", idType).execute();
     }
 
     private void setWidgets() {
+        lvtest = findViewById(R.id.lvListComic);
+
         toolbar = findViewById(R.id.toolbar);
 
         expandableListView = findViewById(R.id.expandableListView);
@@ -70,6 +95,10 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     }
 
     private void getWidgets() {
+
+
+        lvtest.setAdapter(mAdapter);
+
         setSupportActionBar(toolbar);
 
         prepareMenuData();
@@ -84,6 +113,16 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
     private void addListeners() {
         navigationView.setNavigationItemSelectedListener(this);
+
+        lvtest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                intent.putExtra("comic", mList.get(position));
+                intent.putExtra("listType", mListType);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -138,20 +177,12 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Ngon tinh", false, false);
-        childModelsList.add(childModel);
 
-        childModel = new MenuModel("Trinh tham", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Tieu thuyet", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Xa hoi", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Cuoi", false, false);
-        childModelsList.add(childModel);
+       for(Type type : mListType)
+       {
+           childModel = new MenuModel(type.getName(), false, false);
+           childModelsList.add(childModel);
+       }
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");
@@ -199,7 +230,9 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    Intent intent = new Intent(ListComicsActivity.this, HomeScreenActivity.class);
+                    Intent intent = new Intent(ListComicsActivity.this, ListComicsActivity.class);
+                    intent.putExtra("idType", String.valueOf(childPosition + 1));
+                    intent.putExtra("listType", mListType);
                     startActivity(intent);
                     onBackPressed();
                 }

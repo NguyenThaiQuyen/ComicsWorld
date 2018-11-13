@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import fivesecond.it.dut.comicsworld.ListComicsActivity;
 import fivesecond.it.dut.comicsworld.MainContentActivity;
 import fivesecond.it.dut.comicsworld.R;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
@@ -25,24 +26,18 @@ import fivesecond.it.dut.comicsworld.models.Comic;
 
 public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
 
-    Activity parContext;
+    ListComicsActivity parContext;
     String con;
     String attr;
 
-    ListView lvtest;
-    ArrayList<Comic> mList;
-    ListViewAdapder mAdapter;
 
-    public LoadComicCondition(Activity ctx, String _attr, String _con)
+
+    public LoadComicCondition(ListComicsActivity ctx, String _attr, String _con)
     {
         parContext = ctx;
         con = _con;
         attr = _attr;
-        lvtest = parContext.findViewById(R.id.lvListComic);
-        mList = new ArrayList<>();
-        mAdapter = new ListViewAdapder(parContext, R.layout.item_list_comics, mList);
 
-        lvtest.setAdapter(mAdapter);
     }
 
     protected Void doInBackground(Void... voids) {
@@ -69,17 +64,9 @@ public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {
 
     protected void onProgressUpdate(Comic... comics) {
 
-        mList.add(0, comics[0]);
-        mAdapter.notifyDataSetChanged();
 
-       lvtest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Intent intent = new Intent(parContext, MainContentActivity.class);
-               intent.putExtra("comic", mList.get(position));
-               parContext.startActivity(intent);
-           }
-       });
+        parContext.notify(comics[0]);
+
 
     }
 }

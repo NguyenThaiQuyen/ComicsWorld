@@ -29,6 +29,7 @@ import java.util.List;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Type;
 
 public class MainContentActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener  {
     ListView lvChap ;
@@ -58,6 +59,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     List<MenuModel> childModelsList;
     MenuModel childModel;
     MenuModel model;
+
+    ArrayList<Type> mListType = new ArrayList<>();
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
         Intent intent = getIntent();
         comic = (Comic)intent.getSerializableExtra("comic");
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
+
         chap = new ArrayList<>();
         for(int i = 1; i <= comic.getChap(); i++)
         {
@@ -207,20 +212,11 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Ngon tinh", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Trinh tham", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Tieu thuyet", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Xa hoi", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Cuoi", false, false);
-        childModelsList.add(childModel);
+        for(Type type : mListType)
+        {
+            childModel = new MenuModel(type.getName(), false, false);
+            childModelsList.add(childModel);
+        }
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");
@@ -268,7 +264,9 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    Intent intent = new Intent(MainContentActivity.this, HomeScreenActivity.class);
+                    Intent intent = new Intent(MainContentActivity.this, ListComicsActivity.class);
+                    intent.putExtra("idType", String.valueOf(childPosition + 1));
+                    intent.putExtra("listType", mListType);
                     startActivity(intent);
                     onBackPressed();
                 }

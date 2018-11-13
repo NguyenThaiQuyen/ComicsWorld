@@ -1,6 +1,7 @@
 package fivesecond.it.dut.comicsworld.async;
 
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,9 +20,9 @@ public class LoadType extends AsyncTask<Void, Type, Void> {
 
     private HomeScreenActivity mActivity;
 
-    public LoadType(HomeScreenActivity ativity)
+    public LoadType(HomeScreenActivity activity)
     {
-        mActivity = ativity;
+        mActivity = activity;
     }
 
     protected Void doInBackground(Void... voids) {
