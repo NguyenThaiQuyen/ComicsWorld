@@ -45,12 +45,14 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_comics);
 
+        Intent intent = getIntent();
+        String idType = intent.getStringExtra("idType");
+        new LoadComicCondition(this, "idType", idType).execute();
         inits();
         setWidgets();
         getWidgets();
         addListeners();
 
-        new LoadComicCondition(this, "idType", "1").execute();
     }
 
     private void inits() {

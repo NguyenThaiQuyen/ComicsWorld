@@ -15,13 +15,13 @@ public class Comic implements Serializable {
     private float rating;
     private String thumb;
     private String url;
-    private int view;
+    private int numberRating;
 
     public Comic(){
 
     }
 
-    public Comic(String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int view) {
+    public Comic(String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int numberRating) {
         this.author = author;
         this.chap = chap;
         this.desc = desc;
@@ -31,7 +31,7 @@ public class Comic implements Serializable {
         this.rating = rating;
         this.thumb = thumb;
         this.url = url;
-        this.view = view;
+        this.numberRating = numberRating;
     }
 
     public String getAuthor() {
@@ -106,12 +106,12 @@ public class Comic implements Serializable {
         this.url = url;
     }
 
-    public int getView() {
-        return view;
+    public int getnumberRating() {
+        return numberRating;
     }
 
-    public void setView(int view) {
-        this.view = view;
+    public void setnumberRating(int numberRating) {
+        this.numberRating = numberRating;
     }
 
     @NonNull
@@ -127,7 +127,7 @@ public class Comic implements Serializable {
                 ", rating=" + rating +
                 ", thumb='" + thumb + '\'' +
                 ", url='" + url + '\'' +
-                ", view=" + view +
+                ", numberRating=" + numberRating +
                 '}';
     }
 }

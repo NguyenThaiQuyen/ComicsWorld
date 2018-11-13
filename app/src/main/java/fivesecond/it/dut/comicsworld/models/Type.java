@@ -17,6 +17,7 @@ public class Type implements Serializable {
     }
 
     public Type() {
+
     }
 
 

@@ -2,16 +2,16 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -19,7 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Type;
 
 public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,6 +40,8 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel childModel;
     MenuModel model;
 
+    ArrayList<Type> mListType = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +54,22 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         addListeners();
     }
 
-    private void inits() {
+    public void addToListType(Type type) {
+        if(!mListType.contains(type))
+        {
+            mListType.add(0, type);
+            childModel = new MenuModel(type.getName(), false, false);
+            childModelsList.add(0, childModel);
+        }
+    }
 
+    public void removeLoading()
+    {
+        childModelsList.remove(childModelsList.size()-1);
+    }
+
+    private void inits() {
+       new LoadType(this).execute();
 
     }
 
@@ -121,6 +139,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
         menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
+
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
         }
@@ -134,21 +153,11 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
         headerList.add(menuModel);
 
+
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Ngon tinh", false, false);
-        childModelsList.add(childModel);
+        childModel = new MenuModel("Loading ...", false, false);
+        childModelsList.add(0, childModel);
 
-        childModel = new MenuModel("Trinh tham", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Tieu thuyet", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Xa hoi", false, false);
-        childModelsList.add(childModel);
-
-        childModel = new MenuModel("Cuoi", false, false);
-        childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");
@@ -197,6 +206,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
                         Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
+                        intent.putExtra("idType", String.valueOf(childPosition + 1));
                         startActivity(intent);
                         onBackPressed();
                 }

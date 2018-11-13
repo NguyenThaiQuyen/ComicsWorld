@@ -24,31 +24,13 @@ public class TypeController implements Serializable{
         mTypeList = new ArrayList<>();
     }
 
-    public String[] getTypeName(){
-        String [] names = new String[mTypeList.size()];
-        for(int i = 0; i < names.length; i++){
-            names[i] = mTypeList.get(i).getName();
-        }
-        return names;
-    }
 
     public ArrayList<Type> getTypeList() {
         return mTypeList;
     }
 
-    public void addType() {
-
+    public void addTypeToList(Type type) {
+        if(!mTypeList.contains(type)) mTypeList.add(type);
     }
 
-    public void load()
-    {
-        fakeData();
-    }
-
-    public void fakeData()
-    {
-        mTypeList.add(new Type("1", "Action"));
-        mTypeList.add(new Type("2", "Adventure"));
-        mTypeList.add(new Type("3", "Love Story"));
-    }
 }
