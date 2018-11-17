@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class Comic implements Serializable {
 
+    private String id;
     private String author;
     private int chap;
     private String desc;
@@ -21,7 +22,8 @@ public class Comic implements Serializable {
 
     }
 
-    public Comic(String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int numberRating) {
+    public Comic(String id, String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int numberRating) {
+        this.id = id;
         this.author = author;
         this.chap = chap;
         this.desc = desc;
@@ -32,6 +34,14 @@ public class Comic implements Serializable {
         this.thumb = thumb;
         this.url = url;
         this.numberRating = numberRating;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAuthor() {
@@ -106,19 +116,19 @@ public class Comic implements Serializable {
         this.url = url;
     }
 
-    public int getnumberRating() {
+    public int getNumberRating() {
         return numberRating;
     }
 
-    public void setnumberRating(int numberRating) {
+    public void setNumberRating(int numberRating) {
         this.numberRating = numberRating;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "Comic{" +
-                "author='" + author + '\'' +
+                "id='" + id + '\'' +
+                ", author='" + author + '\'' +
                 ", chap=" + chap +
                 ", desc='" + desc + '\'' +
                 ", idComment=" + idComment +

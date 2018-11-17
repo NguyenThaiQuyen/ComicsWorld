@@ -53,10 +53,10 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     List<MenuModel> childModelsList;
     MenuModel childModel;
     MenuModel model;
- //
+    //
     ArrayList<Type> mListType = new ArrayList<>();
 
-    String id;
+    String idType;
 
     ListView lvtest;
     ArrayList<Comic> mList;
@@ -91,10 +91,10 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
         /*  */
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
-       // pullback = new ArrayList<>();
+        // pullback = new ArrayList<>();
 
         Intent intent = getIntent();
-        String idType = intent.getStringExtra("idType");
+        idType = intent.getStringExtra("idType");
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
         new LoadComicCondition(this, "idType", idType).execute();
     }
@@ -237,11 +237,11 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
         childModelsList = new ArrayList<>();
 
-       for(Type type : mListType)
-       {
-           childModel = new MenuModel(type.getName(), false, false);
-           childModelsList.add(childModel);
-       }
+        for(Type type : mListType)
+        {
+            childModel = new MenuModel(type.getName(), false, false);
+            childModelsList.add(childModel);
+        }
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");

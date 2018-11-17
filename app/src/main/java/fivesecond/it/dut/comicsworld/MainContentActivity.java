@@ -145,6 +145,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("url", comic.getUrl());
                 intent.putExtra("chap", 1);
+                intent.putExtra("totalChap", comic.getChap());
                 startActivity(intent);
             }
         });
@@ -155,6 +156,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("url", comic.getUrl());
                 intent.putExtra("chap", position + 1);
+                intent.putExtra("totalChap", comic.getChap());
+
                 startActivity(intent);
             }
         });

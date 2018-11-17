@@ -1,13 +1,9 @@
 package fivesecond.it.dut.comicsworld.async;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,12 +12,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 
 import fivesecond.it.dut.comicsworld.ListComicsActivity;
-import fivesecond.it.dut.comicsworld.MainContentActivity;
-import fivesecond.it.dut.comicsworld.R;
-import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
+
 import fivesecond.it.dut.comicsworld.models.Comic;
 
 public class LoadComicCondition extends AsyncTask<Void, Comic, Void> {

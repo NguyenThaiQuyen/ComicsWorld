@@ -11,26 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-        <activity android:name=".HomeScreenActivity"
+        <activity
+            android:name=".HomeScreenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".MainActivity">
-
+        <activity android:name=".AddUrlActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListComicsActivity" />
+        <activity android:name=".ReadComic" />
         <activity android:name=".MainContentActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".TestPreferences" />
-        <activity android:name=".ReadComic" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".BaseMenu" />
-
+        <activity android:name=".ListComicsActivity"></activity>
     </application>
 
 </manifest>
