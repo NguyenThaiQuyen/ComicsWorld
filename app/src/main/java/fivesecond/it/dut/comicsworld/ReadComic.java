@@ -1,7 +1,9 @@
 package fivesecond.it.dut.comicsworld;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +42,8 @@ public class ReadComic extends AppCompatActivity {
     private int mChap;
     private int totalChap;
 
+    private SharedPreferences sharedPreferences;
+    private static final String myref = "currentComic";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,13 @@ public class ReadComic extends AppCompatActivity {
         mUrl = intent.getStringExtra("url");
         mChap = intent.getIntExtra("chap", 1);
         totalChap = intent.getIntExtra("totalChap", 1);
+
+        sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("urlComic", mUrl);
+        editor.putInt("chap", mChap);
+        editor.putInt("totalChap", totalChap);
+        editor.apply();
     }
 
     private void setWidgets() {

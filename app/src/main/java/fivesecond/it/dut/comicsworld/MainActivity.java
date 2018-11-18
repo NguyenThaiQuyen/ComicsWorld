@@ -1,10 +1,13 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import fivesecond.it.dut.comicsworld.async.LoadingSearchComic;
 
@@ -12,6 +15,9 @@ import fivesecond.it.dut.comicsworld.async.LoadingSearchComic;
 public class MainActivity extends AppCompatActivity {
 
     Button btnStart;
+    Button btnContinue;
+    private SharedPreferences sharedPreferences;
+    private static final String myref = "currentComic";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inits() {
+        sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
     }
 
     private void setWidgets() {
         btnStart = findViewById(R.id.btnStart);
+        btnContinue = findViewById(R.id.btnContinue);
 
     }
 
@@ -43,6 +51,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sharedPreferences.contains("urlComic"))
+                {
+                    Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
+                    intent.putExtra("url", sharedPreferences.getString("urlComic", "1"));
+                    intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
+                    intent.putExtra("totalChap", sharedPreferences.getInt("totalChap", 3));
+
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "No comic saved before - Start Reading and enjoy !!!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
