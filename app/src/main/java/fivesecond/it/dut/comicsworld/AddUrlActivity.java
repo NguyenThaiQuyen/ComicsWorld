@@ -39,9 +39,9 @@ public class AddUrlActivity extends AppCompatActivity {
 
 
 
-        final String comic = "4";
+        final String comic = "18";
         final String chap = "2";
-        final int max = 11;
+        final int max = 14;
 
         for(int i = 1; i <= max; i++)
         {
@@ -50,7 +50,7 @@ public class AddUrlActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Uri uri) {
                     String url = uri.toString();
-                    Toast.makeText(AddUrlActivity.this, url, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddUrlActivity.this, "ok", Toast.LENGTH_SHORT).show();
 
                     dataRef.child("urlComic").child(comic).child(chap).child(String.valueOf(k)).setValue(url);
                 }

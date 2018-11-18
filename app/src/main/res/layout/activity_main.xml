@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp"
+        android:layout_marginBottom="@dimen/l_mar_bottom_start"
         android:background="@drawable/border_btn_start"
-        android:text="START READING"
+        android:text="@string/start_reading"
         android:textColor="@color/bgHeader"
-        android:textSize="18sp"
-        android:padding="8dp"
+        android:textSize="@dimen/text_size_start"
+        android:padding="@dimen/padding_start"
         android:textStyle="bold" />
 
 
@@ -29,9 +29,9 @@
         android:layout_marginBottom="@dimen/edt_margin_bottom"
         android:layout_marginLeft="@dimen/edt_margin_left"
         android:layout_marginRight="@dimen/edt_margin_right"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/mar_top_logo"
         android:text="@string/logo"
-        android:textSize="55sp"
+        android:textSize="@dimen/text_size_logo"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
         android:gravity="center"/>

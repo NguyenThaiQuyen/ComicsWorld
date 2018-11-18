@@ -27,15 +27,16 @@ public class ReadComic extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRV;
     private ContentRecyclerAdapter mAdapter;
-    private ProgressBar mProBar;
     private TextView tvCurrentChap;
+    private TextView tvNext;
+    private TextView tvPre;
 
     private int mTotalItemCount;
     private int mLastVisibleItemPosition;
     private boolean mIsLoading;
     private int mPostsPerPage;
-    private String url;
-    private int chap;
+    private String mUrl;
+    private int mChap;
     private int totalChap;
 
 
@@ -61,22 +62,27 @@ public class ReadComic extends AppCompatActivity {
         mAdapter = new ContentRecyclerAdapter();
 
         Intent intent = getIntent();
-        url = intent.getStringExtra("url");
-        chap = intent.getIntExtra("chap", 1);
+        mUrl = intent.getStringExtra("url");
+        mChap = intent.getIntExtra("chap", 1);
         totalChap = intent.getIntExtra("totalChap", 1);
     }
 
     private void setWidgets() {
-        mProBar = findViewById(R.id.prBar);
         mRV = findViewById(R.id.rv);
         tvCurrentChap = findViewById(R.id.tvCurrentChap);
+        tvNext = findViewById(R.id.tvNext);
+        tvPre = findViewById(R.id.tvPre);
     }
 
     private void getWidgets() {
         mRV.setLayoutManager(mLayoutManager);
-        mRV.setHasFixedSize(true);
+        //mRV.setHasFixedSize(true);
+        mRV.setNestedScrollingEnabled(false);
         mRV.setAdapter(mAdapter);
         setCurrentChap();
+
+        if(mChap == 1) tvPre.setText("");
+        if(mChap == totalChap) tvNext.setText("");
     }
 
     private void addListeners() {
@@ -95,29 +101,58 @@ public class ReadComic extends AppCompatActivity {
                 }
             }
         });
+
+        if(mChap  < totalChap)
+        {
+            tvNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
+                    intent.putExtra("url", mUrl);
+                    intent.putExtra("chap", mChap + 1);
+                    intent.putExtra("totalChap", totalChap);
+
+                    startActivity(intent);
+                }
+            });
+        }
+
+        if(mChap > 1)
+        {
+            tvPre.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
+                    intent.putExtra("url", mUrl);
+                    intent.putExtra("chap", mChap - 1);
+                    intent.putExtra("totalChap", totalChap);
+
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void setCurrentChap()
     {
-        tvCurrentChap.setText(chap + " / " + totalChap);
+        tvCurrentChap.setText(mChap + " / " + totalChap);
     }
     private void getImageComic(String nodeId) {
-        mProBar.setVisibility(View.VISIBLE);
         Query query;
 
         if (nodeId == null) {
             query = FirebaseDatabase.getInstance().getReference()
                     .child("urlComic")
-                    .child(url)
-                    .child(String.valueOf(chap))
+                    .child(mUrl)
+                    .child(String.valueOf(mChap))
                     .orderByKey()
                     .limitToFirst(mPostsPerPage);
         }
         else {
             query = FirebaseDatabase.getInstance().getReference()
                     .child("urlComic")
-                    .child(url)
-                    .child(String.valueOf(chap))
+                    .child(mUrl)
+                    .child(String.valueOf(mChap))
                     .orderByKey()
                     .startAt(String.valueOf(Integer.parseInt(nodeId) + 1))
                     .limitToFirst(mPostsPerPage);
@@ -135,7 +170,6 @@ public class ReadComic extends AppCompatActivity {
 
                 mAdapter.addAll(contentComics);
                 mIsLoading = false;
-                mProBar.setVisibility(View.GONE);
             }
 
             @Override

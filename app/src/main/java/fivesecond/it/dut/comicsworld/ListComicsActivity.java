@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +39,8 @@ import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
+import static fivesecond.it.dut.comicsworld.functions.ConvertUnsigned.ConvertString;
+
 public class ListComicsActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
     // navigation
@@ -53,6 +58,7 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     List<MenuModel> childModelsList;
     MenuModel childModel;
     MenuModel model;
+
     //
     ArrayList<Type> mListType = new ArrayList<>();
 
@@ -60,11 +66,10 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
     ListView lvtest;
     ArrayList<Comic> mList;
-
+    ArrayList<Comic> backup;
     ListViewAdapder mAdapter;
 
-    //ArrayList<Comic> pullback;
-    //SearchView searchView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,22 +86,22 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     public void notify(Comic comic)
     {
         mList.add(0, comic);
-        //pullback.add(0, comic);
+        backup.add(0, comic);
         mAdapter.notifyDataSetChanged();
     }
 
     private void inits() {
-        // data
 
-        /*  */
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
-        // pullback = new ArrayList<>();
+        backup= new ArrayList<>();
 
         Intent intent = getIntent();
         idType = intent.getStringExtra("idType");
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
+        setTitle(mListType.get(Integer.parseInt(idType)-1).getName());
         new LoadComicCondition(this, "idType", idType).execute();
+
     }
 
     private void setWidgets() {
@@ -110,7 +115,6 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
         navigationView = findViewById(R.id.nav_view);
 
-        //searchView = findViewById(R.id.nav_search);
     }
 
     private void getWidgets() {
@@ -143,47 +147,52 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             }
         });
 
-
-
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                ArrayList<Comic> arrayList = new ArrayList<>();
-//                for (Comic c: pullback) {
-//                    if(c.getName().toLowerCase().contains(query.toLowerCase())) arrayList.add(c);
-//                }
-//                pullback.clear();
-//                pullback.addAll(arrayList);
-//                mAdapter.notifyDataSetChanged();
-//                System.out.println(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                ArrayList<Comic> arrayList = new ArrayList<>();
-//                pullback.clear();
-//                pullback.addAll(mList);
-//                for (Comic c: pullback) {
-//                    if(c.getName().toLowerCase().contains(newText.toLowerCase())) arrayList.add(c);
-//                }
-//                pullback.clear();
-//                pullback.addAll(arrayList);
-//                mAdapter.notifyDataSetChanged();
-//                return false;
-//            }
-//        });
-//
-//        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                mList.clear();
-//                mList.addAll(pullback);
-//                return false;
-//            }
-//        });
-
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+
+        MenuItem item = menu.findItem(R.id.nav_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if(mList.size() == 0)
+                {
+                    Toast.makeText(ListComicsActivity.this, "No result for \"" + query + " \"" + " in " + mListType.get(Integer.parseInt(idType)-1).getName(), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<Comic> arrayList = new ArrayList<>();
+                mList.clear();
+                mList.addAll(backup);
+                for (Comic comic: mList) {
+                    if(ConvertString(comic.getName()).contains(ConvertString(newText)) || ConvertString(newText).contains(ConvertString(comic.getName())))
+                        arrayList.add(comic);
+                }
+                mList.clear();
+                mList.addAll(arrayList);
+                mAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mList.clear();
+                mList.addAll(backup);
+                return false;
+            }
+        });
+        return true;
+    }
+
 
     @Override
     public void onBackPressed() {

@@ -1,52 +1,50 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.app.SearchManager;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
+import fivesecond.it.dut.comicsworld.async.LoadComicCondition;
+import fivesecond.it.dut.comicsworld.async.LoadingSearchComic;
+import fivesecond.it.dut.comicsworld.functions.ConvertUnsigned;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
-public class MainContentActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener  {
-    ListView lvChap ;
-    TextView txtNameComic;
-    TextView txtAuthor;
-    TextView txtChap;
-    TextView txtMain;
-    ImageView imgCover;
-    RatingBar raBar;
-    Button btnRead ;
-    ArrayAdapter<String> adapterChap ;
-    ArrayList<String> chap;
-    Comic comic;
+import static fivesecond.it.dut.comicsworld.functions.ConvertUnsigned.ConvertString;
 
-    // navigation
+public class SearchableActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
+
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -63,39 +61,44 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     MenuModel model;
 
     ArrayList<Type> mListType = new ArrayList<>();
-    //
+    ListView lvtest;
+    TextView tvSearch;
+    ArrayList<Comic> mList;
+    ArrayList<Comic> mBackup;
+    ListViewAdapder mAdapter;
+    String queryCon;
+    boolean mFirstSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_content);
+        setContentView(R.layout.activity_searchable);
 
         init();
         setWidgets();
         getWidgets();
-        addListener();
-
-
+        addListeners();
 
     }
 
     private void init() {
 
+        mList = new ArrayList<>();
+        mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
+        mBackup = new ArrayList<>();
+
         Intent intent = getIntent();
-        comic = (Comic)intent.getSerializableExtra("comic");
+        queryCon = intent.getStringExtra("query");
+        mFirstSearch = true;
+        new LoadingSearchComic(this, queryCon).execute();
+
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
-
-        chap = new ArrayList<>();
-        for(int i = comic.getChap(); i >= 1 ; i--)
-        {
-            chap.add("Chapter " + String.valueOf(i));
-        }
-
-        adapterChap  = new ArrayAdapter<String>(this , android.R.layout.simple_list_item_1,chap);
     }
 
 
     private void setWidgets() {
-        // naviagtion
+        lvtest = findViewById(R.id.lvListComic);
+
         toolbar = findViewById(R.id.toolbar);
 
         expandableListView = findViewById(R.id.expandableListView);
@@ -103,20 +106,16 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
-        //
 
-        lvChap=findViewById(R.id.lvChap);
-        txtAuthor = findViewById(R.id.txtAuthor);
-        txtNameComic = findViewById(R.id.txtNameComic);
-        txtMain = findViewById(R.id.txt_main);
-        txtChap = findViewById(R.id.txt_chap);
-        raBar = findViewById(R.id.raBar);
-        imgCover = findViewById(R.id.imvCover);
-        btnRead = findViewById(R.id.btnRead);
+        tvSearch = findViewById(R.id.tvSearch);
+
     }
 
     private void getWidgets() {
-        // navigation
+
+        tvSearch.setText("Search for: " + queryCon);
+        lvtest.setAdapter(mAdapter);
+
         setSupportActionBar(toolbar);
 
         prepareMenuData();
@@ -126,40 +125,36 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        //
-        txtChap.setText("Chapter (" + comic.getChap() + ")");
-        txtNameComic.setText(comic.getName());
-        txtAuthor.setText(comic.getAuthor());
-        txtMain.setText(comic.getDesc());
-        raBar.setRating(comic.getRating());
-        lvChap.setAdapter(adapterChap);
-        Picasso.get().load(comic.getThumb()).into(imgCover);
     }
 
-    private void addListener() {
-        // naviagtion
-        navigationView.setNavigationItemSelectedListener(this);
-        //
-        btnRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
-                intent.putExtra("url", comic.getUrl());
-                intent.putExtra("chap", 1);
-                intent.putExtra("totalChap", comic.getChap());
-                startActivity(intent);
-            }
-        });
+    public void notify(Comic comic)
+    {
+        mBackup.add(0, comic);
+    }
 
-        lvChap.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public boolean getFirstSearch()
+    {
+        return mFirstSearch;
+    }
+
+    public void firstSearch(Comic comic)
+    {
+        if(mFirstSearch)
+        {
+            mList.add(comic);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void addListeners() {
+        navigationView.setNavigationItemSelectedListener(this);
+
+        lvtest.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
-                intent.putExtra("url", comic.getUrl());
-                intent.putExtra("chap", comic.getChap() - position);
-                intent.putExtra("totalChap", comic.getChap());
-
+                Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                intent.putExtra("comic", mList.get(position));
+                intent.putExtra("listType", mListType);
                 startActivity(intent);
             }
         });
@@ -175,17 +170,39 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                Intent intent= new Intent(getApplicationContext(), SearchableActivity.class);
-                intent.putExtra("query", query);
-                intent.putExtra("listType", mListType);
-                startActivity(intent);
+                if(mList.size() == 0)
+                {
+                    Toast.makeText(SearchableActivity.this, "No result for \"" + query + " \"" , Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                tvSearch.setText("Search for: " + newText);
+                mFirstSearch = false;
+                ArrayList<Comic> arrayList = new ArrayList<>();
+                mList.clear();
 
+                mList.addAll(mBackup);
+                for (Comic comic: mList) {
+                    if(ConvertString(comic.getName()).contains(ConvertString(newText)) || ConvertString(newText).contains(ConvertString(comic.getName())))
+                    {
+                        arrayList.add(comic);
+                    }
+                }
+                mList.clear();
+                mList.addAll(arrayList);
+                mAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mList.clear();
+                mList.addAll(mBackup);
                 return false;
             }
         });
@@ -243,6 +260,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
+
         for(Type type : mListType)
         {
             childModel = new MenuModel(type.getName(), false, false);
@@ -295,7 +313,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    Intent intent = new Intent(MainContentActivity.this, ListComicsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);
                     startActivity(intent);

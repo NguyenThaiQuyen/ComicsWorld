@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import fivesecond.it.dut.comicsworld.async.LoadingSearchComic;
+
 
 public class MainActivity extends AppCompatActivity {
-
 
     Button btnStart;
     @Override
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inits() {
-
     }
 
     private void setWidgets() {

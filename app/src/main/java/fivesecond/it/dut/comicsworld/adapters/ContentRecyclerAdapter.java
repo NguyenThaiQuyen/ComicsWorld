@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ public class ContentRecyclerAdapter extends RecyclerView.Adapter<ContentRecycler
     public class ComicHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgView;
+        private ProgressBar progressBar;
 
         public ComicHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +64,7 @@ public class ContentRecyclerAdapter extends RecyclerView.Adapter<ContentRecycler
 
         private void init(View itemView) {
             imgView = itemView.findViewById(R.id.imageView);
+            progressBar = itemView.findViewById(R.id.prBar);
 
         }
 
@@ -69,10 +73,21 @@ public class ContentRecyclerAdapter extends RecyclerView.Adapter<ContentRecycler
             Picasso.get()
                     .load(url)
                     .fit()
-                    .into(imgView);
+                    .into(imgView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+
+                        }
+                    });
 
            PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(imgView);
            photoViewAttacher.update();
+
         }
 
     }
