@@ -2,9 +2,11 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 
@@ -34,8 +36,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
 import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
@@ -75,16 +80,49 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     private RecyclerView.Adapter mAdapterTop;
     private ArrayList<Comic> mListTop = new ArrayList<>();
 
+    private static ViewPager mPager;
+    private static int currentPage = 0;
+    private SlideAdapter mSlideAdapter ;
+    private static final Integer[] XMEN= {R.drawable.thumbnail,R.drawable.conan,R.drawable.content,R.drawable.photo_cover,R.drawable.wrap};
+    private ArrayList<Integer> XMENArray = new ArrayList<Integer>();
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
+        init();
         inits();
         setWidgets();
         getWidgets();
         load();
         addListeners();
+    }
+
+    private void init() {
+        for(int i=0;i<XMEN.length;i++)
+            XMENArray.add(XMEN[i]);
+        mPager =  findViewById(R.id.pager);
+
+        mPager.setAdapter(new SlideAdapter(XMENArray, HomeScreenActivity.this));
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == XMEN.length) {
+                    currentPage = 0;
+                }
+                mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 2000, 2000);
     }
 
     public ArrayList<Type> getListType()
