@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import android.widget.TextView;
@@ -33,6 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
+import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
@@ -59,6 +64,17 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     ArrayList<Type> mListType = new ArrayList<>();
     ArrayList<Comic> mList = new ArrayList<>();
 
+
+    private RecyclerView mRecyclerViewUpdate;
+    private RecyclerView.LayoutManager mLayoutManagerUpdate;
+    private RecyclerView.Adapter mAdapterUpdate;
+    private ArrayList<Comic> mListUpdate = new ArrayList<>() ;
+
+    private RecyclerView mRecyclerViewTop;
+    private RecyclerView.LayoutManager mLayoutManagerTop;
+    private RecyclerView.Adapter mAdapterTop;
+    private ArrayList<Comic> mListTop = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +83,15 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         inits();
         setWidgets();
         getWidgets();
-        addListeners();
         load();
+        addListeners();
     }
+
+    public ArrayList<Type> getListType()
+    {
+        return mListType;
+    }
+
     protected void load() {
         DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
 
@@ -81,43 +103,26 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                     Comic comic = postSniapshot.getValue(Comic.class);
 
                     mList.add(comic);
+                    mListUpdate.add(comic);
+                    mListTop.add(comic);
 
                 }
-                Comic comic1 = mList.get(1);
-                ImageView img1 = findViewById(R.id.img1);
-                TextView txtName1 = findViewById(R.id.txt1);
-                txtName1.setText(comic1.getName());
-                Picasso.get().load(comic1.getThumb()).into(img1);
 
-                Comic comic2 = mList.get(2);
-                ImageView img2 = findViewById(R.id.img2);
-                TextView txtName2 = findViewById(R.id.txt2);
-                txtName2.setText(comic2.getName());
-                Picasso.get().load(comic2.getThumb()).into(img2);
+                mRecyclerViewUpdate = findViewById(R.id.recycle_update);
+                mRecyclerViewUpdate.setHasFixedSize(true);
+                mLayoutManagerUpdate = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
+                mRecyclerViewUpdate.setLayoutManager(mLayoutManagerUpdate);
+                mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
+                mRecyclerViewUpdate.setAdapter(mAdapterUpdate);
 
-                Comic comic3 = mList.get(3);
-                ImageView img3 = findViewById(R.id.img3);
-                TextView txtName3 = findViewById(R.id.txt3);
-                txtName3.setText(comic3.getName());
-                Picasso.get().load(comic3.getThumb()).into(img3);
 
-                Comic comicV1 = mList.get(0);
-                ImageView imgV1 = findViewById(R.id.imgV1);
-                TextView txtNameV1 = findViewById(R.id.txtV1);
-                txtNameV1.setText(comicV1.getName());
-                Picasso.get().load(comicV1.getThumb()).into(imgV1);
+                mRecyclerViewTop = findViewById(R.id.recycle_top);
+                mRecyclerViewTop.setHasFixedSize(true);
+                mLayoutManagerTop = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
+                mRecyclerViewTop.setLayoutManager(mLayoutManagerTop);
+                mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+                mRecyclerViewTop.setAdapter(mAdapterTop);
 
-                Comic comicV2 = mList.get(4);
-                ImageView imgV2 = findViewById(R.id.imgV2);
-                TextView txtNameV2 = findViewById(R.id.txtV2);
-                txtNameV2.setText(comicV2.getName());
-                Picasso.get().load(comicV2.getThumb()).into(imgV2);
-
-                Comic comicV3 = mList.get(5);
-                ImageView imgV3 = findViewById(R.id.imgV3);
-                TextView txtNameV3 = findViewById(R.id.txtV3);
-                txtNameV3.setText(comicV3.getName());
-                Picasso.get().load(comicV3.getThumb()).into(imgV3);
             }
 
             @Override

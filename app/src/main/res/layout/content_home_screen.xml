@@ -30,7 +30,7 @@
             android:layout_height="0dp"
             android:layout_weight="5"
             android:orientation="vertical"
-            android:weightSum="11"
+            android:weightSum="5"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:layout_marginBottom="10dp"
@@ -39,101 +39,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="New Upđate"
                 android:textColor="@color/bgHeader"
                 android:textSize="@dimen/text_size_title1" />
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_update"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="9"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp">
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/img1"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txt1"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp">
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/img2"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txt2"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp"
-                    >
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/img3"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txt3"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_weight="4"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -141,7 +57,7 @@
             android:layout_height="0dp"
             android:layout_weight="5"
             android:orientation="vertical"
-            android:weightSum="11"
+            android:weightSum="5"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:layout_marginBottom="10dp"
@@ -150,103 +66,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="Top Views"
                 android:textColor="@color/bgHeader"
                 android:textSize="@dimen/text_size_title1" />
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_top"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="9"
-                android:orientation="horizontal"
-                android:weightSum="3">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp">
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/imgV1"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txtV1"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp">
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/imgV2"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txtV2"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical"
-                    android:weightSum="10"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp"
-                    >
-                    <ImageView
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="8"
-                        android:id="@+id/imgV3"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="2"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/text_size_nameComic"
-                        android:textStyle="bold"
-                        android:id="@+id/txtV3"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:textAlignment="center"/>
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_weight="4"/>
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
