@@ -1,5 +1,6 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -43,7 +45,9 @@ import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
 import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
+import fivesecond.it.dut.comicsworld.async.LoadTop;
 import fivesecond.it.dut.comicsworld.async.LoadType;
+import fivesecond.it.dut.comicsworld.async.LoadUpdate;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
@@ -66,45 +70,104 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel childModel;
     MenuModel model;
 
-    ArrayList<Type> mListType = new ArrayList<>();
-    ArrayList<Comic> mList = new ArrayList<>();
-
+    private ArrayList<Type> mListType;
 
     private RecyclerView mRecyclerViewUpdate;
     private RecyclerView.LayoutManager mLayoutManagerUpdate;
     private RecyclerView.Adapter mAdapterUpdate;
-    private ArrayList<Comic> mListUpdate = new ArrayList<>() ;
+    private ArrayList<Comic> mListUpdate;
+    private ArrayList<Comic> mListTop;
 
     private RecyclerView mRecyclerViewTop;
     private RecyclerView.LayoutManager mLayoutManagerTop;
     private RecyclerView.Adapter mAdapterTop;
-    private ArrayList<Comic> mListTop = new ArrayList<>();
 
+
+    @SuppressLint("StaticFieldLeak")
     private static ViewPager mPager;
     private static int currentPage = 0;
-    private SlideAdapter mSlideAdapter ;
-    private static final Integer[] XMEN= {R.drawable.thumbnail,R.drawable.conan,R.drawable.content,R.drawable.photo_cover,R.drawable.wrap};
-    private ArrayList<Integer> XMENArray = new ArrayList<Integer>();
-
-
-
+    private static final Integer[] XMEN = {R.drawable.thumbnail,R.drawable.conan,R.drawable.content,R.drawable.photo_cover,R.drawable.wrap};
+    private ArrayList<Integer> XMENArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        init();
+
         inits();
         setWidgets();
         getWidgets();
-        load();
         addListeners();
     }
 
-    private void init() {
-        for(int i=0;i<XMEN.length;i++)
-            XMENArray.add(XMEN[i]);
+    public ArrayList<Type> getListType()
+    {
+        return mListType;
+    }
+
+    public void addToListType(Type type) {
+        mListType.add(0, type);
+        childModel = new MenuModel(type.getName(), false, false);
+        childModelsList.add(0, childModel);
+    }
+
+    public void addToListTop(Comic comic) {
+        mListTop.add(0, comic);
+        mAdapterTop.notifyItemRangeInserted(0, 1);
+    }
+
+    public void addToListUpdate(Comic comic) {
+        mListUpdate.add(0, comic);
+        mAdapterUpdate.notifyItemRangeInserted(0, 1);
+    }
+
+
+    private void inits() {
+        mListType = new ArrayList<>();
+        new LoadType(this).execute();
+
+        mListUpdate = new ArrayList<>();
+        mListTop = new ArrayList<>();
+
+        mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
+        mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+
+        new LoadUpdate(this).execute();
+        new LoadTop(this).execute();
+
+        XMENArray = new ArrayList<>();
+        XMENArray.addAll(Arrays.asList(XMEN));
+
+
+        mLayoutManagerUpdate = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
+        mLayoutManagerTop = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
+    }
+
+    private void setWidgets() {
+
+        toolbar = findViewById(R.id.toolbar);
+
+        expandableListView = findViewById(R.id.expandableListView);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        navigationView = findViewById(R.id.nav_view);
         mPager =  findViewById(R.id.pager);
+        mRecyclerViewUpdate = findViewById(R.id.recycle_update);
+        mRecyclerViewTop = findViewById(R.id.recycle_top);
+    }
+
+    private void getWidgets() {
+
+        setSupportActionBar(toolbar);
+
+        prepareMenuData();
+        populateExpandableList();
+
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         mPager.setAdapter(new SlideAdapter(XMENArray, HomeScreenActivity.this));
         final Handler handler = new Handler();
@@ -122,94 +185,16 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             public void run() {
                 handler.post(Update);
             }
-        }, 2000, 2000);
-    }
+        }, 3000, 3000);
 
-    public ArrayList<Type> getListType()
-    {
-        return mListType;
-    }
+        mRecyclerViewUpdate.setHasFixedSize(true);
+        mRecyclerViewUpdate.setLayoutManager(mLayoutManagerUpdate);
+        mRecyclerViewUpdate.setAdapter(mAdapterUpdate);
 
-    protected void load() {
-        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
+        mRecyclerViewTop.setHasFixedSize(true);
+        mRecyclerViewTop.setLayoutManager(mLayoutManagerTop);
+        mRecyclerViewTop.setAdapter(mAdapterTop);
 
-        Query query = databaseReference.orderByChild("idType").equalTo("2");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSniapshot : dataSnapshot.getChildren()) {
-                    Comic comic = postSniapshot.getValue(Comic.class);
-
-                    mList.add(comic);
-                    mListUpdate.add(comic);
-                    mListTop.add(comic);
-
-                }
-
-                mRecyclerViewUpdate = findViewById(R.id.recycle_update);
-                mRecyclerViewUpdate.setHasFixedSize(true);
-                mLayoutManagerUpdate = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
-                mRecyclerViewUpdate.setLayoutManager(mLayoutManagerUpdate);
-                mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
-                mRecyclerViewUpdate.setAdapter(mAdapterUpdate);
-
-
-                mRecyclerViewTop = findViewById(R.id.recycle_top);
-                mRecyclerViewTop.setHasFixedSize(true);
-                mLayoutManagerTop = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
-                mRecyclerViewTop.setLayoutManager(mLayoutManagerTop);
-                mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
-                mRecyclerViewTop.setAdapter(mAdapterTop);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    public void addToListType(Type type) {
-        if(!mListType.contains(type))
-        {
-            mListType.add(0, type);
-            childModel = new MenuModel(type.getName(), false, false);
-            childModelsList.add(0, childModel);
-        }
-    }
-
-    public void removeLoading()
-    {
-        childModelsList.remove(childModelsList.size()-1);
-    }
-
-    private void inits() {
-       new LoadType(this).execute();
-
-    }
-
-    private void setWidgets() {
-
-        toolbar = findViewById(R.id.toolbar);
-
-        expandableListView = findViewById(R.id.expandableListView);
-
-        drawer = findViewById(R.id.drawer_layout);
-
-        navigationView = findViewById(R.id.nav_view);
-    }
-
-    private void getWidgets() {
-
-        setSupportActionBar(toolbar);
-
-        prepareMenuData();
-        populateExpandableList();
-
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
     }
 
@@ -218,7 +203,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_list, menu);
 
         MenuItem item = menu.findItem(R.id.nav_search);
@@ -299,9 +284,6 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Loading ...", false, false);
-        childModelsList.add(0, childModel);
-
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");

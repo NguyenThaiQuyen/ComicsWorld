@@ -18,6 +18,7 @@ import fivesecond.it.dut.comicsworld.HomeScreenActivity;
 import fivesecond.it.dut.comicsworld.MainContentActivity;
 import fivesecond.it.dut.comicsworld.R;
 import fivesecond.it.dut.comicsworld.models.Comic;
+import fivesecond.it.dut.comicsworld.models.ContentComic;
 
 public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder>{
 
@@ -45,53 +46,63 @@ public class UpdateAdapter extends RecyclerView.Adapter<UpdateAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
-        cm1 = mList.get(i * 3);
-        txt1.setText(cm1.getName());
-        Picasso.get().load(cm1.getThumb()).into(img1);
-
-        cm2 = mList.get(i * 3 + 1);
-        txt2.setText(cm2.getName());
-        Picasso.get().load(cm2.getThumb()).into(img2);
-
-        cm3 = mList.get(i * 3 + 2);
-        txt3.setText(cm3.getName());
-        Picasso.get().load(cm3.getThumb()).into(img3);
+        int size = mList.size();
         final int j = i;
-        img1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
 
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
+        if(i <= size/3) {
+            cm1 = mList.get(i * 3);
+            txt1.setText(cm1.getName());
+            Picasso.get().load(cm1.getThumb()).into(img1);
+
+            img1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comic c = mList.get(j * 3);
+                    Intent intent = new Intent(homeScreenActivity, MainContentActivity.class);
+                    intent.putExtra("comic", c);
+
+                    intent.putExtra("listType", homeScreenActivity.getListType());
+                    homeScreenActivity.startActivity(intent);
+                }
+            });
+
+
+            if (i <= (size - 1) / 3) {
+                cm2 = mList.get(i * 3 + 1);
+                txt2.setText(cm2.getName());
+                Picasso.get().load(cm2.getThumb()).into(img2);
+
+                img2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Comic c = mList.get(j * 3 + 1);
+                        Intent intent = new Intent(homeScreenActivity, MainContentActivity.class);
+                        intent.putExtra("comic", c);
+
+                        intent.putExtra("listType", homeScreenActivity.getListType());
+                        homeScreenActivity.startActivity(intent);
+                    }
+                });
+
+                if (i <= (size - 2) / 3) {
+                    cm3 = mList.get(i * 3 + 2);
+                    txt3.setText(cm3.getName());
+                    Picasso.get().load(cm3.getThumb()).into(img3);
+
+                    img3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Comic c = mList.get(j * 3 + 2);
+                            Intent intent = new Intent(homeScreenActivity, MainContentActivity.class);
+                            intent.putExtra("comic", c);
+
+                            intent.putExtra("listType", homeScreenActivity.getListType());
+                            homeScreenActivity.startActivity(intent);
+                        }
+                    });
+                }
             }
-        });
-
-        img2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3+1);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
-
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
-            }
-        });
-
-        img3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3+2);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
-
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
-            }
-        });
+        }
     }
 
     @Override

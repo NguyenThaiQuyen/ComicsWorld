@@ -63,11 +63,6 @@ public class LoadType extends AsyncTask<Void, Type, Void> {
         TypeController.getInstance().addTypeToList(types[0]);
         mActivity.addToListType(types[0]);
     }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        mActivity.removeLoading();
-    }
 }
 
 

@@ -45,60 +45,72 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull TopAdapter.ViewHolder viewHolder, int i) {
 
-        cm1 = mList.get(i * 3);
-        txtt1.setText(cm1.getName());
-        Picasso.get().load(cm1.getThumb()).into(imgt1);
-
-        cm2 = mList.get(i * 3 + 1);
-        txtt2.setText(cm2.getName());
-        Picasso.get().load(cm2.getThumb()).into(imgt2);
-
-        cm3 = mList.get(i * 3 + 2);
-        txtt3.setText(cm3.getName());
-        Picasso.get().load(cm3.getThumb()).into(imgt3);
+        int size = mList.size();
         final int j = i;
-        imgt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
 
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
+        if(i <= size/3)
+        {
+            cm1 = mList.get(i * 3);
+            txtt1.setText(cm1.getName());
+            Picasso.get().load(cm1.getThumb()).into(imgt1);
+
+            imgt1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comic c = mList.get(j*3);
+                    Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
+                    intent.putExtra("comic", c);
+
+                    intent.putExtra("listType",homeScreenActivity.getListType());
+                    homeScreenActivity.startActivity(intent);
+                }
+            });
+
+            if(i <= (size - 1)/3)
+            {
+                cm2 = mList.get(i * 3 + 1);
+                txtt2.setText(cm2.getName());
+                Picasso.get().load(cm2.getThumb()).into(imgt2);
+
+                imgt2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Comic c = mList.get(j*3+1);
+                        Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
+                        intent.putExtra("comic", c);
+
+                        intent.putExtra("listType",homeScreenActivity.getListType());
+                        homeScreenActivity.startActivity(intent);
+                    }
+                });
+
+
+                if(i <= (size - 2)/3)
+                {
+                    cm3 = mList.get(i * 3 + 2);
+                    txtt3.setText(cm3.getName());
+                    Picasso.get().load(cm3.getThumb()).into(imgt3);
+
+                    imgt3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Comic c = mList.get(j*3+2);
+                            Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
+                            intent.putExtra("comic", c);
+                            intent.putExtra("listType",homeScreenActivity.getListType());
+                            homeScreenActivity.startActivity(intent);
+                        }
+                    });
+                }
             }
-        });
-
-        imgt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3+1);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
-
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
-            }
-        });
-
-        imgt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Comic c = mList.get(j*3+2);
-                Intent intent = new Intent(homeScreenActivity , MainContentActivity.class);
-                intent.putExtra("comic", c);
-                intent.putExtra("listType",homeScreenActivity.getListType());
-                homeScreenActivity.startActivity(intent);
-            }
-        });
-
-
+        }
     }
 
     @Override
     public int getItemCount() {
         return mList.size()/3;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
