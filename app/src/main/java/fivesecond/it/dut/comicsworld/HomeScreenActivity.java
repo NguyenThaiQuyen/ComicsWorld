@@ -19,11 +19,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-
-import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -45,11 +43,13 @@ import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
 import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
+import fivesecond.it.dut.comicsworld.async.LoadSlide;
 import fivesecond.it.dut.comicsworld.async.LoadTop;
 import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.async.LoadUpdate;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Slide;
 import fivesecond.it.dut.comicsworld.models.Type;
 
 
@@ -81,13 +81,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     private RecyclerView mRecyclerViewTop;
     private RecyclerView.LayoutManager mLayoutManagerTop;
     private RecyclerView.Adapter mAdapterTop;
+    private SlideAdapter mAdapterSlide;
 
 
     @SuppressLint("StaticFieldLeak")
     private static ViewPager mPager;
     private static int currentPage = 0;
-    private static final Integer[] XMEN = {R.drawable.thumbnail,R.drawable.conan,R.drawable.content,R.drawable.photo_cover,R.drawable.wrap};
-    private ArrayList<Integer> XMENArray;
+    private ArrayList<Slide> mListSlide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +121,32 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mAdapterUpdate.notifyItemRangeInserted(0, 1);
     }
 
+    public void addToListSlide(Slide slide) {
+        mListSlide.add(0, slide);
+
+        if(mListSlide.size() == 3)
+        {
+            mAdapterSlide.notifyDataSetChanged();
+            mPager.setAdapter(mAdapterSlide);
+            final Handler handler = new Handler();
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    if (currentPage == mListSlide.size()) {
+                        currentPage = 0;
+                    }
+                    mPager.setCurrentItem(currentPage++, true);
+                }
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, 3000, 3000);
+        }
+    }
+
 
     private void inits() {
         mListType = new ArrayList<>();
@@ -128,15 +154,17 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
         mListUpdate = new ArrayList<>();
         mListTop = new ArrayList<>();
+        mListSlide = new ArrayList<>();
 
         mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
         mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+        mAdapterSlide = new SlideAdapter(mListSlide, HomeScreenActivity.this);
 
+        new LoadSlide(this).execute();
         new LoadUpdate(this).execute();
         new LoadTop(this).execute();
 
-        XMENArray = new ArrayList<>();
-        XMENArray.addAll(Arrays.asList(XMEN));
+
 
 
         mLayoutManagerUpdate = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
@@ -169,23 +197,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        mPager.setAdapter(new SlideAdapter(XMENArray, HomeScreenActivity.this));
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == XMEN.length) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
+
 
         mRecyclerViewUpdate.setHasFixedSize(true);
         mRecyclerViewUpdate.setLayoutManager(mLayoutManagerUpdate);

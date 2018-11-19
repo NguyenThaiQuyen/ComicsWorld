@@ -8,16 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import fivesecond.it.dut.comicsworld.R;
+import fivesecond.it.dut.comicsworld.models.Slide;
 
 public class SlideAdapter extends PagerAdapter {
-    private ArrayList<Integer> images;
+    private ArrayList<Slide> images;
     private LayoutInflater inflater;
     private Context context;
 
-    public SlideAdapter(ArrayList<Integer> images,  Context context) {
+    public SlideAdapter(ArrayList<Slide> images,  Context context) {
         this.images = images;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -38,7 +41,8 @@ public class SlideAdapter extends PagerAdapter {
         View myImageLayout = inflater.inflate(R.layout.item_slide, view, false);
         ImageView myImage = (ImageView) myImageLayout
                 .findViewById(R.id.image);
-        myImage.setImageResource(images.get(position));
+        Picasso.get().load(images.get(position).getUrl()).into(myImage);
+
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }
