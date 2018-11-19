@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear().apply();
+
                 Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }

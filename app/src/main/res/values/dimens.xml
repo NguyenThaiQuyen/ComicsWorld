@@ -30,7 +30,7 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="text_size_title1">22sp</dimen>
+    <dimen name="text_size_title1">18sp</dimen>
     <dimen name="text_size_nameComic">15sp</dimen>
 
     <dimen name="edt_margin_left">15dp</dimen>
