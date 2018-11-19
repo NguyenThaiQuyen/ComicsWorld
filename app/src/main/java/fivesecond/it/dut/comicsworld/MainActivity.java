@@ -58,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(sharedPreferences.contains("urlComic"))
-                {
+        if(sharedPreferences.contains("urlComic"))
+        {
+            btnContinue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
                     intent.putExtra("url", sharedPreferences.getString("urlComic", "1"));
                     intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
@@ -70,13 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(intent);
                 }
-                else
-                {
-                    Toast.makeText(MainActivity.this, "No comic saved before - Start Reading and enjoy !!!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+            });
+        }
+        else
+        {
+            btnContinue.setVisibility(View.GONE);
+        }
     }
 
 
