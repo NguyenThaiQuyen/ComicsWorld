@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,9 +36,8 @@ public class ReadComic extends AppCompatActivity {
     private TextView tvNext;
     private TextView tvPre;
 
-    private int mTotalItemCount;
-    private int mLastVisibleItemPosition;
     private boolean mIsLoading;
+    private boolean isFinished;
     private int mPostsPerPage;
     private String mUrl;
     private int mChap;
@@ -59,7 +60,7 @@ public class ReadComic extends AppCompatActivity {
 
 
     private void init() {
-        mTotalItemCount = 0;
+        isFinished = false;
         mPostsPerPage = 5;
         mIsLoading = false;
 
@@ -104,10 +105,7 @@ public class ReadComic extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                mTotalItemCount = mLayoutManager.getItemCount();
-                mLastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-
-                if (!mIsLoading && mTotalItemCount <= (mLastVisibleItemPosition + mPostsPerPage)) {
+                if (mIsLoading == false && isFinished == false) {
                     getImageComic(mAdapter.getLastItemId());
                     mIsLoading = true;
                 }
@@ -180,6 +178,7 @@ public class ReadComic extends AppCompatActivity {
                     contentComics.add(url);
                 }
 
+                if(contentComics.size() < mPostsPerPage) isFinished = true;
                 mAdapter.addAll(contentComics);
                 mIsLoading = false;
             }
@@ -189,5 +188,13 @@ public class ReadComic extends AppCompatActivity {
                 mIsLoading = false;
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear().apply();
+        super.onBackPressed();
     }
 }

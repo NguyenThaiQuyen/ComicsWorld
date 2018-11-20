@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import fivesecond.it.dut.comicsworld.async.LoadSlide;
+import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.async.LoadingSearchComic;
 
 
