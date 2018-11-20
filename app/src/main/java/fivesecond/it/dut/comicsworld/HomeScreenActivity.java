@@ -1,40 +1,51 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
+import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
+import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
+import fivesecond.it.dut.comicsworld.models.Slide;
 import fivesecond.it.dut.comicsworld.models.Type;
+
 
 public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,8 +64,24 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel childModel;
     MenuModel model;
 
-    ArrayList<Type> mListType = new ArrayList<>();
-    ArrayList<Comic> mList = new ArrayList<>();
+    private ArrayList<Type> mListType;
+
+    private RecyclerView mRecyclerViewUpdate;
+    private RecyclerView.LayoutManager mLayoutManagerUpdate;
+    private RecyclerView.Adapter mAdapterUpdate;
+    private ArrayList<Comic> mListUpdate;
+    private ArrayList<Comic> mListTop;
+
+    private RecyclerView mRecyclerViewTop;
+    private RecyclerView.LayoutManager mLayoutManagerTop;
+    private RecyclerView.Adapter mAdapterTop;
+    private SlideAdapter mAdapterSlide;
+
+
+    @SuppressLint("StaticFieldLeak")
+    private static ViewPager mPager;
+    private static int currentPage = 0;
+    private ArrayList<Slide> mListSlide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,56 +92,56 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         setWidgets();
         getWidgets();
         addListeners();
-        load();
     }
-    protected void load() {
-        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference().child("comics");
 
-        Query query = databaseReference.orderByChild("idType").equalTo("2");
-        query.addValueEventListener(new ValueEventListener() {
+    public ArrayList<Type> getListType()
+    {
+        return mListType;
+    }
+
+    public void addToListType(Type type) {
+        mListType.add(0, type);
+        childModel = new MenuModel(type.getName(), false, false);
+        childModelsList.add(0, childModel);
+    }
+
+    private void inits() {
+        mListType = new ArrayList<>();
+        new LoadType(this).execute();
+
+        mListUpdate = new ArrayList<>();
+        mListTop = new ArrayList<>();
+        mListSlide = new ArrayList<>();
+
+        mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
+        mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+        mAdapterSlide = new SlideAdapter(mListSlide, HomeScreenActivity.this);
+
+        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
+
+        Query query;
+        query = databaseReference.child("comics").orderByChild("rating").limitToLast(6);
+        query.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSniapshot : dataSnapshot.getChildren()) {
-                    Comic comic = postSniapshot.getValue(Comic.class);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comic comic = dataSnapshot.getValue(Comic.class);
+                mListTop.add(0, comic);
+                mAdapterTop.notifyDataSetChanged();
+            }
 
-                    mList.add(comic);
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                }
-                Comic comic1 = mList.get(1);
-                ImageView img1 = findViewById(R.id.img1);
-                TextView txtName1 = findViewById(R.id.txt1);
-                txtName1.setText(comic1.getName());
-                Picasso.get().load(comic1.getThumb()).into(img1);
+            }
 
-                Comic comic2 = mList.get(2);
-                ImageView img2 = findViewById(R.id.img2);
-                TextView txtName2 = findViewById(R.id.txt2);
-                txtName2.setText(comic2.getName());
-                Picasso.get().load(comic2.getThumb()).into(img2);
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                Comic comic3 = mList.get(3);
-                ImageView img3 = findViewById(R.id.img3);
-                TextView txtName3 = findViewById(R.id.txt3);
-                txtName3.setText(comic3.getName());
-                Picasso.get().load(comic3.getThumb()).into(img3);
+            }
 
-                Comic comicV1 = mList.get(0);
-                ImageView imgV1 = findViewById(R.id.imgV1);
-                TextView txtNameV1 = findViewById(R.id.txtV1);
-                txtNameV1.setText(comicV1.getName());
-                Picasso.get().load(comicV1.getThumb()).into(imgV1);
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Comic comicV2 = mList.get(4);
-                ImageView imgV2 = findViewById(R.id.imgV2);
-                TextView txtNameV2 = findViewById(R.id.txtV2);
-                txtNameV2.setText(comicV2.getName());
-                Picasso.get().load(comicV2.getThumb()).into(imgV2);
-
-                Comic comicV3 = mList.get(5);
-                ImageView imgV3 = findViewById(R.id.imgV3);
-                TextView txtNameV3 = findViewById(R.id.txtV3);
-                txtNameV3.setText(comicV3.getName());
-                Picasso.get().load(comicV3.getThumb()).into(imgV3);
             }
 
             @Override
@@ -122,24 +149,91 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
             }
         });
-    }
-    public void addToListType(Type type) {
-        if(!mListType.contains(type))
-        {
-            mListType.add(0, type);
-            childModel = new MenuModel(type.getName(), false, false);
-            childModelsList.add(0, childModel);
-        }
-    }
 
-    public void removeLoading()
-    {
-        childModelsList.remove(childModelsList.size()-1);
-    }
+        query = databaseReference.child("comics").orderByChild("id").limitToLast(6);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comic comic = dataSnapshot.getValue(Comic.class);
+                mListUpdate.add(0, comic);
+                mAdapterUpdate.notifyDataSetChanged();
+            }
 
-    private void inits() {
-       new LoadType(this).execute();
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query = databaseReference.child("slides").orderByChild("id").limitToLast(3);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Slide slide = dataSnapshot.getValue(Slide.class);
+                mListSlide.add(0, slide);
+                mAdapterSlide.notifyDataSetChanged();
+
+                if(mListSlide.size() == 3)
+                {
+                    mAdapterSlide.notifyDataSetChanged();
+                    mPager.setAdapter(mAdapterSlide);
+                    final Handler handler = new Handler();
+                    final Runnable Update = new Runnable() {
+                        public void run() {
+                            if (currentPage == mListSlide.size()) {
+                                currentPage = 0;
+                            }
+                            mPager.setCurrentItem(currentPage++, true);
+                        }
+                    };
+                    Timer swipeTimer = new Timer();
+                    swipeTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            handler.post(Update);
+                        }
+                    }, 4000, 4000);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        mLayoutManagerUpdate = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
+        mLayoutManagerTop = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
     }
 
     private void setWidgets() {
@@ -151,6 +245,9 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
+        mPager =  findViewById(R.id.pager);
+        mRecyclerViewUpdate = findViewById(R.id.recycle_update);
+        mRecyclerViewTop = findViewById(R.id.recycle_top);
     }
 
     private void getWidgets() {
@@ -165,10 +262,50 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
+        mRecyclerViewUpdate.setHasFixedSize(true);
+        mRecyclerViewUpdate.setLayoutManager(mLayoutManagerUpdate);
+        mRecyclerViewUpdate.setAdapter(mAdapterUpdate);
+
+        mRecyclerViewTop.setHasFixedSize(true);
+        mRecyclerViewTop.setLayoutManager(mLayoutManagerTop);
+        mRecyclerViewTop.setAdapter(mAdapterTop);
+
+
     }
 
     private void addListeners() {
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+
+        MenuItem item = menu.findItem(R.id.nav_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Intent intent= new Intent(getApplicationContext(), SearchableActivity.class);
+                intent.putExtra("query", query);
+                intent.putExtra("listType", mListType);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
+
+        return true;
     }
 
     @Override
@@ -224,9 +361,6 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Loading ...", false, false);
-        childModelsList.add(0, childModel);
-
 
         if (menuModel.hasChildren) {
             Log.d("API123","here");

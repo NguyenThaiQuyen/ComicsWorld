@@ -6,42 +6,34 @@ import java.io.Serializable;
 
 public class Comic implements Serializable {
 
-    private String id;
     private String author;
     private int chap;
     private String desc;
+    private String id;
     private int idComment;
     private String idType;
     private String name;
+    private int numberRating;
     private float rating;
     private String thumb;
     private String url;
-    private int numberRating;
 
     public Comic(){
 
     }
 
-    public Comic(String id, String author, int chap, String desc, int idComment, String idType, String name, float rating, String thumb, String url, int numberRating) {
-        this.id = id;
+    public Comic(String author, int chap, String desc, String id, int idComment, String idType, String name, int numberRating, float rating, String thumb, String url) {
         this.author = author;
         this.chap = chap;
         this.desc = desc;
+        this.id = id;
         this.idComment = idComment;
         this.idType = idType;
         this.name = name;
+        this.numberRating = numberRating;
         this.rating = rating;
         this.thumb = thumb;
         this.url = url;
-        this.numberRating = numberRating;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getAuthor() {
@@ -68,6 +60,14 @@ public class Comic implements Serializable {
         this.desc = desc;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public int getIdComment() {
         return idComment;
     }
@@ -90,6 +90,14 @@ public class Comic implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getNumberRating() {
+        return numberRating;
+    }
+
+    public void setNumberRating(int numberRating) {
+        this.numberRating = numberRating;
     }
 
     public float getRating() {
@@ -116,28 +124,5 @@ public class Comic implements Serializable {
         this.url = url;
     }
 
-    public int getNumberRating() {
-        return numberRating;
-    }
 
-    public void setNumberRating(int numberRating) {
-        this.numberRating = numberRating;
-    }
-
-    @Override
-    public String toString() {
-        return "Comic{" +
-                "id='" + id + '\'' +
-                ", author='" + author + '\'' +
-                ", chap=" + chap +
-                ", desc='" + desc + '\'' +
-                ", idComment=" + idComment +
-                ", idType='" + idType + '\'' +
-                ", name='" + name + '\'' +
-                ", rating=" + rating +
-                ", thumb='" + thumb + '\'' +
-                ", url='" + url + '\'' +
-                ", numberRating=" + numberRating +
-                '}';
-    }
 }

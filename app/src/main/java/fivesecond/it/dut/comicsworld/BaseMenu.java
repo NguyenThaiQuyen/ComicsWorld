@@ -1,11 +1,24 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
+import fivesecond.it.dut.comicsworld.models.Comic;
 
 public class BaseMenu extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,10 +27,31 @@ public class BaseMenu extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list, menu);
+
+        MenuItem item = menu.findItem(R.id.nav_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Intent intent= new Intent(getApplicationContext(), SearchableActivity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
         return true;
     }
 

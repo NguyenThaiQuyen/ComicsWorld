@@ -1,16 +1,15 @@
 package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -33,16 +33,14 @@ import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
-
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
 import static fivesecond.it.dut.comicsworld.functions.ConvertUnsigned.ConvertString;
 
-public class ListComicsActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
+public class SearchableActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
-    // navigation
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -59,50 +57,56 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     MenuModel model;
 
     ArrayList<Type> mListType = new ArrayList<>();
-
-    String idType;
-
     ListView lvtest;
+    TextView tvSearch;
     ArrayList<Comic> mList;
-    ArrayList<Comic> backup;
+    ArrayList<Comic> mBackup;
     ListViewAdapder mAdapter;
-
-
+    String queryCon;
+    boolean mFirstSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_comics);
+        setContentView(R.layout.activity_searchable);
 
-        inits();
+        init();
         setWidgets();
         getWidgets();
         addListeners();
 
     }
 
-
-    private void inits() {
+    private void init() {
 
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
-        backup= new ArrayList<>();
+        mBackup = new ArrayList<>();
 
         Intent intent = getIntent();
-        idType = intent.getStringExtra("idType");
-        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
-        setTitle(mListType.get(Integer.parseInt(idType)-1).getName());
+        queryCon = intent.getStringExtra("query");
+        mFirstSearch = true;
 
         DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
+
         Query query;
-        query = databaseReference.child("comics").orderByChild("idType").equalTo(idType);
+        query = databaseReference.child("comics").orderByChild("name");
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Comic comic = dataSnapshot.getValue(Comic.class);
 
-                mList.add(0, comic);
-                backup.add(0, comic);
+                if(ConvertString(comic.getName()).contains(ConvertString(queryCon)) || ConvertString(queryCon).contains(ConvertString(comic.getName())))
+                {
+                    if(mFirstSearch)
+                    {
+                        mList.add(comic);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                mBackup.add(0, comic);
+
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -127,7 +131,9 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             }
         });
 
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
     }
+
 
     private void setWidgets() {
         lvtest = findViewById(R.id.lvListComic);
@@ -140,11 +146,13 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
         navigationView = findViewById(R.id.nav_view);
 
+        tvSearch = findViewById(R.id.tvSearch);
+
     }
 
     private void getWidgets() {
 
-
+        tvSearch.setText("Search for: " + queryCon);
         lvtest.setAdapter(mAdapter);
 
         setSupportActionBar(toolbar);
@@ -156,7 +164,6 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
     }
 
     private void addListeners() {
@@ -171,7 +178,6 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                 startActivity(intent);
             }
         });
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -186,19 +192,24 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onQueryTextSubmit(String query) {
                 if(mList.size() == 0)
                 {
-                    Toast.makeText(ListComicsActivity.this, "No result for \"" + query + " \"" + " in " + mListType.get(Integer.parseInt(idType)-1).getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchableActivity.this, "No result for \"" + query + " \"" , Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                tvSearch.setText("Search for: " + newText);
+                mFirstSearch = false;
                 ArrayList<Comic> arrayList = new ArrayList<>();
                 mList.clear();
-                mList.addAll(backup);
+
+                mList.addAll(mBackup);
                 for (Comic comic: mList) {
                     if(ConvertString(comic.getName()).contains(ConvertString(newText)) || ConvertString(newText).contains(ConvertString(comic.getName())))
+                    {
                         arrayList.add(comic);
+                    }
                 }
                 mList.clear();
                 mList.addAll(arrayList);
@@ -211,13 +222,12 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             @Override
             public boolean onClose() {
                 mList.clear();
-                mList.addAll(backup);
+                mList.addAll(mBackup);
                 return false;
             }
         });
         return true;
     }
-
 
     @Override
     public void onBackPressed() {
@@ -323,7 +333,7 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
                     model = childList.get(headerList.get(groupPosition)).get(childPosition);
-                    Intent intent = new Intent(ListComicsActivity.this, ListComicsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);
                     startActivity(intent);

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,11 +22,15 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,6 +76,9 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     MenuModel model;
 
     ArrayList<Type> mListType = new ArrayList<>();
+
+    FirebaseDatabase mData = FirebaseDatabase.getInstance();
+    DatabaseReference dataRef = mData.getReference();
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +101,23 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             @Override
             public void callback(int ratings) {
 
-                float resultRating = (comic.getRating() * comic.getNumberRating() + ratings)/(comic.getNumberRating()+1);
-                raBar.setRating(resultRating);
-                FirebaseDatabase mData = FirebaseDatabase.getInstance();
-                final DatabaseReference dataRef = mData.getReference();
-
+               float resultRating = (ratings + comic.getRating() * comic.getNumberRating()) / (comic.getNumberRating() + 1);
                 comic.setRating(resultRating);
                 comic.setNumberRating(comic.getNumberRating()+1);
 
-                dataRef.child("comics").child(comic.getId()).setValue(comic);
+                raBar.setRating(resultRating);
+
+                try
+                {
+                    dataRef.child("comics").child(String.valueOf(comic.getId())).setValue(comic);
+                    Toast.makeText(MainContentActivity.this, "You have just rated " + ratings + " for this comic" , Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+
+
+                }
+
+
+
 
             }
         });
@@ -114,7 +130,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
 
         chap = new ArrayList<>();
-        for(int i = 1; i <= comic.getChap(); i++)
+        for(int i = comic.getChap(); i >= 1 ; i--)
         {
             chap.add("Chapter " + String.valueOf(i));
         }
@@ -124,7 +140,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
 
     private void setWidgets() {
-        // naviagtion
+
         toolbar = findViewById(R.id.toolbar);
 
         expandableListView = findViewById(R.id.expandableListView);
@@ -176,6 +192,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("url", comic.getUrl());
                 intent.putExtra("chap", 1);
+                intent.putExtra("totalChap", comic.getChap());
                 startActivity(intent);
             }
         });
@@ -185,7 +202,9 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("url", comic.getUrl());
-                intent.putExtra("chap", position + 1);
+                intent.putExtra("chap", comic.getChap() - position);
+                intent.putExtra("totalChap", comic.getChap());
+
                 startActivity(intent);
             }
         });
@@ -193,6 +212,32 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+
+        MenuItem item = menu.findItem(R.id.nav_search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Intent intent= new Intent(getApplicationContext(), SearchableActivity.class);
+                intent.putExtra("query", query);
+                intent.putExtra("listType", mListType);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
+        return true;
+    }
 
     @Override
     public void onBackPressed() {
