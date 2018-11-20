@@ -11,13 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-        <activity android:name=".HomeScreenActivity"
+        <activity
+            android:name=".HomeScreenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +27,7 @@
         <activity android:name=".TestPreferences" />
         <activity android:name=".ReadComic" />
         <activity android:name=".BaseMenu" />
-
+        <activity android:name=".CommentsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,8 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,7 +22,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,9 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
+import fivesecond.it.dut.comicsworld.interfaces.DialogCallback;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
+import fivesecond.it.dut.comicsworld.utils.GlobalUtils;
 
 public class MainContentActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener  {
     ListView lvChap ;
@@ -50,6 +58,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
     ExpandableListView expandableListView;
+    public RatingBar myRatingBar;
+
 
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
@@ -72,8 +82,29 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         getWidgets();
         addListener();
 
+        myRatingBar = (RatingBar) findViewById(R.id.ratingBar);
 
 
+
+    }
+
+    public void dialogRate(View view){
+        GlobalUtils.dialogRate(this, new DialogCallback() {
+            @Override
+            public void callback(int ratings) {
+
+                float resultRating = (comic.getRating() * comic.getNumberRating() + ratings)/(comic.getNumberRating()+1);
+                raBar.setRating(resultRating);
+                FirebaseDatabase mData = FirebaseDatabase.getInstance();
+                final DatabaseReference dataRef = mData.getReference();
+
+                comic.setRating(resultRating);
+                comic.setNumberRating(comic.getNumberRating()+1);
+
+                dataRef.child("comics").child(comic.getId()).setValue(comic);
+
+            }
+        });
     }
 
     private void init() {
@@ -158,6 +189,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 startActivity(intent);
             }
         });
+
+
     }
 
 
