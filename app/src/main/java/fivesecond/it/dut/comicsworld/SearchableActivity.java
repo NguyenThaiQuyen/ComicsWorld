@@ -1,6 +1,7 @@
 package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -20,17 +21,25 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -63,7 +72,19 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
     ArrayList<Comic> mBackup;
     ListViewAdapder mAdapter;
     String queryCon;
+    Comic comic;
     boolean mFirstSearch;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user ;
+
+    private View navView;
+    TextView txtuser, txtgmail;
+    CircleImageView imgAvatar ;
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +98,34 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     }
 
+    private void checkUpdate() {
+
+        if(user != null ) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+
+            txtuser.setText(name);
+            txtgmail.setText(email);
+
+            //Uri photoUrl = user.getPhotoUrl();
+            storageReference.child("images/"+ user.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //Toast.makeText(HomeScreenActivity.this, uri.toString(), Toast.LENGTH_LONG).show();
+                    Picasso.get().load(uri.toString()).into(imgAvatar);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        }
+    }
+
     private void init() {
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
@@ -148,6 +196,11 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
         tvSearch = findViewById(R.id.tvSearch);
 
+        navView =  navigationView.getHeaderView(0);
+        txtuser= navView.findViewById(R.id.txtUser);
+        txtgmail= navView.findViewById(R.id.txtGmail);
+        imgAvatar = navView.findViewById(R.id.imgAvatar);
+
     }
 
     private void getWidgets() {
@@ -164,6 +217,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        checkUpdate();
     }
 
     private void addListeners() {
@@ -264,6 +318,12 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     private void prepareMenuData() {
 
+        menuModel = new MenuModel("Home", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
         menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
@@ -298,11 +358,28 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             childList.put(menuModel, null);
         }
 
-        menuModel = new MenuModel("Log out", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
+        if(user == null) {
+            menuModel = new MenuModel("Login", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
         }
+        else {
+
+            menuModel = new MenuModel("Profile user", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+
+            menuModel = new MenuModel("Logout", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+        }
+
 
 
     }
@@ -320,6 +397,32 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                     if (!headerList.get(groupPosition).hasChildren) {
 
                         onBackPressed();
+                    }
+                }
+
+                if(groupPosition == 0 )
+                {
+                    Intent intent = new Intent(SearchableActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
+
+                if(user == null) {
+                    if(groupPosition == 5 ) {
+                        Intent intent = new Intent(SearchableActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }else {
+                    if(groupPosition == 5 )
+                    {
+                        Intent intent = new Intent(SearchableActivity.this, UserActivity.class);
+                        startActivity(intent);
+                    }else
+                    if(groupPosition == 6 ){
+                        auth.signOut();
+                        Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                        intent.putExtra("comic", comic);
+                        intent.putExtra("listType", mListType);
+                        startActivity(intent);
                     }
                 }
 
