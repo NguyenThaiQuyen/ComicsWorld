@@ -13,9 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomeScreenActivity"
-
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,14 +29,18 @@
         <activity android:name=".AddUrlActivity" />
         <activity android:name=".BaseMenu" />
         <activity android:name=".ListComicsActivity" />
-        <activity android:name=".SearchableActivity" >
+        <activity android:name=".SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".UserActivity"></activity>
     </application>
 
 </manifest>

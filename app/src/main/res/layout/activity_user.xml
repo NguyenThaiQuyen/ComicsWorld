@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".UserActivity">
+
+
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:clickable="true"
+        android:layout_width="@dimen/height_list_item"
+        android:layout_height="@dimen/height_list_item"
+        android:layout_centerHorizontal="true"
+        android:background="@android:drawable/ic_menu_edit"
+        android:text="@string/save"
+        android:textColor="@color/colorPrimary" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imgAvatar"
+        android:layout_width="200dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/textCommics"/>
+
+
+    <TextView
+        android:layout_below="@+id/imgAvatar"
+        android:id="@+id/txtUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_padding"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/textCommics"
+        android:textSize="@dimen/name_user"/>
+
+    <TextView
+        android:id="@+id/txtSetName"
+        android:layout_below="@+id/txtUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_bottom_content_comic"
+        android:textColor="@color/textCommics"
+        android:textSize="@dimen/text_size_large"
+        android:layout_centerHorizontal="true"
+        android:text="Set user name:"/>
+
+    <EditText
+        android:id="@+id/edtUseName"
+        android:layout_below="@+id/txtSetName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_bottom_content_comic" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_below="@+id/edtUseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save"
+        android:textColor="@color/colorPrimary" />
+
+    <Button
+        android:layout_below="@+id/btnSave"
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:text="@string/back"
+        android:textColor="@color/textCommics" />
+
+
+</RelativeLayout>

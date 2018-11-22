@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,17 +28,24 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.interfaces.DialogCallback;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -79,6 +88,17 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     FirebaseDatabase mData = FirebaseDatabase.getInstance();
     DatabaseReference dataRef = mData.getReference();
+
+    private FirebaseAuth auth;
+    private FirebaseUser user ;
+
+    private View navView;
+    TextView txtuser, txtgmail;
+    CircleImageView imgAvatar ;
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference();
+
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +110,30 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         getWidgets();
         addListener();
 
-        myRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+    }
 
+    private void checkUpdate() {
 
+        if(user != null ) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
 
+            txtuser.setText(name);
+            txtgmail.setText(email);
+
+            //Uri photoUrl = user.getPhotoUrl();
+            storageReference.child("images/"+ user.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //Toast.makeText(HomeScreenActivity.this, uri.toString(), Toast.LENGTH_LONG).show();
+                    Picasso.get().load(uri.toString()).into(imgAvatar);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        }
     }
 
     public void dialogRate(View view){
@@ -113,17 +153,15 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                     Toast.makeText(MainContentActivity.this, "You have just rated " + ratings + " for this comic" , Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
 
-
                 }
-
-
-
-
             }
         });
     }
 
     private void init() {
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         Intent intent = getIntent();
         comic = (Comic)intent.getSerializableExtra("comic");
@@ -150,6 +188,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         navigationView = findViewById(R.id.nav_view);
         //
 
+        myRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+
         lvChap=findViewById(R.id.lvChap);
         txtAuthor = findViewById(R.id.txtAuthor);
         txtNameComic = findViewById(R.id.txtNameComic);
@@ -158,6 +198,11 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         raBar = findViewById(R.id.raBar);
         imgCover = findViewById(R.id.imvCover);
         btnRead = findViewById(R.id.btnRead);
+
+        navView =  navigationView.getHeaderView(0);
+        txtuser= navView.findViewById(R.id.txtUser);
+        txtgmail= navView.findViewById(R.id.txtGmail);
+        imgAvatar = navView.findViewById(R.id.imgAvatar);
     }
 
     private void getWidgets() {
@@ -180,6 +225,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         raBar.setRating(comic.getRating());
         lvChap.setAdapter(adapterChap);
         Picasso.get().load(comic.getThumb()).into(imgCover);
+
+        checkUpdate();
     }
 
     private void addListener() {
@@ -274,6 +321,12 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     private void prepareMenuData() {
 
+        menuModel = new MenuModel("Home", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
         menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
@@ -307,10 +360,26 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             childList.put(menuModel, null);
         }
 
-        menuModel = new MenuModel("Log out", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
+        if(user == null) {
+            menuModel = new MenuModel("Login", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+        }
+        else {
+
+            menuModel = new MenuModel("Profile user", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+
+            menuModel = new MenuModel("Logout", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
         }
 
 
@@ -329,6 +398,32 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                     if (!headerList.get(groupPosition).hasChildren) {
 
                         onBackPressed();
+                    }
+                }
+
+                if(groupPosition == 0 )
+                {
+                    Intent intent = new Intent(MainContentActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
+
+                if(user == null) {
+                    if(groupPosition == 5 ) {
+                        Intent intent = new Intent(MainContentActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }else {
+                    if(groupPosition == 5 )
+                    {
+                        Intent intent = new Intent(MainContentActivity.this, UserActivity.class);
+                        startActivity(intent);
+                    }else
+                    if(groupPosition == 6 ){
+                        auth.signOut();
+                        Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                        intent.putExtra("comic", comic);
+                        intent.putExtra("listType", mListType);
+                        startActivity(intent);
                     }
                 }
 

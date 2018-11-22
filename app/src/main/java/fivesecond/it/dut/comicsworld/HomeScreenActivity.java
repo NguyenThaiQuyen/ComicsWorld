@@ -2,6 +2,7 @@ package fivesecond.it.dut.comicsworld;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,13 +23,22 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +46,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
@@ -83,6 +94,16 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     private static int currentPage = 0;
     private ArrayList<Slide> mListSlide;
 
+    private FirebaseAuth auth;
+    private FirebaseUser user ;
+
+    private View navView;
+    TextView txtuser, txtgmail;
+    CircleImageView imgAvatar ;
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +113,30 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         setWidgets();
         getWidgets();
         addListeners();
+    }
+
+    private void checkUpdate() {
+
+        if(user != null ) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+
+            txtuser.setText(name);
+            txtgmail.setText(email);
+
+            //Uri photoUrl = user.getPhotoUrl();
+            storageReference.child("images/"+ user.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //Toast.makeText(HomeScreenActivity.this, uri.toString(), Toast.LENGTH_LONG).show();
+                    Picasso.get().load(uri.toString()).into(imgAvatar);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            });
+        }
     }
 
     public ArrayList<Type> getListType()
@@ -106,6 +151,10 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     }
 
     private void inits() {
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
         mListType = new ArrayList<>();
         new LoadType(this).execute();
 
@@ -248,7 +297,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mPager =  findViewById(R.id.pager);
         mRecyclerViewUpdate = findViewById(R.id.recycle_update);
         mRecyclerViewTop = findViewById(R.id.recycle_top);
+
+        navView =  navigationView.getHeaderView(0);
+        txtuser= navView.findViewById(R.id.txtUser);
+        txtgmail= navView.findViewById(R.id.txtGmail);
+        imgAvatar = navView.findViewById(R.id.imgAvatar);
     }
+
 
     private void getWidgets() {
 
@@ -272,6 +327,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mRecyclerViewTop.setLayoutManager(mLayoutManagerTop);
         mRecyclerViewTop.setAdapter(mAdapterTop);
 
+        checkUpdate();
 
     }
 
@@ -343,6 +399,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
     private void prepareMenuData() {
 
+        menuModel = new MenuModel("Home", true, false); //Menu of Android Tutorial. No sub menus
+        headerList.add(menuModel);
+
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
         menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
         headerList.add(menuModel);
 
@@ -373,10 +436,26 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             childList.put(menuModel, null);
         }
 
-        menuModel = new MenuModel("Log out", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
+        if(user == null) {
+            menuModel = new MenuModel("Login", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+        }
+        else {
+
+            menuModel = new MenuModel("Profile user", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
+
+            menuModel = new MenuModel("Logout", true, false); //Menu of Android Tutorial. No sub menus
+            headerList.add(menuModel);
+            if (!menuModel.hasChildren) {
+                childList.put(menuModel, null);
+            }
         }
 
 
@@ -397,6 +476,31 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                         onBackPressed();
                     }
                 }
+
+                if(groupPosition == 0 )
+                {
+                    Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
+
+                if(user == null) {
+                    if(groupPosition == 5 ) {
+                        Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }else {
+                    if(groupPosition == 5 )
+                    {
+                        Intent intent = new Intent(HomeScreenActivity.this, UserActivity.class);
+                        startActivity(intent);
+                    }else
+                    if(groupPosition == 6 ){
+                        auth.signOut();
+                        Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
 
                 return false;
             }
