@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -18,17 +19,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
     private Context context;
     private List<MenuModel> listDataHeader;
-    private HashMap<MenuModel, List<MenuModel>> listDataChild;
+    private HashMap<MenuModel, List<String>> listDataChild;
 
     public ExpandableListAdapter(Context context, List<MenuModel> listDataHeader,
-                                 HashMap<MenuModel, List<MenuModel>> listChildData) {
+                                 HashMap<MenuModel, List<String>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
     }
 
     @Override
-    public MenuModel getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosititon) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
@@ -42,7 +43,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = getChild(groupPosition, childPosition).menuName;
+        final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -86,16 +87,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = getGroup(groupPosition).menuName;
+        MenuModel headerTitle = getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
+        ImageView headerIcon = (ImageView) convertView.findViewById(R.id.iconimage);
         TextView lblListHeader = convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        lblListHeader.setText(headerTitle.getIconName());
+        headerIcon.setImageResource(headerTitle.getIconImg());
 
         return convertView;
     }

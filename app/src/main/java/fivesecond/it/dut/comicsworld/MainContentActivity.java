@@ -77,12 +77,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
-    HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
-
-    MenuModel menuModel;
-    List<MenuModel> childModelsList;
-    MenuModel childModel;
-    MenuModel model;
+    HashMap<MenuModel, List<String>> childList = new HashMap<>();
+    ArrayList<String> childModelsList;
 
     ArrayList<Type> mListType = new ArrayList<>();
 
@@ -321,67 +317,51 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     private void prepareMenuData() {
 
-        menuModel = new MenuModel("Home", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
-        }
+        MenuModel item1 = new MenuModel();
+        item1.setIconName("Home");
+        item1.setIconImg(R.drawable.ic_home);
+        // Adding data header
+        headerList.add(item1);
 
-        menuModel = new MenuModel("Love", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
-        }
-
-        menuModel = new MenuModel("Saved", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
-        }
-
-        menuModel = new MenuModel("Type", true, true); //Menu of Java Tutorials
-        headerList.add(menuModel);
+        MenuModel item2 = new MenuModel();
+        item2.setIconName("Type");
+        item2.setIconImg(R.drawable.ic_type);
+        // Adding data header
+        headerList.add(item2);
 
         childModelsList = new ArrayList<>();
-        for(Type type : mListType)
+        for(Type type: mListType)
         {
-            childModel = new MenuModel(type.getName(), false, false);
-            childModelsList.add(childModel);
+            childModelsList.add(type.getName());
         }
-
-        if (menuModel.hasChildren) {
-            Log.d("API123","here");
-            childList.put(menuModel, childModelsList);
-        }
-
-        menuModel = new MenuModel("Share", true, false); //Menu of Android Tutorial. No sub menus
-        headerList.add(menuModel);
-        if (!menuModel.hasChildren) {
-            childList.put(menuModel, null);
-        }
+        childList.put(headerList.get(1), childModelsList);
 
         if(user == null) {
-            menuModel = new MenuModel("Login", true, false); //Menu of Android Tutorial. No sub menus
-            headerList.add(menuModel);
-            if (!menuModel.hasChildren) {
-                childList.put(menuModel, null);
-            }
+            MenuModel item3 = new MenuModel();
+            item3.setIconName("Login");
+            item3.setIconImg(R.drawable.ic_login);
+            // Adding data header
+            headerList.add(item3);
         }
         else {
+            MenuModel item3 = new MenuModel();
+            item3.setIconName("Loved");
+            item3.setIconImg(R.drawable.ic_heart);
+            // Adding data header
+            headerList.add(item3);
 
-            menuModel = new MenuModel("Profile user", true, false); //Menu of Android Tutorial. No sub menus
-            headerList.add(menuModel);
-            if (!menuModel.hasChildren) {
-                childList.put(menuModel, null);
-            }
+            MenuModel item4 = new MenuModel();
+            item4.setIconName("Profile");
+            item4.setIconImg(R.drawable.ic_user);
+            // Adding data header
+            headerList.add(item4);
 
-            menuModel = new MenuModel("Logout", true, false); //Menu of Android Tutorial. No sub menus
-            headerList.add(menuModel);
-            if (!menuModel.hasChildren) {
-                childList.put(menuModel, null);
-            }
+            MenuModel item5 = new MenuModel();
+            item5.setIconName("Logout");
+            item5.setIconImg(R.drawable.ic_logout);
+            // Adding data header
+            headerList.add(item5);
         }
-
 
     }
 
@@ -394,12 +374,6 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                if (headerList.get(groupPosition).isGroup) {
-                    if (!headerList.get(groupPosition).hasChildren) {
-
-                        onBackPressed();
-                    }
-                }
 
                 if(groupPosition == 0 )
                 {
@@ -408,17 +382,17 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 }
 
                 if(user == null) {
-                    if(groupPosition == 5 ) {
+                    if(groupPosition == 2 ) {
                         Intent intent = new Intent(MainContentActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
                 }else {
-                    if(groupPosition == 5 )
+                    if(groupPosition == 3 )
                     {
                         Intent intent = new Intent(MainContentActivity.this, UserActivity.class);
                         startActivity(intent);
                     }else
-                    if(groupPosition == 6 ){
+                    if(groupPosition == 4 ){
                         auth.signOut();
                         Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
                         intent.putExtra("comic", comic);
@@ -436,7 +410,6 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
-                    model = childList.get(headerList.get(groupPosition)).get(childPosition);
                     Intent intent = new Intent(MainContentActivity.this, ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);
