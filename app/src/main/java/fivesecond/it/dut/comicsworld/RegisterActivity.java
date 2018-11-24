@@ -35,7 +35,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         inits();
-        sets();
+        setWidgets();
+        getWidgets();
         addListener();
 
     }
@@ -43,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void inits() {
     }
 
-    private void sets() {
+    private void setWidgets() {
         edtEmail = findViewById(R.id.edt_email);
         edtPass = findViewById(R.id.edt_pass);
         edtConfirm = findViewById(R.id.edtConfirm);
@@ -59,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void gets() {
+    private void getWidgets() {
 
         email = edtEmail.getText().toString().trim();
         password = edtPass.getText().toString().trim();
@@ -67,29 +68,29 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
         if (isEmpty(email)) {
-            edtEmail.setError("Email is requried !");
+            edtEmail.setError(getResources().getString(R.string.email_requried));
             edtEmail.requestFocus();
             return;
         }
 
         if (isEmpty(password)) {
-            edtPass.setError("Password is requried !");
+            edtPass.setError(getResources().getString(R.string.password_requried));
             edtPass.requestFocus();
             return;
         }
 
         if (isEmpty(confirmPassword)) {
-            Toast.makeText(getApplicationContext(), "Enter Confirm password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_confirm_requried), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!confirmPassword.equals(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password is same above", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_same_requried), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.input_again_pass), Toast.LENGTH_SHORT).show();
             return;
         }
     }
@@ -99,20 +100,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister: {
-                gets();
-                final ProgressDialog mProgressDialog = ProgressDialog.show(RegisterActivity.this, "Please wait...", "Processing...", true);
+                getWidgets();
+                final ProgressDialog mProgressDialog = ProgressDialog.show(RegisterActivity.this, getResources().getString(R.string.wait), getResources().getString(R.string.processing), true);
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 mProgressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "Register successfull!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register), Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 }else{
                                     //Log.e("ERROR", task.getException().toString());
                                     FirebaseAuthException e = (FirebaseAuthException )task.getException();
-                                    Toast.makeText(RegisterActivity.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register_faile) + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     //Toast.makeText(RegisterActivity.this, "Register failed!", Toast.LENGTH_SHORT).show();
                                 }
                             }
