@@ -1,0 +1,64 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="height_header">50dp</dimen>
+    <dimen name="padding_header">10dp</dimen>
+    <dimen name="menu_header">25dp</dimen>
+    <dimen name="user_header">25dp</dimen>
+    <dimen name="search_header">25dp</dimen>
+    <dimen name="type_header">20sp</dimen>
+    <dimen name="margin_search_user">10dp</dimen>
+    <dimen name="padding_content">10dp</dimen>
+    <dimen name="margin_bar">15dp</dimen>
+    <dimen name="text_size_bar">19sp</dimen>
+
+    <dimen name="padding_comic">8dp</dimen>
+    <dimen name="height_list_item">30dp</dimen>
+    <dimen name="height_list_group">45dp</dimen>
+    <dimen name="margin_bottom_comic">15dp</dimen>
+    <dimen name="thubnail_width">195dp</dimen>
+    <dimen name="thumbnail_height">220dp</dimen>
+    <dimen name="margin_right_thumbnail">15dp</dimen>
+    <dimen name="text_size_title">27sp</dimen>
+    <dimen name="text_size_author">23sp</dimen>
+    <dimen name="text_size_desc">23sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="text_size_title1">18sp</dimen>
+    <dimen name="text_size_nameComic">15sp</dimen>
+
+    <dimen name="edt_margin_left">15dp</dimen>
+    <dimen name="edt_margin_right">15dp</dimen>
+    <dimen name="edt_margin_top">15dp</dimen>
+    <dimen name="edt_margin_bottom">15dp</dimen>
+
+    <dimen name="logo">60sp</dimen>0
+
+    <dimen name="text_padding">10dp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_question_icon">25sp</dimen>
+    <dimen name="sign_up_margin_bottom">25dp</dimen>
+
+    <dimen name="padding_content_comic">8dp</dimen>
+    <dimen name="margin_bottom_content_comic">8dp</dimen>
+    <dimen name="text_size_start">18sp</dimen>
+    <dimen name="padding_start">8dp</dimen>
+    <dimen name="text_size_logo">55sp</dimen>
+    <dimen name="mar_top_logo">40dp</dimen>
+    <dimen name="l_mar_bottom_start">60dp</dimen>
+    <dimen name="text_size_search_label">22sp</dimen>
+    <dimen name="padding_sm_content_read">8dp</dimen>
+
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="name_user">40sp</dimen>
+
+
+
+</resources>
