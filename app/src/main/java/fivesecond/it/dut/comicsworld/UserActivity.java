@@ -161,7 +161,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(UserActivity.this, "User profile updated successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserActivity.this, getResources().getString(R.string.update_profile), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -171,7 +171,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_img)), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -197,7 +197,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
+            progressDialog.setTitle(getResources().getString(R.string.uploading));
             progressDialog.show();
 
             StorageReference ref = storageReference.child("images/"+user.getUid());
@@ -206,14 +206,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(UserActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserActivity.this, getString(R.string.uploaded), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(UserActivity.this, "Failed "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserActivity.this, getString(R.string.failed)+ e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -221,7 +221,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                                     .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded "+(int)progress+"%");
+                            progressDialog.setMessage(getString(R.string.uploaded) +(int)progress+"%");
                         }
                     });
         }

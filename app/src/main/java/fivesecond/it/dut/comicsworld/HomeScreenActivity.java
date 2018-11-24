@@ -398,13 +398,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
 
         MenuModel item1 = new MenuModel();
-        item1.setIconName("Home");
+        item1.setIconName(getResources().getString(R.string.home));
         item1.setIconImg(R.drawable.ic_home);
         // Adding data header
         headerList.add(item1);
 
         MenuModel item2 = new MenuModel();
-        item2.setIconName("Type");
+        item2.setIconName(getResources().getString(R.string.type));
         item2.setIconImg(R.drawable.ic_type);
         // Adding data header
         headerList.add(item2);
@@ -415,26 +415,26 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
         if(user == null) {
             MenuModel item3 = new MenuModel();
-            item3.setIconName("Login");
+            item3.setIconName(getResources().getString(R.string.login));
             item3.setIconImg(R.drawable.ic_login);
             // Adding data header
             headerList.add(item3);
         }
         else {
             MenuModel item3 = new MenuModel();
-            item3.setIconName("Loved");
+            item3.setIconName(getResources().getString(R.string.loved));
             item3.setIconImg(R.drawable.ic_heart);
             // Adding data header
             headerList.add(item3);
 
             MenuModel item4 = new MenuModel();
-            item4.setIconName("Profile");
+            item4.setIconName(getResources().getString(R.string.profile));
             item4.setIconImg(R.drawable.ic_user);
             // Adding data header
             headerList.add(item4);
 
             MenuModel item5 = new MenuModel();
-            item5.setIconName("Logout");
+            item5.setIconName(getResources().getString(R.string.logout));
             item5.setIconImg(R.drawable.ic_logout);
             // Adding data header
             headerList.add(item5);
