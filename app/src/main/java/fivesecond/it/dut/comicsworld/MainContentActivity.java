@@ -133,25 +133,33 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     }
 
     public void dialogRate(View view){
-        GlobalUtils.dialogRate(this, new DialogCallback() {
-            @Override
-            public void callback(int ratings) {
+        if(user != null )
+        {
+            GlobalUtils.dialogRate(this, new DialogCallback() {
+                @Override
+                public void callback(int ratings) {
 
-               float resultRating = (ratings + comic.getRating() * comic.getNumberRating()) / (comic.getNumberRating() + 1);
-                comic.setRating(resultRating);
-                comic.setNumberRating(comic.getNumberRating()+1);
+                    float resultRating = (ratings + comic.getRating() * comic.getNumberRating()) / (comic.getNumberRating() + 1);
+                    comic.setRating(resultRating);
+                    comic.setNumberRating(comic.getNumberRating()+1);
 
-                raBar.setRating(resultRating);
+                    raBar.setRating(resultRating);
 
-                try
-                {
-                    dataRef.child("comics").child(String.valueOf(comic.getId())).setValue(comic);
-                    Toast.makeText(MainContentActivity.this, "You have just rated " + ratings + " for this comic" , Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
+                    try
+                    {
+                        dataRef.child("comics").child(String.valueOf(comic.getId())).setValue(comic);
+                        Toast.makeText(MainContentActivity.this, "You have just rated " + ratings + " for this comic" , Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
 
+                    }
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            Toast.makeText(this, "Please login to rate it", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 
