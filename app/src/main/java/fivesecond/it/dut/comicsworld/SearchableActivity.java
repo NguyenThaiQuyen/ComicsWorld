@@ -392,7 +392,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                     }else
                     if(groupPosition == 4 ){
                         auth.signOut();
-                        Intent intent = new Intent(getApplicationContext(), SearchableActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
                         intent.putExtra("query","a");
                         intent.putExtra("listType", mListType);
                         startActivity(intent);
