@@ -1,5 +1,6 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private static final String myref = "currentComic";
     private String language;
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.clear().apply();
                 Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 showSelectLanguage();
             }
         });
+
         if (sharedPreferences.contains("urlComic")) {
             btnContinue.setVisibility(View.VISIBLE);
            btnContinue.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         switch (which) {
+                            case 0:
+                                language = "en";
+                                break;
                             case 1: //VI
                                 language = "vi";
                                 break;

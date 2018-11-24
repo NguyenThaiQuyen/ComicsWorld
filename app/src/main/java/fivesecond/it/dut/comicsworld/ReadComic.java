@@ -202,7 +202,10 @@ public class ReadComic extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear().apply();
+        editor.remove("urlComic");
+        editor.remove("chap");
+        editor.remove("totalChap");
+        editor.apply();
         super.onBackPressed();
     }
 }

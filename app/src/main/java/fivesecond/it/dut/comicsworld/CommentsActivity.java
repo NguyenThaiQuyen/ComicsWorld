@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -56,7 +58,9 @@ public class CommentsActivity extends AppCompatActivity {
         inits();
         getWidgets();
         setWidgets();
+        addListeners();
     }
+
 
     private void inits() {
         auth = FirebaseAuth.getInstance();
@@ -135,9 +139,10 @@ public class CommentsActivity extends AppCompatActivity {
         if(user != null)
         {
             String content = add_comment.getText().toString();
+            String id = databaseReference.push().getKey();
 
-            Comment comment = new Comment(content, idComic, user.getUid());
-               databaseReference.child("comments").push().setValue(comment);
+            Comment comment = new Comment(id, content, idComic, user.getUid());
+            databaseReference.child("comments").child(id).setValue(comment);
                add_comment.setText("");
         }
         else
@@ -146,4 +151,20 @@ public class CommentsActivity extends AppCompatActivity {
         }
 
     }
+
+    private void addListeners() {
+        lvCommment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(user != null) {
+                    databaseReference.child("comments").child(mListComment.get(position).getId()).removeValue();
+                    mListComment.remove(position);
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(CommentsActivity.this, getResources().getString(R.string.delete_cmt), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+    }
+
 }

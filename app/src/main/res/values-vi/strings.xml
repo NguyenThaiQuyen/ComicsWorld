@@ -71,4 +71,6 @@
 
     <string name="toast_rating">Đăng nhập trước khi đánh giá !!!</string>
     <string name="toast_cmt">Đăng nhập trước khi bình luận </string>
+    <string name="delete_cmt">Xóa bình luận thành công</string>
+
 </resources>

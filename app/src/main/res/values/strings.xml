@@ -71,6 +71,7 @@
     <string name="toast_end"> start(s)for this comic</string>
     <string name="toast_rating">Please login before rating me</string>
     <string name="toast_cmt">Please login to comment</string>
+    <string name="delete_cmt">Delete comment successfully</string>
 
 
 

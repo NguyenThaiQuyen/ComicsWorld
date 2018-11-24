@@ -1,6 +1,7 @@
 package fivesecond.it.dut.comicsworld.models;
 
 public class Comment {
+    private String id;
     private String content;
     private String idComic;
     private String idUser;
@@ -9,10 +10,19 @@ public class Comment {
 
     }
 
-    public Comment(String content, String idComic, String idUser) {
+    public Comment(String id, String content, String idComic, String idUser) {
+        this.id = id;
         this.content = content;
         this.idComic = idComic;
         this.idUser = idUser;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -42,7 +52,8 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "content='" + content + '\'' +
+                "id='" + id + '\'' +
+                ", content='" + content + '\'' +
                 ", idComic='" + idComic + '\'' +
                 ", idUser='" + idUser + '\'' +
                 '}';
