@@ -16,8 +16,6 @@
     <string name="logo">Comics World</string>
 
     <string name="hint_email_phone">email</string>
-    <string name="CancelRating">Để sau</string>
-    <string name="OkRating">Đánh giá</string>
 
     <string name="searchTitle">Tìm kiếm</string>
     <string name="start_reading">BẮT ĐẦU</string>
@@ -38,7 +36,6 @@
     <string name="Forgot">Quên mật khẩu</string>
     <string name="Note">Chúng tôi chỉ cần Id Email đã đăng ký của bạn để gửi cho bạn hướng dẫn đặt lại mật khẩu.</string>
     <string name="save">Lưu thay đổi</string>
-    <string name="title_dialog">How do you feel about me</string>
     <string name="change_language">CHỌN NGÔN NGỮ</string>
 
     <string name="english">Tiếng anh</string>
@@ -59,7 +56,7 @@
     <string name="read">Đọc</string>
 
     <string name="chapter">Chương</string>
-    <string name="des">Nội dung chính</string>
+    <string name="des">Nội dung chính: </string>
 
     <string name="set_user">Đặt tên người dùng: </string>
     <string name="update_profile">Cập nhật trang cá nhân thành công </string>
@@ -69,8 +66,8 @@
     <string name="failed">Tải bị lỗi</string>
     <string name="submit">Đánh giá</string>
 
-    <string name="toast_begin">Bạn vừa đánh giá  </string>
-    <string name="toast_end"> cho truyện này</string>
+    <string name="toast_begin">Bạn vừa đánh giá </string>
+    <string name="toast_end"> sao cho truyện này</string>
 
-
+    <string name="toast_rating">Đăng nhập trước khi đánh giá !!!</string>
 </resources>

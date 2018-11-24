@@ -16,8 +16,7 @@
     <string name="logo">Comics World</string>
 
     <string name="hint_email_phone">Email</string>
-    <string name="CancelRating">Để sau</string>
-    <string name="OkRating">Đánh giá</string>
+
 
     <string name="searchTitle">Search</string>
     <string name="start_reading"> START EXPLORING </string>
@@ -38,19 +37,19 @@
     <string name="Forgot">Forgot password</string>
     <string name="Note">We just need your registered Email Id to sent you password reset instructions. </string>
     <string name="save">Save change</string>
-    <string name="title_dialog">How do you feel about me</string>
+
     <string name="change_language">Select Language</string>
 
     <string name="english">English</string>
     <string name="vietnamese">Vietnamese</string>
-    <string name="title_dialog_main">Chọn ngôn ngữ</string>
+    <string name="title_dialog_main">Select language</string>
 
     <string name="new_update"> New update</string>
     <string name="top_rating">Top rating</string>
 
     <string name="home">Home</string>
     <string name="type">Type</string>
-    <string name="loved">Type</string>
+    <string name="loved">Loved</string>
     <string name="login">Login</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
@@ -59,7 +58,7 @@
     <string name="read">Read</string>
 
     <string name="chapter">Chapter</string>
-    <string name="des">Description</string>
+    <string name="des">Description: </string>
 
     <string name="set_user">Set user name: </string>
     <string name="update_profile">User profile updated successfully! </string>
@@ -69,7 +68,8 @@
     <string name="failed">Failed</string>
     <string name="submit">Submit</string>
     <string name="toast_begin">You have just rated </string>
-    <string name="toast_end"> for this comic</string>
+    <string name="toast_end"> start(s)for this comic</string>
+    <string name="toast_rating">Please login before rating me</string>
 
 
 

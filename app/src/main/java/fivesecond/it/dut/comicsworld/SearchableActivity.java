@@ -68,7 +68,6 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
     ArrayList<Comic> mBackup;
     ListViewAdapder mAdapter;
     String queryCon;
-    Comic comic;
     boolean mFirstSearch;
 
     private FirebaseAuth auth;
@@ -129,6 +128,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
         Intent intent = getIntent();
         queryCon = intent.getStringExtra("query");
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
         mFirstSearch = true;
 
         DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
@@ -175,7 +175,6 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             }
         });
 
-        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
     }
 
 
@@ -327,7 +326,11 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
         headerList.add(item2);
 
         childModelsList = new ArrayList<>();
-
+        for(Type type: mListType)
+        {
+            childModelsList.add(type.getName());
+        }
+        childList.put(headerList.get(1), childModelsList);
 
 
         if(user == null) {

@@ -133,25 +133,33 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     }
 
     public void dialogRate(View view){
-        GlobalUtils.dialogRate(this, new DialogCallback() {
-            @Override
-            public void callback(int ratings) {
+        if(user != null)
+        {
+            GlobalUtils.dialogRate(this, new DialogCallback() {
+                @Override
+                public void callback(int ratings) {
 
-               float resultRating = (ratings + comic.getRating() * comic.getNumberRating()) / (comic.getNumberRating() + 1);
-                comic.setRating(resultRating);
-                comic.setNumberRating(comic.getNumberRating()+1);
+                    float resultRating = (ratings + comic.getRating() * comic.getNumberRating()) / (comic.getNumberRating() + 1);
+                    comic.setRating(resultRating);
+                    comic.setNumberRating(comic.getNumberRating()+1);
 
-                raBar.setRating(resultRating);
+                    raBar.setRating(resultRating);
 
-                try
-                {
-                    dataRef.child("comics").child(String.valueOf(comic.getId())).setValue(comic);
-                    Toast.makeText(MainContentActivity.this, "You have just rated " + ratings + " for this comic" , Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
+                    try
+                    {
+                        dataRef.child("comics").child(String.valueOf(comic.getId())).setValue(comic);
+                        Toast.makeText(MainContentActivity.this, getResources().getString(R.string.toast_begin) + " " + ratings + " " + getResources().getString(R.string.toast_end) , Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
 
+                    }
                 }
-            }
-        });
+            });
+
+        }
+        else
+        {
+            Toast.makeText(this, getResources().getString(R.string.toast_rating), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -167,7 +175,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         chap = new ArrayList<>();
         for(int i = comic.getChap(); i >= 1 ; i--)
         {
-            chap.add("Chapter " + String.valueOf(i));
+            chap.add(getResources().getString(R.string.chapter) + " " + String.valueOf(i));
         }
 
         adapterChap  = new ArrayAdapter<String>(this , android.R.layout.simple_list_item_1,chap);
@@ -215,7 +223,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         toggle.syncState();
 
         //
-        txtChap.setText("Chapter (" + comic.getChap() + ")");
+        txtChap.setText(getResources().getString(R.string.chapter)+ " (" + comic.getChap() + ")");
         txtNameComic.setText(comic.getName());
         txtAuthor.setText(comic.getAuthor());
         txtMain.setText(comic.getDesc());
@@ -319,13 +327,13 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     private void prepareMenuData() {
 
         MenuModel item1 = new MenuModel();
-        item1.setIconName("Home");
+        item1.setIconName(getResources().getString(R.string.home));
         item1.setIconImg(R.drawable.ic_home);
         // Adding data header
         headerList.add(item1);
 
         MenuModel item2 = new MenuModel();
-        item2.setIconName("Type");
+        item2.setIconName(getResources().getString(R.string.type));
         item2.setIconImg(R.drawable.ic_type);
         // Adding data header
         headerList.add(item2);
@@ -337,32 +345,34 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         }
         childList.put(headerList.get(1), childModelsList);
 
+
         if(user == null) {
             MenuModel item3 = new MenuModel();
-            item3.setIconName("Login");
+            item3.setIconName(getResources().getString(R.string.login));
             item3.setIconImg(R.drawable.ic_login);
             // Adding data header
             headerList.add(item3);
         }
         else {
             MenuModel item3 = new MenuModel();
-            item3.setIconName("Loved");
+            item3.setIconName(getResources().getString(R.string.loved));
             item3.setIconImg(R.drawable.ic_heart);
             // Adding data header
             headerList.add(item3);
 
             MenuModel item4 = new MenuModel();
-            item4.setIconName("Profile");
+            item4.setIconName(getResources().getString(R.string.profile));
             item4.setIconImg(R.drawable.ic_user);
             // Adding data header
             headerList.add(item4);
 
             MenuModel item5 = new MenuModel();
-            item5.setIconName("Logout");
+            item5.setIconName(getResources().getString(R.string.logout));
             item5.setIconImg(R.drawable.ic_logout);
             // Adding data header
             headerList.add(item5);
         }
+
 
     }
 

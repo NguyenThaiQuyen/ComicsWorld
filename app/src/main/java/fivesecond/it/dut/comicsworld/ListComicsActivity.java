@@ -313,7 +313,11 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
         headerList.add(item2);
 
         childModelsList = new ArrayList<>();
-
+        for(Type type: mListType)
+        {
+            childModelsList.add(type.getName());
+        }
+        childList.put(headerList.get(1), childModelsList);
 
 
         if(user == null) {

@@ -19,15 +19,17 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnStart, btnChange, btnContinue;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private static final String myref = "currentComic";
-
+    private String language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
-        String language = sharedPreferences.getString("KEY_LANGUAGE", "en");
+        language = sharedPreferences.getString("KEY_LANGUAGE", "en");
         setLanguage(language);
 
         setContentView(R.layout.activity_main);
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear().apply();
                 Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String language = "en";
                         switch (which) {
                             case 1: //VI
                                 language = "vi";
@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                         setLanguage(language);
 
                         //save
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("KEY_LANGUAGE", language);
                         editor.apply();
 
