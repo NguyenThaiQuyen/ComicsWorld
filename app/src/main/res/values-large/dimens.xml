@@ -65,4 +65,25 @@
 
 
 
+
+    <dimen name="size_comic">35sp</dimen>
+    <dimen name="size_authur">23sp</dimen>
+    <dimen name="size_button">20sp</dimen>
+    <dimen name="height_button_read">50dp</dimen>
+    <dimen name="size_discrip">30sp</dimen>
+    <dimen name="size_main">26sp</dimen>
+    <dimen name="margin_right_read_lend">30dp</dimen>
+    <dimen name="layout_margin_read">15dp</dimen>
+    <dimen name="pading_rating">10dp</dimen>
+    <dimen name="margin_top_tacgia">-10dp</dimen>
+    <dimen name="size_numberchap">25sp</dimen>
+    <dimen name="size_heightchap">57dp</dimen>
+    <dimen name="margin_read_lend">15dp</dimen>
+    <dimen name="margin_read">15dp</dimen>
+
+    <dimen name="margin_right_button">10dp</dimen>
+
+
+
+
 </resources>
