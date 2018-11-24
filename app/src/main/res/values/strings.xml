@@ -70,6 +70,7 @@
     <string name="toast_begin">You have just rated </string>
     <string name="toast_end"> start(s)for this comic</string>
     <string name="toast_rating">Please login before rating me</string>
+    <string name="toast_cmt">Please login to comment</string>
 
     <string name="input_again_pass">Password too short, enter minimum 6 characters!</string>
     <string name="input_email">Enter email</string>

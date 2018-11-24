@@ -1,24 +1,18 @@
 package fivesecond.it.dut.comicsworld.models;
 
 public class Comment {
-    private int id;
     private String content;
-    private int idUser;
-    private int idComment;
+    private String idComic;
+    private String idUser;
 
-    public Comment(int id, String content, int idUser, int idComment) {
-        this.id = id;
+    public Comment(){
+
+    }
+
+    public Comment(String content, String idComic, String idUser) {
         this.content = content;
+        this.idComic = idComic;
         this.idUser = idUser;
-        this.idComment = idComment;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getContent() {
@@ -29,29 +23,28 @@ public class Comment {
         this.content = content;
     }
 
-    public int getIdUser() {
+    public String getIdComic() {
+        return idComic;
+    }
+
+    public void setIdComic(String idComic) {
+        this.idComic = idComic;
+    }
+
+    public String getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
-    }
-
-    public int getIdComment() {
-        return idComment;
-    }
-
-    public void setIdComment(int idComment) {
-        this.idComment = idComment;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", idUser=" + idUser +
-                ", idComment=" + idComment +
+                "content='" + content + '\'' +
+                ", idComic='" + idComic + '\'' +
+                ", idUser='" + idUser + '\'' +
                 '}';
     }
 }

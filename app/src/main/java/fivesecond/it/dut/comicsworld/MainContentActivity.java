@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fivesecond.it.dut.comicsworld.adapters.ChapAdapter;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.interfaces.DialogCallback;
 import fivesecond.it.dut.comicsworld.models.Comic;
@@ -175,10 +176,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         chap = new ArrayList<>();
         for(int i = comic.getChap(); i >= 1 ; i--)
         {
-            chap.add(getResources().getString(R.string.chapter) + " " + String.valueOf(i));
+            chap.add("Chapter " + String.valueOf(i));
         }
-
-        adapterChap  = new ArrayAdapter<String>(this , android.R.layout.simple_list_item_1,chap);
     }
 
 
@@ -208,6 +207,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         txtuser= navView.findViewById(R.id.txtUser);
         txtgmail= navView.findViewById(R.id.txtGmail);
         imgAvatar = navView.findViewById(R.id.imgAvatar);
+
     }
 
     private void getWidgets() {
@@ -229,7 +229,11 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         txtMain.setText(comic.getDesc());
         raBar.setRating(comic.getRating());
         lvChap.setAdapter(adapterChap);
+
         Picasso.get().load(comic.getThumb()).into(imgCover);
+
+        ChapAdapter adapter = new ChapAdapter(chap , MainContentActivity.this);
+        lvChap.setAdapter(adapter);
 
         checkUpdate();
     }
@@ -433,4 +437,11 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         });
     }
 
+    public void addComment(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
+        intent.putExtra("idComic",comic.getId());
+        startActivity(intent);
+
+    }
 }

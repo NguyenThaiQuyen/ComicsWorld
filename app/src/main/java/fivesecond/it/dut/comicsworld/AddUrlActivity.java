@@ -35,13 +35,13 @@ public class AddUrlActivity extends AppCompatActivity {
         final DatabaseReference dataRef = mData.getReference();
 
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference();
+        final StorageReference storageReference = firebaseStorage.getReference();
 
 
 
-        final String comic = "18";
+        final String comic = "6";
         final String chap = "2";
-        final int max = 14;
+        final int max = 17;
 
         for(int i = 1; i <= max; i++)
         {
@@ -57,7 +57,7 @@ public class AddUrlActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-
+                    Toast.makeText(AddUrlActivity.this, "fail", Toast.LENGTH_SHORT).show();
 
                 }
 
