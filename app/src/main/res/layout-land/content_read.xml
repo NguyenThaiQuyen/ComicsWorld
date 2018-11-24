@@ -152,6 +152,7 @@
                         android:textStyle="bold"
                         android:textColor="#fff"
                         android:background="@color/bgHeader"
+                        android:onClick="addComment"
                         />
 
                 </LinearLayout>
