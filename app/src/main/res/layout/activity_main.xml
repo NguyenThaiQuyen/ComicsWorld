@@ -6,38 +6,6 @@
     android:background="@drawable/bg"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_btn_start"
-        android:text="@string/start_reading"
-        android:textColor="@color/bgHeader"
-        android:textSize="@dimen/text_size_start"
-        android:padding="@dimen/padding_start"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/l_mar_bottom_start"
-        />
-
-    <Button
-        android:id="@+id/btnContinue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnStart"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/border_btn_start"
-        android:text="@string/continue_reading"
-        android:textColor="@color/bgHeader"
-        android:textSize="@dimen/text_size_start"
-        android:padding="@dimen/padding_start"
-        android:textStyle="bold"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
-
-
-
     <TextView
         android:id="@+id/txtTopic"
         android:layout_width="match_parent"
@@ -47,8 +15,54 @@
         android:layout_marginRight="@dimen/edt_margin_right"
         android:layout_marginTop="@dimen/mar_top_logo"
         android:text="@string/logo"
-        android:textSize="@dimen/text_size_logo"
+        android:textSize="@dimen/text_size_logo_main"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
         android:gravity="center"/>
+
+    <Button
+        android:layout_above="@id/btnChange"
+        android:id="@+id/btnContinue"
+        android:layout_width="@dimen/large_button"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/border_btn_start"
+        android:text="@string/continue_reading"
+        android:textColor="@color/bgHeader"
+        android:textSize="@dimen/text_size_start"
+        android:padding="@dimen/padding_start"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnChange"
+        android:layout_width="@dimen/large_button"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnStart"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="104dp"
+        android:background="@drawable/border_btn_start"
+        android:padding="@dimen/padding_start"
+        android:text="@string/change_language"
+        android:textColor="@color/bgHeader"
+        android:textSize="@dimen/text_size_start"
+        android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="@dimen/large_button"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/border_btn_start"
+        android:padding="@dimen/padding_start"
+        android:text="@string/start_reading"
+        android:textColor="@color/bgHeader"
+        android:textSize="@dimen/text_size_start"
+        android:textStyle="bold" />
+
 </RelativeLayout>

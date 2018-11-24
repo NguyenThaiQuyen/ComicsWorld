@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="New update"
+                android:text="@string/new_update"
                 android:textColor="@color/bgHeader"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_title1"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Top Rating"
+                android:text="@string/top_rating"
                 android:textStyle="bold"
                 android:textColor="@color/bgHeader"
                 android:textSize="@dimen/text_size_title1" />

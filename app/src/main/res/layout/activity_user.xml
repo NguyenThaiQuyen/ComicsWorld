@@ -57,7 +57,7 @@
         android:layout_marginEnd="@dimen/margin_bottom_content_comic"
         android:layout_marginRight="@dimen/margin_bottom_content_comic"
         android:layout_marginBottom="@dimen/margin_bottom_content_comic"
-        android:text="Set user name:"
+        android:text="@string/set_user"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold" />

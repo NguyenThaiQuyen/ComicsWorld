@@ -21,7 +21,7 @@
         android:background="@color/bgHeader"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:text="Submit"/>
+        android:text="@string/submit"/>
 
 
 </LinearLayout>
