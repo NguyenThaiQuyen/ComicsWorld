@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">ComicsWorld</string>
+    <string name="title_activity_home_screen">ComicsWorld</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Fivesecond</string>
+    <string name="nav_header_subtitle">fivesecond.it.dut.comicsworld</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="type_header">Hành động</string>
+    <string name="top">Top</string>
+    <string name="popular">Phổ biến</string>
+    <string name="rated">Đánh giá</string>
+
+    <string name="logo">Comics World</string>
+
+    <string name="hint_email_phone">email</string>
+
+    <string name="searchTitle">Tìm kiếm</string>
+    <string name="start_reading">BẮT ĐẦU</string>
+    <string name="search_for">Tìm kiếm</string>
+    <string name="next">tiếp</string>
+    <string name="pre">trước</string>
+    <string name="continue_reading">TIẾP TỤC</string>
+
+    <string name="Not_Login">Không phải là thành viên. Đăng kí </string>
+    <string name="Not_Register">Đã đăng kí. Đăng nhập! </string>
+    <string name="text_register">Đăng kí </string>
+    <string name="text_login">Đăng nhập</string>
+    <string name="text_reset">Đặt lại mật khẩu</string>
+    <string name="hint_confirmpass">Xác nhận lại mât khẩu</string>
+    <string name="hint_pass">Mật khẩu</string>
+
+    <string name="back">Quay lại </string>
+    <string name="Forgot">Quên mật khẩu</string>
+    <string name="Note">Chúng tôi chỉ cần Id Email đã đăng ký của bạn để gửi cho bạn hướng dẫn đặt lại mật khẩu.</string>
+    <string name="save">Lưu thay đổi</string>
+    <string name="change_language">CHỌN NGÔN NGỮ</string>
+
+    <string name="english">Tiếng anh</string>
+    <string name="vietnamese">Tiếng việt</string>
+    <string name="title_dialog_main">Chọn ngôn ngữ</string>
+
+    <string name="new_update">Truyện mới</string>
+    <string name="top_rating">Đánh giá cao</string>
+
+    <string name="home">Trang chủ</string>
+    <string name="type">Thể loại</string>
+    <string name="login">Đăng nhập</string>
+    <string name="loved">Yêu thích</string>
+    <string name="profile">Trang cá nhân</string>
+    <string name="logout">Đăng xuất</string>
+
+    <string name="rate">Đánh giá</string>
+    <string name="read">Đọc</string>
+
+    <string name="chapter">Chương</string>
+    <string name="des">Nội dung chính: </string>
+
+    <string name="set_user">Đặt tên người dùng: </string>
+    <string name="update_profile">Cập nhật trang cá nhân thành công </string>
+    <string name="select_img">Chọn ảnh</string>
+    <string name="uploading">Đang tải...</string>
+    <string name="uploaded">Đã tải lên</string>
+    <string name="failed">Tải bị lỗi</string>
+    <string name="submit">Đánh giá</string>
+
+    <string name="toast_begin">Bạn vừa đánh giá </string>
+    <string name="toast_end"> sao cho truyện này</string>
+
+    <string name="toast_rating">Đăng nhập trước khi đánh giá !!!</string>
+</resources>

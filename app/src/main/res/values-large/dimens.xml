@@ -21,17 +21,19 @@
     <dimen name="height_list_item">30dp</dimen>
     <dimen name="height_list_group">45dp</dimen>
     <dimen name="margin_bottom_comic">15dp</dimen>
-    <dimen name="thubnail_width">95dp</dimen>
-    <dimen name="thumbnail_height">120dp</dimen>
+
+    <dimen name="thubnail_width">175dp</dimen>
+    <dimen name="thumbnail_height">200dp</dimen>
     <dimen name="margin_right_thumbnail">15dp</dimen>
-    <dimen name="text_size_title">16sp</dimen>
-    <dimen name="text_size_author">11sp</dimen>
-    <dimen name="text_size_desc">13sp</dimen>
+    <dimen name="text_size_title">27sp</dimen>
+    <dimen name="text_size_author">23sp</dimen>
+    <dimen name="text_size_desc">23sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="text_size_title1">25sp</dimen>
-    <dimen name="text_size_nameComic">      20sp</dimen>
+    <dimen name="text_size_title1">18sp</dimen>
+    <dimen name="text_size_nameComic">15sp</dimen>
+
 
     <dimen name="edt_margin_left">15dp</dimen>
     <dimen name="edt_margin_right">15dp</dimen>
@@ -53,7 +55,9 @@
     <dimen name="text_size_logo">55sp</dimen>
     <dimen name="mar_top_logo">40dp</dimen>
     <dimen name="l_mar_bottom_start">60dp</dimen>
-    <dimen name="text_size_search_label">17sp</dimen>
+
+    <dimen name="text_size_search_label">22sp</dimen>
+
     <dimen name="padding_sm_content_read">8dp</dimen>
 
     <dimen name="margin_small">5dp</dimen>
