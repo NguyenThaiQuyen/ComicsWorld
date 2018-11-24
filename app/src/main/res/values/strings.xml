@@ -38,6 +38,7 @@
     <string name="Forgot">Forgot password</string>
     <string name="Note">We just need your registered Email Id to sent you password reset instructions. </string>
     <string name="save">Save change</string>
+    <string name="title_dialog">How do you feel about me</string>
 
 
 </resources>

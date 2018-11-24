@@ -25,7 +25,7 @@ public class GlobalUtils {
         View v = inflater.inflate(R.layout.dialog_rate, null);
 
         dialog.setContentView(v);
-
+        dialog.setTitle("Hello");
         Button btnSubmit = (Button) dialog.findViewById(R.id.submit);
 
         SmileRating smileRating = (SmileRating) dialog.findViewById(R.id.smile_rating);
@@ -74,6 +74,7 @@ public class GlobalUtils {
                 dialog.dismiss();
             }
         });
+
         dialog.show();
 
 

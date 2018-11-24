@@ -152,6 +152,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                 }
             }
         });
+
     }
 
     private void init() {
