@@ -34,7 +34,7 @@
     <string name="hint_pass">Password</string>
 
     <string name="back">Back </string>
-    <string name="Forgot">Forgot password</string>
+    <string name="Forgot">Forgot password?</string>
     <string name="Note">We just need your registered Email Id to sent you password reset instructions. </string>
     <string name="save">Save change</string>
 
@@ -73,6 +73,22 @@
     <string name="toast_cmt">Please login to comment</string>
     <string name="delete_cmt">Delete comment successfully</string>
 
+    <string name="input_again_pass">Password too short, enter minimum 6 characters!</string>
+    <string name="input_email">Enter email</string>
+    <string name="input_password">Enter password</string>
+    <string name="wait">Please wait...</string>
+    <string name="login_successfully">Log in successfull!</string>
+    <string name="login_fail">Log in failed!</string>
+
+    <string name="processing">Processing...</string>
+    <string name="message_faile">Failed to send reset email!</string>
+    <string name="message">We have sent you instructions to reset your password!</string>
+    <string name="email_requried">Email is requried !</string>
+    <string name="password_requried">Password is requried !</string>
+    <string name="password_confirm_requried">Confirm password is requried !</string>
+    <string name="password_same_requried">Enter password same above !</string>
+    <string name="register">Register successfull!</string>
+    <string name="register_faile">Register faile!</string>
 
 
 </resources>

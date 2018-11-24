@@ -28,7 +28,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_reset_password);
 
         inits();
-        sets();
+        setWidgets();
+        getWidgets();
 
         addListener();
     }
@@ -36,7 +37,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     private void inits() {
     }
 
-    private void sets() {
+    private void setWidgets() {
         edtEmail = findViewById(R.id.edt_email);
         btnReset = findViewById(R.id.btnReset);
         btnBack = findViewById(R.id.btnBack);
@@ -47,11 +48,11 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         btnBack.setOnClickListener(this);
     }
 
-    private void gets() {
+    private void getWidgets() {
 
         email = edtEmail.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.input_email), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -61,16 +62,16 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnReset: {
-                gets();
-                final ProgressDialog mProgressDialog = ProgressDialog.show(ResetPasswordActivity.this, "Please wait...", "Processing...", true);
+                getWidgets();
+                final ProgressDialog mProgressDialog = ProgressDialog.show(ResetPasswordActivity.this, getResources().getString(R.string.wait), getResources().getString(R.string.processing), true);
                 mFirebaseAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetPasswordActivity.this,getResources().getString(R.string.message) , Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(ResetPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ResetPasswordActivity.this, getResources().getString(R.string.message_faile), Toast.LENGTH_SHORT).show();
                                 }
                                 mProgressDialog.dismiss();
                             }

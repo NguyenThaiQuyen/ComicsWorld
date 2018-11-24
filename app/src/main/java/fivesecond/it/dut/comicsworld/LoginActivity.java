@@ -30,15 +30,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         inits();
-        sets();
-
+        setWidgets();
+        getWidgets();
         addListener();
     }
 
     private void inits() {
     }
 
-    private void sets() {
+    private void setWidgets() {
         edtEmail = findViewById(R.id.edt_email);
         edtPass = findViewById(R.id.edt_pass);
         btnRegister = findViewById(R.id.btnRegister);
@@ -53,24 +53,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void gets() {
+    private void getWidgets() {
 
 
         email = edtEmail.getText().toString().trim();
         password = edtPass.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.input_email), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.input_password), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.input_again_pass), Toast.LENGTH_SHORT).show();
             return;
         }
     }
@@ -92,21 +92,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin: {
-                gets();
-                final ProgressDialog mProgressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Processing...", true);
+                getWidgets();
+                final ProgressDialog mProgressDialog = ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.wait), getResources().getString(R.string.processing), true);
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 mProgressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Log in successfull!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_successfully), Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     updateUI(user);
                                     startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
                                 } else {
                                     Log.e("ERROR", task.getException().toString());
-                                    Toast.makeText(LoginActivity.this, "Log in failed!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
                                     updateUI(null);
                                 }
                             }

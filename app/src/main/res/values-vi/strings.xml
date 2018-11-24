@@ -33,7 +33,7 @@
     <string name="hint_pass">Mật khẩu</string>
 
     <string name="back">Quay lại </string>
-    <string name="Forgot">Quên mật khẩu</string>
+    <string name="Forgot">Quên mật khẩu?</string>
     <string name="Note">Chúng tôi chỉ cần Id Email đã đăng ký của bạn để gửi cho bạn hướng dẫn đặt lại mật khẩu.</string>
     <string name="save">Lưu thay đổi</string>
     <string name="change_language">CHỌN NGÔN NGỮ</string>
@@ -70,7 +70,26 @@
     <string name="toast_end"> sao cho truyện này</string>
 
     <string name="toast_rating">Đăng nhập trước khi đánh giá !!!</string>
+
     <string name="toast_cmt">Đăng nhập trước khi bình luận </string>
     <string name="delete_cmt">Xóa bình luận thành công</string>
+
+
+    <string name="input_again_pass">Mật khẩu quá ngắn, nhập dài hơn 6 kí tự"</string>
+    <string name="input_email">Nhập email</string>
+    <string name="input_password">Nhập mật khẩu</string>
+    <string name="wait">Chờ trong giây lát...</string>
+    <string name="login_successfully">Đăng nhập thành công</string>
+    <string name="login_fail">Đăng nhập lỗi</string>
+
+    <string name="processing">Đang xử lí...</string>
+    <string name="message_faile">Không thể gửi email đặt lại</string>
+    <string name="message">Chúng tôi đã gửi hướng dẫn cài lại mật khẩu.</string>
+    <string name="email_requried">Yêu cầu nhập email!</string>
+    <string name="password_requried">Yêu cầu nhập mật khẩu!</string>
+    <string name="password_confirm_requried">Yêu cầu nhập lại xác nhận mật khẩu!</string>
+    <string name="password_same_requried">Yêu cầu nhập mật khẩu như trên!</string>
+    <string name="register">Đăng kí thành công</string>
+    <string name="register_faile">Đăng kí lỗi!</string>
 
 </resources>

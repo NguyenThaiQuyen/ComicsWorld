@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
         android:background="@null"
-        android:text="@string/Forgot"
+        android:text="Forgot password?"
         android:textAllCaps="false"
         android:textColor="@color/textCommics" />
 

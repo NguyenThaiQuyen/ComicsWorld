@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="16">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_comic">
+        <ImageView
+            android:id="@+id/imgThumbnail"
+            android:layout_width="@dimen/thubnail_width"
+            android:layout_height="@dimen/thumbnail_height"
+            android:layout_marginRight="@dimen/margin_right_thumbnail"
+            android:scaleType="centerCrop" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="6">
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="You, me and fate"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_title"
+                />
+            <TextView
+                android:id="@+id/txtAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="#white_princess"
+                android:layout_alignParentRight="true"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_size_author"/>
+
+            <TextView
+                android:id="@+id/txtChap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Chap: 1"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_size_desc" />
+
+            <RatingBar
+                android:id="@+id/raBar"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                style="?android:attr/ratingBarStyleSmall"
+                android:numStars="5"
+                android:rating="5" />
+            <TextView
+                android:id="@+id/txtDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="Nothing gonna hello change move  for you ..."
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/text_size_desc"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
