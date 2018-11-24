@@ -81,7 +81,8 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:onClick="dialogRate"
-                        android:background="@color/colorPrimaryDark"/>
+                        android:textColor="#fff"
+                        android:background="@color/bgHeader"/>
                     <Button
                         android:id="@+id/btnRead"
                         android:layout_width="0dp"
@@ -95,7 +96,8 @@
                         android:text="READ"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:background="@color/colorPrimaryDark"
+                        android:textColor="#fff"
+                        android:background="@color/bgHeader"
                         />
 
                 </LinearLayout>
