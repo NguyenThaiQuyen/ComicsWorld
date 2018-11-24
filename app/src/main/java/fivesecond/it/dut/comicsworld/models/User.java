@@ -1,5 +1,7 @@
 package fivesecond.it.dut.comicsworld.models;
 
+import android.net.Uri;
+
 public class User {
     private int id;
     private String name;
@@ -7,6 +9,8 @@ public class User {
     private String email;
     private int idSave;
     private int idLove;
+
+    private Uri imageUrl;
 
     public User(int id, String name, String password, String email, int idSave, int idLove) {
         this.id = id;
@@ -63,6 +67,14 @@ public class User {
 
     public void setIdLove(int idLove) {
         this.idLove = idLove;
+    }
+
+    public Uri getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(Uri imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

@@ -208,6 +208,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         txtuser= navView.findViewById(R.id.txtUser);
         txtgmail= navView.findViewById(R.id.txtGmail);
         imgAvatar = navView.findViewById(R.id.imgAvatar);
+
     }
 
     private void getWidgets() {
@@ -431,4 +432,11 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         });
     }
 
+    public void addComment(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
+        intent.putExtra("idComic",comic.getId());
+        startActivity(intent);
+
+    }
 }
