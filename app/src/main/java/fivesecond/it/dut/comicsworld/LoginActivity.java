@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Toast.makeText(LoginActivity.this, "Log in successfull!", Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     updateUI(user);
-                                    startActivity(new Intent(LoginActivity.this, UserActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
                                 } else {
                                     Log.e("ERROR", task.getException().toString());
                                     Toast.makeText(LoginActivity.this, "Log in failed!", Toast.LENGTH_SHORT).show();
