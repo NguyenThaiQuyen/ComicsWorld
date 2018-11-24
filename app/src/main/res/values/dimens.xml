@@ -33,8 +33,8 @@
     <dimen name="text_size_title1">18sp</dimen>
     <dimen name="text_size_nameComic">15sp</dimen>
 
-    <dimen name="edt_margin_left">15dp</dimen>
-    <dimen name="edt_margin_right">15dp</dimen>
+    <dimen name="edt_margin_left">10dp</dimen>
+    <dimen name="edt_margin_right">10dp</dimen>
     <dimen name="edt_margin_top">15dp</dimen>
     <dimen name="edt_margin_bottom">15dp</dimen>
 
@@ -48,11 +48,11 @@
 
     <dimen name="padding_content_comic">8dp</dimen>
     <dimen name="margin_bottom_content_comic">8dp</dimen>
-    <dimen name="text_size_start">18sp</dimen>
+    <dimen name="text_size_start">15sp</dimen>
     <dimen name="padding_start">8dp</dimen>
     <dimen name="text_size_logo">55sp</dimen>
     <dimen name="text_size_logo_main">60sp</dimen>
-    <dimen name="mar_top_logo">40dp</dimen>
+    <dimen name="mar_top_logo">20dp</dimen>
     <dimen name="l_mar_bottom_start">60dp</dimen>
     <dimen name="text_size_search_label">17sp</dimen>
     <dimen name="padding_sm_content_read">8dp</dimen>
@@ -60,6 +60,10 @@
     <dimen name="margin_small">5dp</dimen>
     <dimen name="name_user">40sp</dimen>
     <dimen name="large_button">250dp</dimen>
+    <dimen name="space">40dp</dimen>
+    <dimen name="large_topic">300dp</dimen>
+    <dimen name="layout_marginBottom">80dp</dimen>
+    <dimen name="above_marginBottom">20dp</dimen>
 
 
 
