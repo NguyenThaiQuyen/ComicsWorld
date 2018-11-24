@@ -70,4 +70,5 @@
     <string name="toast_end"> sao cho truyện này</string>
 
     <string name="toast_rating">Đăng nhập trước khi đánh giá !!!</string>
+    <string name="toast_cmt">Đăng nhập trước khi bình luận </string>
 </resources>

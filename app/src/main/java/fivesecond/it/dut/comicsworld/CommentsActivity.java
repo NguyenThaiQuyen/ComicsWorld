@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -139,7 +140,10 @@ public class CommentsActivity extends AppCompatActivity {
                databaseReference.child("comments").push().setValue(comment);
                add_comment.setText("");
         }
-
+        else
+        {
+            Toast.makeText(this, getResources().getString(R.string.toast_cmt), Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
