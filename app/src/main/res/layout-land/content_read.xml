@@ -152,7 +152,6 @@
                         android:textStyle="bold"
                         android:textColor="#fff"
                         android:background="@color/bgHeader"
-                        android:onClick="addComment"
                         />
 
                 </LinearLayout>
@@ -164,18 +163,39 @@
                 android:layout_weight="5"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtContent"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/edt_margin_left"
-                    android:layout_marginLeft="@dimen/edt_margin_left"
-                    android:layout_marginTop="@dimen/edt_margin_top"
-                    android:layout_marginEnd="@dimen/edt_margin_right"
-                    android:layout_marginRight="@dimen/edt_margin_right"
-                    android:text="* Description"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="@dimen/size_discrip" />
+                    android:weightSum="2">
+                    <TextView
+                        android:id="@+id/txtContent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/edt_margin_left"
+                        android:layout_marginLeft="@dimen/edt_margin_left"
+                        android:layout_marginTop="@dimen/edt_margin_top"
+                        android:layout_marginEnd="@dimen/edt_margin_right"
+                        android:layout_marginRight="@dimen/edt_margin_right"
+                        android:text="* Description"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="@dimen/size_discrip" />
+                    <TextView
+                        android:id="@+id/txtComent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/edt_margin_left"
+                        android:layout_marginLeft="@dimen/edt_margin_left"
+                        android:layout_marginTop="@dimen/edt_margin_top"
+                        android:layout_marginEnd="@dimen/edt_margin_right"
+                        android:layout_marginRight="@dimen/edt_margin_right"
+                        android:text="Comment"
+                        android:gravity="right"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="@dimen/size_discrip" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txt_main"
@@ -192,5 +212,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </RelativeLayout>
