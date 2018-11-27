@@ -96,7 +96,7 @@
     <dimen name="text_size_back">28dp</dimen>
     <dimen name="text_size">20dp</dimen>
 
-    <dimen name="height_reset">65dp</dimen>
+    <dimen name="height_reset">75dp</dimen>
     <dimen name="with_reset">200dp</dimen>
     <dimen name="size_forgot">26dp</dimen>
 

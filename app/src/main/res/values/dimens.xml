@@ -100,7 +100,7 @@
     <dimen name="text_size_back">22dp</dimen>
     <dimen name="text_size">14dp</dimen>
 
-    <dimen name="height_reset">50dp</dimen>
+    <dimen name="height_reset">60dp</dimen>
     <dimen name="with_reset">140dp</dimen>
 
     <dimen name="size_forgot">22dp</dimen>
