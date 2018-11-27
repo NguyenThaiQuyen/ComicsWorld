@@ -87,5 +87,11 @@
     <dimen name="margin_read">10dp</dimen>
     <dimen name="margin_right_button">5dp</dimen>
 
+    <dimen name="width_ava_cmt">40dp</dimen>
+    <dimen name="height_ava_cmt">40dp</dimen>
+    <dimen name="height_ava">40dp</dimen>
+    <dimen name="text_cmt">15dp</dimen>
+
+
 
 </resources>

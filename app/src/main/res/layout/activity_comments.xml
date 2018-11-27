@@ -19,8 +19,8 @@
         android:padding="4dp"
         android:layout_alignParentBottom="true">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/width_ava_cmt"
+            android:layout_height="@dimen/height_ava_cmt"
             android:id="@+id/image_profile">
         </de.hdodenhof.circleimageview.CircleImageView>
         <EditText
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edtPost"
             android:text="POST"
-                  android:onClick="addNewComment"
+            android:onClick="addNewComment"
             android:layout_marginEnd="5dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
