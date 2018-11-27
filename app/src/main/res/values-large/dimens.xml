@@ -95,7 +95,7 @@
     <dimen name="height_text">60dp</dimen>
 
     <dimen name="height_button_Login">70dp</dimen>
-    <dimen name="with_button_login">125dp</dimen>
+    <dimen name="with_button_login">200dp</dimen>
     <dimen name="with_button_register">180dp</dimen>
    <dimen name="margin_top_buton_register">25dip</dimen>
     <dimen name="text_size_back">28dp</dimen>

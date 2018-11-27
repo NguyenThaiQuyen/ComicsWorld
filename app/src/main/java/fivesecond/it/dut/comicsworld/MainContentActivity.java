@@ -282,8 +282,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public void onClick(View v) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("chap", 1);
-                intent.putExtra("comic", comic);
-                intent.putExtra("listType", mListType);
+                intent.putExtra("url", comic.getUrl());
+                intent.putExtra("totalChap", comic.getChap());
 
                 startActivity(intent);
             }
@@ -294,8 +294,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("chap", comic.getChap() - position);
-                intent.putExtra("comic", comic);
-                intent.putExtra("listType", mListType);
+                intent.putExtra("url", comic.getUrl());
+                intent.putExtra("totalChap", comic.getChap());
 
                 startActivity(intent);
             }
