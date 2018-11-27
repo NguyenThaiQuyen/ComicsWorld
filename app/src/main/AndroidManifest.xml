@@ -13,9 +13,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomeScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,22 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReadComic"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ReadComic"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainContentActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".AddUrlActivity" />
         <activity android:name=".BaseMenu" />
-        <activity android:name=".ListComicsActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ListComicsActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".CommentsActivity" />
-
-        <activity android:name=".SearchableActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".SearchableActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".UserActivity"></activity>
+        <activity android:name=".UserActivity" />
+        <activity android:name=".LovedComicsActivity"></activity>
     </application>
 
 </manifest>

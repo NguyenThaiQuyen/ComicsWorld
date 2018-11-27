@@ -2,15 +2,16 @@ package fivesecond.it.dut.comicsworld;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -42,14 +44,16 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.ListViewAdapder;
+
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
 import fivesecond.it.dut.comicsworld.models.Type;
 
 import static fivesecond.it.dut.comicsworld.functions.ConvertUnsigned.ConvertString;
 
-public class SearchableActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
+public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNavigationItemSelectedListener {
 
+    // navigation
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -59,16 +63,17 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<String>> childList = new HashMap<>();
-    ArrayList<String> childModelsList;
+    List<String> childModelsList;
+
 
     ArrayList<Type> mListType = new ArrayList<>();
+
+    String idType;
+
     ListView lvtest;
-    TextView tvSearch;
     ArrayList<Comic> mList;
-    ArrayList<Comic> mBackup;
+    ArrayList<Comic> backup;
     ListViewAdapder mAdapter;
-    String queryCon;
-    boolean mFirstSearch;
 
     private FirebaseAuth auth;
     private FirebaseUser user ;
@@ -80,13 +85,12 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchable);
+        setContentView(R.layout.activity_list_comics);
 
-        init();
+        inits();
         setWidgets();
         getWidgets();
         addListeners();
@@ -117,41 +121,41 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
         }
     }
 
-    private void init() {
+    private void inits() {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         mList = new ArrayList<>();
         mAdapter = new ListViewAdapder(this, R.layout.item_list_comics, mList);
-        mBackup = new ArrayList<>();
+        backup= new ArrayList<>();
 
         Intent intent = getIntent();
-        queryCon = intent.getStringExtra("query");
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
-        mFirstSearch = true;
+        setTitle(getResources().getString(R.string.loved_comics));
 
-        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
 
-        Query query;
-        query = databaseReference.child("comics").orderByChild("name");
-        query.addChildEventListener(new ChildEventListener() {
+        databaseReference.child("loves").child(user.getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Comic comic = dataSnapshot.getValue(Comic.class);
 
-                if(ConvertString(comic.getName()).contains(ConvertString(queryCon)) || ConvertString(queryCon).contains(ConvertString(comic.getName())))
-                {
-                    if(mFirstSearch)
-                    {
-                        mList.add(comic);
+                String url = dataSnapshot.getValue().toString();
+                databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Comic comic = dataSnapshot.getValue(Comic.class);
+
+                        mList.add(0, comic);
+                        backup.add(0, comic);
                         mAdapter.notifyDataSetChanged();
                     }
-                }
 
-                mBackup.add(0, comic);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                mAdapter.notifyDataSetChanged();
+                    }
+                });
             }
 
             @Override
@@ -177,7 +181,6 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     }
 
-
     private void setWidgets() {
         lvtest = findViewById(R.id.lvListComic);
 
@@ -188,9 +191,6 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
         drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
-
-        tvSearch = findViewById(R.id.tvSearch);
-
         navView =  navigationView.getHeaderView(0);
         txtuser= navView.findViewById(R.id.txtUser);
         txtgmail= navView.findViewById(R.id.txtGmail);
@@ -200,7 +200,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     private void getWidgets() {
 
-        tvSearch.setText(getResources().getString(R.string.search_for)+ " " + queryCon);
+
         lvtest.setAdapter(mAdapter);
 
         setSupportActionBar(toolbar);
@@ -212,6 +212,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         checkUpdate();
     }
 
@@ -227,6 +228,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                 startActivity(intent);
             }
         });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -241,25 +243,19 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onQueryTextSubmit(String query) {
                 if(mList.size() == 0)
                 {
-                    Toast.makeText(SearchableActivity.this, getResources().getString(R.string.no_result) + " \"" + query + " \"" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LovedComicsActivity.this, getResources().getString(R.string.no_result) + " \"" + query + " \"" , Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                tvSearch.setText(getResources().getString(R.string.search_for) + " " + newText);
-                queryCon = newText;
-                mFirstSearch = false;
                 ArrayList<Comic> arrayList = new ArrayList<>();
                 mList.clear();
-
-                mList.addAll(mBackup);
+                mList.addAll(backup);
                 for (Comic comic: mList) {
                     if(ConvertString(comic.getName()).contains(ConvertString(newText)) || ConvertString(newText).contains(ConvertString(comic.getName())))
-                    {
                         arrayList.add(comic);
-                    }
                 }
                 mList.clear();
                 mList.addAll(arrayList);
@@ -272,12 +268,13 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             @Override
             public boolean onClose() {
                 mList.clear();
-                mList.addAll(mBackup);
+                mList.addAll(backup);
                 return false;
             }
         });
         return true;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -362,7 +359,6 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
         }
 
 
-
     }
 
     private void populateExpandableList() {
@@ -374,16 +370,15 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-
                 if(groupPosition == 0 )
                 {
-                    Intent intent = new Intent(SearchableActivity.this, HomeScreenActivity.class);
+                    Intent intent = new Intent(LovedComicsActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
                 }
 
                 if(user == null) {
                     if(groupPosition == 2 ) {
-                        Intent intent = new Intent(SearchableActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(LovedComicsActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
                 }else {
@@ -396,16 +391,18 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                     }
                     else if(groupPosition == 3 )
                     {
-                        Intent intent = new Intent(SearchableActivity.this, UserActivity.class);
+                        Intent intent = new Intent(LovedComicsActivity.this, UserActivity.class);
                         startActivity(intent);
-                    }else if(groupPosition == 4 ){
+                    }else
+                    if(groupPosition == 4 ){
                         auth.signOut();
-                        Intent intent = new Intent(getApplicationContext(), SearchableActivity.class);
-                        intent.putExtra("query",queryCon);
+                        Intent intent = new Intent(LovedComicsActivity.this, LovedComicsActivity.class);
                         intent.putExtra("listType", mListType);
                         startActivity(intent);
                     }
                 }
+
+
                 return false;
             }
         });
@@ -415,7 +412,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
-                    Intent intent = new Intent(getApplicationContext(), ListComicsActivity.class);
+                    Intent intent = new Intent(LovedComicsActivity.this, ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);
                     startActivity(intent);

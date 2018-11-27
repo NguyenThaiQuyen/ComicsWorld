@@ -20,6 +20,8 @@
     <string name="searchTitle">Tìm kiếm</string>
     <string name="start_reading">BẮT ĐẦU</string>
     <string name="search_for">Tìm kiếm</string>
+    <string name="no_result">Không kết quả cho</string>
+
     <string name="next">tiếp</string>
     <string name="pre">trước</string>
     <string name="continue_reading">TIẾP TỤC</string>
@@ -92,10 +94,11 @@
     <string name="register">Đăng kí thành công</string>
     <string name="register_faile">Đăng kí lỗi!</string>
     <string name="love">Y/thích</string>
-    <string name="loved_btn">Y/thích</string>
+    <string name="loved_btn">Đã thích</string>
     <string name="view_cmt">xem bình luận</string>
     <string name="love_toast">Đăng nhập để lưu truyện</string>
     <string name="love_succ">Đã thêm vào danh sách yêu thích</string>
     <string name="love_rm">Đã xóa khỏi danh sách yêu thích</string>
+    <string name="loved_comics">Truyện yêu thích</string>
 
 </resources>
