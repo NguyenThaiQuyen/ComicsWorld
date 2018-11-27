@@ -98,6 +98,7 @@
     <string name="love_succ">Add to loved list comics successfully</string>
     <string name="love_rm">Remove from loved list comics successfully</string>
     <string name="loved_comics">Loved comics</string>
+    <string name="anonymous">Anonymous</string>
 
 
 </resources>

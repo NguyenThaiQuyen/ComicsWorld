@@ -5,16 +5,18 @@ public class Comment {
     private String content;
     private String idComic;
     private String idUser;
+    private String userName;
 
     public Comment(){
 
     }
 
-    public Comment(String id, String content, String idComic, String idUser) {
+    public Comment(String id, String content, String idComic, String idUser, String userName) {
         this.id = id;
         this.content = content;
         this.idComic = idComic;
         this.idUser = idUser;
+        this.userName = userName;
     }
 
     public String getId() {
@@ -49,6 +51,14 @@ public class Comment {
         this.idUser = idUser;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -56,6 +66,7 @@ public class Comment {
                 ", content='" + content + '\'' +
                 ", idComic='" + idComic + '\'' +
                 ", idUser='" + idUser + '\'' +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 }

@@ -100,5 +100,6 @@
     <string name="love_succ">Đã thêm vào danh sách yêu thích</string>
     <string name="love_rm">Đã xóa khỏi danh sách yêu thích</string>
     <string name="loved_comics">Truyện yêu thích</string>
+    <string name="anonymous">Ẩn danh</string>
 
 </resources>

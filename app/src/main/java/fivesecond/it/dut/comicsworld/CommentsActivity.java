@@ -140,8 +140,8 @@ public class CommentsActivity extends AppCompatActivity {
         {
             String content = add_comment.getText().toString();
             String id = databaseReference.push().getKey();
-
-            Comment comment = new Comment(id, content, idComic, user.getUid());
+            String name = (user.getDisplayName() != null) ? user.getDisplayName() : getResources().getString(R.string.anonymous);
+            Comment comment = new Comment(id, content, idComic, user.getUid(), name);
             databaseReference.child("comments").child(id).setValue(comment);
                add_comment.setText("");
         }

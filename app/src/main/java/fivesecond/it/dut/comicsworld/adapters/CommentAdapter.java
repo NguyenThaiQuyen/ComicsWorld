@@ -58,6 +58,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
             viewHolder.imgAvatarComment = convertView.findViewById(R.id.imgAvatarComment);
             viewHolder.tvComment = convertView.findViewById(R.id.tvComment);
+            viewHolder.tvUsername = convertView.findViewById(R.id.tvUserName);
 
             convertView.setTag(viewHolder);
         }
@@ -82,6 +83,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         });
         viewHolder.tvComment.setText(comment.getContent());
+        viewHolder.tvUsername.setText(comment.getUserName());
 
         return convertView;
     }
@@ -89,6 +91,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     private class ViewHolder{
         public ImageView imgAvatarComment;
         public TextView tvComment;
+        public TextView tvUsername;
     }
 
 }
