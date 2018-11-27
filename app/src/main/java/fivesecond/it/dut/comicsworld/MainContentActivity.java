@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -66,6 +68,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     ArrayAdapter<String> adapterChap ;
     ArrayList<String> chap;
     Comic comic;
+    boolean isLoved;
 
     // navigation
     private Toolbar toolbar;
@@ -74,6 +77,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     private ActionBarDrawerToggle toggle;
     ExpandableListView expandableListView;
     public RatingBar myRatingBar;
+    private Button btnLove;
 
 
     ExpandableListAdapter expandableListAdapter;
@@ -103,8 +107,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         setContentView(R.layout.activity_main_content);
 
         init();
-        setWidgets();
         getWidgets();
+        setWidgets();
         addListener();
 
     }
@@ -176,12 +180,43 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         chap = new ArrayList<>();
         for(int i = comic.getChap(); i >= 1 ; i--)
         {
-            chap.add("Chapter " + String.valueOf(i));
+            chap.add(getResources().getString(R.string.chapter) + " " + String.valueOf(i));
+        }
+
+        if(user != null)
+        {
+            dataRef.child("loves").child(user.getUid()).child(comic.getUrl()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() != null) {
+                        isLoved = true;
+                        btnLove.setText(getResources().getString(R.string.loved_btn));
+                        btnLove.setBackgroundColor(Color.WHITE);
+                        btnLove.setTextColor(Color.RED);
+                    }
+                    else
+                    {
+                        isLoved = false;
+                        btnLove.setText(getResources().getString(R.string.love));
+                        btnLove.setBackgroundColor(getResources().getColor(R.color.bgHeader));
+                        btnLove.setTextColor(Color.WHITE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(MainContentActivity.this, "fail", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else
+        {
+            isLoved = false;
         }
     }
 
 
-    private void setWidgets() {
+    private void getWidgets() {
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -202,15 +237,15 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         raBar = findViewById(R.id.raBar);
         imgCover = findViewById(R.id.imvCover);
         btnRead = findViewById(R.id.btnRead);
+        btnLove = findViewById(R.id.btnLove);
 
         navView =  navigationView.getHeaderView(0);
         txtuser= navView.findViewById(R.id.txtUser);
         txtgmail= navView.findViewById(R.id.txtGmail);
         imgAvatar = navView.findViewById(R.id.imgAvatar);
-
     }
 
-    private void getWidgets() {
+    private void setWidgets() {
         // navigation
         setSupportActionBar(toolbar);
 
@@ -443,5 +478,27 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
         intent.putExtra("idComic",comic.getId());
         startActivity(intent);
 
+    }
+
+    public void loved(View view) {
+
+        if(user != null)
+        {
+            if(!isLoved)
+            {
+                dataRef.child("loves").child(user.getUid()).child(comic.getUrl()).setValue(comic.getUrl());
+                Toast.makeText(this, getResources().getString(R.string.love_succ), Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                dataRef.child("loves").child(user.getUid()).child(comic.getUrl()).removeValue();
+                Toast.makeText(this, getResources().getString(R.string.love_rm), Toast.LENGTH_SHORT).show();
+
+            }
+        }
+        else
+        {
+            Toast.makeText(this, getResources().getString(R.string.love_toast), Toast.LENGTH_SHORT).show();
+        }
     }
 }

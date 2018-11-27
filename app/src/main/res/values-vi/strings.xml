@@ -52,7 +52,7 @@
     <string name="profile">Trang cá nhân</string>
     <string name="logout">Đăng xuất</string>
 
-    <string name="rate">Đánh giá</string>
+    <string name="rate">Đ/giá</string>
     <string name="read">Đọc</string>
 
     <string name="chapter">Chương</string>
@@ -91,5 +91,11 @@
     <string name="password_same_requried">Yêu cầu nhập mật khẩu như trên!</string>
     <string name="register">Đăng kí thành công</string>
     <string name="register_faile">Đăng kí lỗi!</string>
+    <string name="love">Y/thích</string>
+    <string name="loved_btn">Y/thích</string>
+    <string name="view_cmt">xem bình luận</string>
+    <string name="love_toast">Đăng nhập để lưu truyện</string>
+    <string name="love_succ">Đã thêm vào danh sách yêu thích</string>
+    <string name="love_rm">Đã xóa khỏi danh sách yêu thích</string>
 
 </resources>

@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Aoyama Gōshō"
+                    android:text="Son Vo"
                     android:textColor="@android:color/background_dark"
                     android:textSize="@dimen/size_authur"
                     android:textStyle="bold" />
@@ -117,7 +117,7 @@
                         android:gravity="center"
                         android:layout_weight="3"
                         android:layout_marginRight="@dimen/margin_right_button"
-                        android:text="Rate"
+                        android:text="@string/rate"
                         android:textSize="@dimen/size_button"
                         android:textStyle="bold"
                         android:onClick="dialogRate"
@@ -132,7 +132,7 @@
                         android:layout_height="@dimen/height_button_read"
                         android:layout_marginRight="@dimen/margin_right_button"
                         android:layout_gravity="bottom"
-                        android:text="READ"
+                        android:text="@string/read"
                         android:textSize="@dimen/size_button"
                         android:textStyle="bold"
                         android:textColor="#fff"
@@ -140,18 +140,19 @@
                         />
 
                     <Button
-                        android:id="@+id/btnComment"
+                        android:id="@+id/btnLove"
                         android:layout_width="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
                         android:layout_height="@dimen/height_button_read"
                         android:layout_marginRight="3dp"
                         android:layout_gravity="bottom"
-                        android:text="COMMENT"
+                        android:text="@string/love"
                         android:textSize="@dimen/size_button"
                         android:textStyle="bold"
                         android:textColor="#fff"
                         android:background="@color/bgHeader"
+                        android:onClick="loved"
                         />
 
                 </LinearLayout>
@@ -177,7 +178,7 @@
                         android:layout_marginTop="@dimen/edt_margin_top"
                         android:layout_marginEnd="@dimen/edt_margin_right"
                         android:layout_marginRight="@dimen/edt_margin_right"
-                        android:text="* Description"
+                        android:text="@string/des"
                         android:textColor="@android:color/background_dark"
                         android:textSize="@dimen/size_discrip" />
                     <TextView
@@ -190,8 +191,10 @@
                         android:layout_marginTop="@dimen/edt_margin_top"
                         android:layout_marginEnd="@dimen/edt_margin_right"
                         android:layout_marginRight="@dimen/edt_margin_right"
-                        android:text="Comment"
+                        android:text="@string/view_cmt"
+                        android:onClick="addComment"
                         android:gravity="right"
+                        android:textStyle="italic"
                         android:textColor="@android:color/background_dark"
                         android:textSize="@dimen/size_discrip" />
 

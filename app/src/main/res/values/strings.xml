@@ -89,6 +89,13 @@
     <string name="password_same_requried">Enter password same above !</string>
     <string name="register">Register successfull!</string>
     <string name="register_faile">Register faile!</string>
+    <string name="love">love</string>
+    <string name="loved_btn">Loved</string>
+
+    <string name="view_cmt">view comments</string>
+    <string name="love_toast">Please login to save this comic</string>
+    <string name="love_succ">Add to loved list comics successfully</string>
+    <string name="love_rm">Remove from loved list comics successfully</string>
 
 
 </resources>
