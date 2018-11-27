@@ -33,10 +33,10 @@
     <dimen name="text_size_title1">18sp</dimen>
     <dimen name="text_size_nameComic">15sp</dimen>
 
-    <dimen name="edt_margin_left">10dp</dimen>
-    <dimen name="edt_margin_right">10dp</dimen>
-    <dimen name="edt_margin_top">15dp</dimen>
-    <dimen name="edt_margin_bottom">15dp</dimen>
+    <dimen name="edt_margin_left">15dp</dimen>
+    <dimen name="edt_margin_right">15dp</dimen>
+    <dimen name="edt_margin_top">30dp</dimen>
+    <dimen name="edt_margin_bottom">20dp</dimen>
 
     <dimen name="text_padding">10dp</dimen>
     <dimen name="text_size_large">20sp</dimen>
@@ -56,9 +56,9 @@
     <dimen name="padding_sm_content_read">8dp</dimen>
     <dimen name="margin_bottom">60dp</dimen>
 
-    <dimen name="logo">60dp</dimen>
+    <dimen name="logo">100dp</dimen>
 
-    <dimen name="margin_small">5dp</dimen>
+    <dimen name="margin_small">17dp</dimen>
     <dimen name="name_user">40sp</dimen>
     <dimen name="large_button">350dp</dimen>
     <dimen name="space">40dp</dimen>
@@ -84,5 +84,25 @@
     <dimen name="margin_read_lend">15dp</dimen>
     <dimen name="margin_read">15dp</dimen>
     <dimen name="margin_right_button">10dp</dimen>
+
+    <dimen name="width_ava_cmt">60dp</dimen>
+    <dimen name="height_ava_cmt">60dp</dimen>
+    <dimen name="height_ava">60dp</dimen>
+    <dimen name="text_cmt">20dp</dimen>
+
+    <dimen name="height_logo">240dp</dimen>
+    <dimen name="margin_top_buton">30dip</dimen>
+    <dimen name="height_text">60dp</dimen>
+
+    <dimen name="height_button_Login">70dp</dimen>
+    <dimen name="with_button_login">125dp</dimen>
+    <dimen name="with_button_register">180dp</dimen>
+   <dimen name="margin_top_buton_register">25dip</dimen>
+    <dimen name="text_size_back">28dp</dimen>
+    <dimen name="text_size">20dp</dimen>
+
+    <dimen name="height_reset">75dp</dimen>
+    <dimen name="with_reset">200dp</dimen>
+    <dimen name="size_forgot">26dp</dimen>
 
 </resources>

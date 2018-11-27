@@ -87,5 +87,29 @@
     <dimen name="margin_read">10dp</dimen>
     <dimen name="margin_right_button">5dp</dimen>
 
+    <dimen name="width_ava_cmt">40dp</dimen>
+    <dimen name="height_ava_cmt">40dp</dimen>
+    <dimen name="height_ava">40dp</dimen>
+    <dimen name="text_cmt">15dp</dimen>
 
-</resources>
+
+
+    <dimen name="height_logo">170dp</dimen>
+    <dimen name="margin_top_buton">20dip</dimen>
+
+    <dimen name="height_text">50dp</dimen>
+    <dimen name="height_button_Login">50dp</dimen>
+    <dimen name="with_button_login">100dp</dimen>
+    <dimen name="with_button_register">140dp</dimen>
+
+    <dimen name="margin_top_buton_register">0dip</dimen>
+    <dimen name="text_size_back">22dp</dimen>
+    <dimen name="text_size">14dp</dimen>
+
+    <dimen name="height_reset">60dp</dimen>
+    <dimen name="with_reset">140dp</dimen>
+
+    <dimen name="size_forgot">22dp</dimen>
+
+
+    </resources>
