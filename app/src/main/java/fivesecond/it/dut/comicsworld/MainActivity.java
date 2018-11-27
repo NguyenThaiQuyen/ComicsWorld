@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (sharedPreferences.contains("urlComic")) {
+        if (sharedPreferences.contains("url")) {
             btnContinue.setVisibility(View.VISIBLE);
            btnContinue.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    Intent intent = new Intent(getApplicationContext(), ReadComic.class);
-                   intent.putExtra("url", sharedPreferences.getString("urlComic", "1"));
+                   intent.putExtra("url", sharedPreferences.getString("url", "1"));
                    intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
                    intent.putExtra("totalChap", sharedPreferences.getInt("totalChap", 3));
 

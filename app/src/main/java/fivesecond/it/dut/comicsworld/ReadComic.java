@@ -50,7 +50,7 @@ public class ReadComic extends AppCompatActivity {
     private int mChap;
     private int totalChap;
     private Comic comic;
-    ArrayList<Type> mListType;
+
 
     private SharedPreferences sharedPreferences;
     private static final String myref = "currentComic";
@@ -79,18 +79,17 @@ public class ReadComic extends AppCompatActivity {
         mAdapter = new ContentRecyclerAdapter();
 
         Intent intent = getIntent();
-        comic = (Comic)intent.getSerializableExtra("comic");
-        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
         mChap = intent.getIntExtra("chap", 1);
-        mUrl = comic.getUrl();
-        totalChap = comic.getChap();
+        mUrl = intent.getStringExtra("url");
+        totalChap = intent.getIntExtra("totalChap", 1);
 
 
         sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("urlComic", mUrl);
+        editor.putString("url", mUrl);
         editor.putInt("chap", mChap);
         editor.putInt("totalChap", totalChap);
+
         editor.apply();
     }
 
@@ -103,7 +102,6 @@ public class ReadComic extends AppCompatActivity {
 
     private void setWidgets() {
         mRV.setLayoutManager(mLayoutManager);
-        //mRV.setHasFixedSize(true);
         mRV.setNestedScrollingEnabled(false);
         mRV.setAdapter(mAdapter);
         setCurrentChap();
@@ -134,8 +132,8 @@ public class ReadComic extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
 
                     intent.putExtra("chap", mChap + 1);
-                    intent.putExtra("comic", comic);
-                    intent.putExtra("listType", mListType);
+                    intent.putExtra("url", mUrl);
+                    intent.putExtra("totalChap", totalChap);
 
                     startActivity(intent);
                 }
@@ -149,8 +147,8 @@ public class ReadComic extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
                     intent.putExtra("chap", mChap - 1);
-                    intent.putExtra("comic", comic);
-                    intent.putExtra("listType", mListType);
+                    intent.putExtra("url", mUrl);
+                    intent.putExtra("totalChap", totalChap);
 
                     startActivity(intent);
                 }
@@ -160,9 +158,8 @@ public class ReadComic extends AppCompatActivity {
         tvCurrentChap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
-                intent.putExtra("comic", comic);
-                intent.putExtra("listType", mListType);
+                removeSharedPre();
+                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                 startActivity(intent);
             }
         });
@@ -219,11 +216,16 @@ public class ReadComic extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void onBackPressed() {
+        removeSharedPre();
+        super.onBackPressed();
+    }
+
+    public void removeSharedPre()
+    {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("urlComic");
+        editor.remove("url");
         editor.remove("chap");
         editor.remove("totalChap");
         editor.apply();
-        super.onBackPressed();
     }
 }
