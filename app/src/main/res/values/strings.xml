@@ -21,6 +21,7 @@
     <string name="searchTitle">Search</string>
     <string name="start_reading"> START EXPLORING </string>
     <string name="search_for">Search for</string>
+    <string name="no_result">No result for</string>
     <string name="next">next</string>
     <string name="pre">pre</string>
     <string name="continue_reading">CONTINUE READING</string>

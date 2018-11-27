@@ -200,7 +200,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     private void getWidgets() {
 
-        tvSearch.setText("Search for: " + queryCon);
+        tvSearch.setText(getResources().getString(R.string.search_for)+ " " + queryCon);
         lvtest.setAdapter(mAdapter);
 
         setSupportActionBar(toolbar);
@@ -241,14 +241,15 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onQueryTextSubmit(String query) {
                 if(mList.size() == 0)
                 {
-                    Toast.makeText(SearchableActivity.this, "No result for \"" + query + " \"" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchableActivity.this, getResources().getString(R.string.no_result) + " \"" + query + " \"" , Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                tvSearch.setText("Search for: " + newText);
+                tvSearch.setText(getResources().getString(R.string.search_for) + " " + newText);
+                queryCon = newText;
                 mFirstSearch = false;
                 ArrayList<Comic> arrayList = new ArrayList<>();
                 mList.clear();
@@ -397,11 +398,10 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
                     {
                         Intent intent = new Intent(SearchableActivity.this, UserActivity.class);
                         startActivity(intent);
-                    }else
-                    if(groupPosition == 4 ){
+                    }else if(groupPosition == 4 ){
                         auth.signOut();
-                        Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
-                        intent.putExtra("query","a");
+                        Intent intent = new Intent(getApplicationContext(), SearchableActivity.class);
+                        intent.putExtra("query",queryCon);
                         intent.putExtra("listType", mListType);
                         startActivity(intent);
                     }
