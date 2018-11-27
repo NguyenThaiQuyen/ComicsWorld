@@ -243,7 +243,7 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
             public boolean onQueryTextSubmit(String query) {
                 if(mList.size() == 0)
                 {
-                    Toast.makeText(LovedComicsActivity.this, "No result for \"" + query + " \"" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LovedComicsActivity.this, getResources().getString(R.string.no_result) + " \"" + query + " \"" , Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }

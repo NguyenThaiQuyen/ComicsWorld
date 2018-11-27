@@ -94,7 +94,7 @@
     <string name="register">Đăng kí thành công</string>
     <string name="register_faile">Đăng kí lỗi!</string>
     <string name="love">Y/thích</string>
-    <string name="loved_btn">Y/thích</string>
+    <string name="loved_btn">Đã thích</string>
     <string name="view_cmt">xem bình luận</string>
     <string name="love_toast">Đăng nhập để lưu truyện</string>
     <string name="love_succ">Đã thêm vào danh sách yêu thích</string>

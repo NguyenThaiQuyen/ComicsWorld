@@ -232,7 +232,7 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onQueryTextSubmit(String query) {
                 if(mList.size() == 0)
                 {
-                    Toast.makeText(ListComicsActivity.this, "No result for \"" + query + " \"" + " in " + mListType.get(Integer.parseInt(idType)-1).getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListComicsActivity.this, getResources().getString(R.string.no_result) + " \""+ query + " \"" + " in " + mListType.get(Integer.parseInt(idType)-1).getName(), Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -382,8 +382,8 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                     {
                         Intent intent = new Intent(ListComicsActivity.this, UserActivity.class);
                         startActivity(intent);
-                    }else
-                    if(groupPosition == 4 ){
+                    }
+                    else if(groupPosition == 4 ){
                         auth.signOut();
                         Intent intent = new Intent(ListComicsActivity.this, ListComicsActivity.class);
                         intent.putExtra("idType", String.valueOf(idType));

@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_list_comic"
+        layout="@layout/app_bar_loved_comics"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

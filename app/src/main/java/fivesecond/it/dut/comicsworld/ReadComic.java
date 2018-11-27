@@ -31,7 +31,9 @@ import java.util.ArrayList;
 
 
 import fivesecond.it.dut.comicsworld.adapters.ContentRecyclerAdapter;
+import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.ContentComic;
+import fivesecond.it.dut.comicsworld.models.Type;
 
 public class ReadComic extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
@@ -47,6 +49,8 @@ public class ReadComic extends AppCompatActivity {
     private String mUrl;
     private int mChap;
     private int totalChap;
+    private Comic comic;
+    ArrayList<Type> mListType;
 
     private SharedPreferences sharedPreferences;
     private static final String myref = "currentComic";
@@ -59,8 +63,8 @@ public class ReadComic extends AppCompatActivity {
         setContentView(R.layout.activity_read_comic);
 
         init();
-        setWidgets();
         getWidgets();
+        setWidgets();
         getImageComic(null);
         addListeners();
     }
@@ -75,9 +79,12 @@ public class ReadComic extends AppCompatActivity {
         mAdapter = new ContentRecyclerAdapter();
 
         Intent intent = getIntent();
-        mUrl = intent.getStringExtra("url");
+        comic = (Comic)intent.getSerializableExtra("comic");
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
         mChap = intent.getIntExtra("chap", 1);
-        totalChap = intent.getIntExtra("totalChap", 1);
+        mUrl = comic.getUrl();
+        totalChap = comic.getChap();
+
 
         sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -87,14 +94,14 @@ public class ReadComic extends AppCompatActivity {
         editor.apply();
     }
 
-    private void setWidgets() {
+    private void getWidgets() {
         mRV = findViewById(R.id.rv);
         tvCurrentChap = findViewById(R.id.tvCurrentChap);
         tvNext = findViewById(R.id.tvNext);
         tvPre = findViewById(R.id.tvPre);
     }
 
-    private void getWidgets() {
+    private void setWidgets() {
         mRV.setLayoutManager(mLayoutManager);
         //mRV.setHasFixedSize(true);
         mRV.setNestedScrollingEnabled(false);
@@ -125,9 +132,10 @@ public class ReadComic extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
-                    intent.putExtra("url", mUrl);
+
                     intent.putExtra("chap", mChap + 1);
-                    intent.putExtra("totalChap", totalChap);
+                    intent.putExtra("comic", comic);
+                    intent.putExtra("listType", mListType);
 
                     startActivity(intent);
                 }
@@ -140,14 +148,24 @@ public class ReadComic extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
-                    intent.putExtra("url", mUrl);
                     intent.putExtra("chap", mChap - 1);
-                    intent.putExtra("totalChap", totalChap);
+                    intent.putExtra("comic", comic);
+                    intent.putExtra("listType", mListType);
 
                     startActivity(intent);
                 }
             });
         }
+
+        tvCurrentChap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setCurrentChap()
