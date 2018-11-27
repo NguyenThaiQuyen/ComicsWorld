@@ -437,7 +437,14 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                         startActivity(intent);
                     }
                 }else {
-                    if(groupPosition == 3 )
+                    if(groupPosition == 2)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), LovedComicsActivity.class);
+                        intent.putExtra("listType", mListType);
+
+                        startActivity(intent);
+                    }
+                    else if(groupPosition == 3 )
                     {
                         Intent intent = new Intent(MainContentActivity.this, UserActivity.class);
                         startActivity(intent);

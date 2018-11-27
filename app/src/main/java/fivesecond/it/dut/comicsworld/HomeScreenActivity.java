@@ -463,12 +463,19 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                         startActivity(intent);
                     }
                 }else {
-                    if(groupPosition == 3 )
+                    if(groupPosition == 2)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), LovedComicsActivity.class);
+                        intent.putExtra("listType", mListType);
+
+                        startActivity(intent);
+                    }
+                    else if(groupPosition == 3 )
                     {
                         Intent intent = new Intent(HomeScreenActivity.this, UserActivity.class);
                         startActivity(intent);
-                    }else
-                    if(groupPosition == 4 ){
+                    }
+                    else if(groupPosition == 4 ){
                         auth.signOut();
                         Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                         startActivity(intent);
