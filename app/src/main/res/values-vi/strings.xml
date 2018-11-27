@@ -30,7 +30,7 @@
     <string name="Not_Register">Đã đăng kí. Đăng nhập! </string>
     <string name="text_register">Đăng kí </string>
     <string name="text_login">Đăng nhập</string>
-    <string name="text_reset">Đặt lại mật khẩu</string>
+    <string name="text_reset">Đặt lại</string>
     <string name="hint_confirmpass">Xác nhận lại mât khẩu</string>
     <string name="hint_pass">Mật khẩu</string>
 

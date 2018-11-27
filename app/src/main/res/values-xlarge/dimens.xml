@@ -104,7 +104,7 @@
     <dimen name="text_size">26dp</dimen>
 
     <dimen name="height_reset">100dp</dimen>
-    <dimen name="with_reset">240dp</dimen>
+    <dimen name="with_reset">220dp</dimen>
     <dimen name="size_forgot">30dp</dimen>
 
 

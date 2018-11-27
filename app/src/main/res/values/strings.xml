@@ -30,7 +30,7 @@
     <string name="Not_Register">Already register. Login now! </string>
     <string name="text_register">Register </string>
     <string name="text_login">Login </string>
-    <string name="text_reset">Reset password </string>
+    <string name="text_reset">Reset </string>
     <string name="hint_confirmpass">Confirm password</string>
     <string name="hint_pass">Password</string>
 
