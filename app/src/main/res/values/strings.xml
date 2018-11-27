@@ -21,6 +21,7 @@
     <string name="searchTitle">Search</string>
     <string name="start_reading"> START EXPLORING </string>
     <string name="search_for">Search for</string>
+    <string name="no_result">No result for</string>
     <string name="next">next</string>
     <string name="pre">pre</string>
     <string name="continue_reading">CONTINUE READING</string>
@@ -96,6 +97,7 @@
     <string name="love_toast">Please login to save this comic</string>
     <string name="love_succ">Add to loved list comics successfully</string>
     <string name="love_rm">Remove from loved list comics successfully</string>
+    <string name="loved_comics">Loved comics</string>
 
 
 </resources>

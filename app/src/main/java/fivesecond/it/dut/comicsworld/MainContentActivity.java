@@ -281,9 +281,10 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
-                intent.putExtra("url", comic.getUrl());
                 intent.putExtra("chap", 1);
-                intent.putExtra("totalChap", comic.getChap());
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
+
                 startActivity(intent);
             }
         });
@@ -292,9 +293,9 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
-                intent.putExtra("url", comic.getUrl());
                 intent.putExtra("chap", comic.getChap() - position);
-                intent.putExtra("totalChap", comic.getChap());
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
 
                 startActivity(intent);
             }
@@ -437,12 +438,19 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                         startActivity(intent);
                     }
                 }else {
-                    if(groupPosition == 3 )
+                    if(groupPosition == 2)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), LovedComicsActivity.class);
+                        intent.putExtra("listType", mListType);
+
+                        startActivity(intent);
+                    }
+                    else if(groupPosition == 3 )
                     {
                         Intent intent = new Intent(MainContentActivity.this, UserActivity.class);
                         startActivity(intent);
-                    }else
-                    if(groupPosition == 4 ){
+                    }
+                    else if(groupPosition == 4 ){
                         auth.signOut();
                         Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
                         intent.putExtra("comic", comic);
