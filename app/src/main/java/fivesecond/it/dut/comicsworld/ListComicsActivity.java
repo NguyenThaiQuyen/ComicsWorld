@@ -1,5 +1,6 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
@@ -326,6 +328,12 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             item3.setIconImg(R.drawable.ic_login);
             // Adding data header
             headerList.add(item3);
+
+            MenuModel item4 = new MenuModel();
+            item4.setIconName(getResources().getString(R.string.change_lang));
+            item4.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item4);
         }
         else {
             MenuModel item3 = new MenuModel();
@@ -345,6 +353,12 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             item5.setIconImg(R.drawable.ic_logout);
             // Adding data header
             headerList.add(item5);
+
+            MenuModel item6 = new MenuModel();
+            item6.setIconName(getResources().getString(R.string.change_lang));
+            item6.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item6);
         }
 
 
@@ -369,6 +383,29 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                     if(groupPosition == 2 ) {
                         Intent intent = new Intent(ListComicsActivity.this, LoginActivity.class);
                         startActivity(intent);
+                    }else if(groupPosition == 3) {
+                        new AlertDialog.Builder(ListComicsActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
                     }
                 }else {
                     if(groupPosition == 2)
@@ -389,6 +426,29 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                         intent.putExtra("idType", String.valueOf(idType));
                         intent.putExtra("listType", mListType);
                         startActivity(intent);
+                    }else if(groupPosition == 5) {
+                        new AlertDialog.Builder(ListComicsActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
                     }
                 }
 

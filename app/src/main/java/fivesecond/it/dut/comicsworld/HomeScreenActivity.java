@@ -1,7 +1,12 @@
 package fivesecond.it.dut.comicsworld;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -99,15 +105,22 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    Query query;
+
+
+
+    final Handler handler = new Handler();
+
+    private static final String myref = "currentComic";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
         inits();
-        setWidgets();
         getWidgets();
+        setWidgets();
         addListeners();
     }
 
@@ -152,6 +165,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+
         mListType = new ArrayList<>();
         new LoadType(this).execute();
 
@@ -163,68 +177,6 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
         mAdapterSlide = new SlideAdapter(mListSlide, HomeScreenActivity.this);
 
-        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
-
-        Query query;
-        query = databaseReference.child("comics").orderByChild("rating").limitToLast(6);
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Comic comic = dataSnapshot.getValue(Comic.class);
-                mListTop.add(0, comic);
-                mAdapterTop.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        query = databaseReference.child("comics").orderByChild("id").limitToLast(6);
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Comic comic = dataSnapshot.getValue(Comic.class);
-                mListUpdate.add(0, comic);
-                mAdapterUpdate.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         query = databaseReference.child("slides").orderByChild("id").limitToLast(3);
         query.addChildEventListener(new ChildEventListener() {
@@ -238,7 +190,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 {
                     mAdapterSlide.notifyDataSetChanged();
                     mPager.setAdapter(mAdapterSlide);
-                    final Handler handler = new Handler();
+
                     final Runnable Update = new Runnable() {
                         public void run() {
                             if (currentPage == mListSlide.size()) {
@@ -282,7 +234,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mLayoutManagerTop = new LinearLayoutManager(HomeScreenActivity.this , LinearLayout.HORIZONTAL , false);
     }
 
-    private void setWidgets() {
+    private void getWidgets() {
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -302,7 +254,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     }
 
 
-    private void getWidgets() {
+    private void setWidgets() {
 
         setSupportActionBar(toolbar);
 
@@ -326,12 +278,48 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
         checkUpdate();
 
+        loadData();
+
     }
 
     private void addListeners() {
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (sharedPreferences.contains("url")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getResources().getString(R.string.continue_reading));
+            builder.setMessage("comic name");
+            builder.setCancelable(false);
+            builder.setNegativeButton(getResources().getString(R.string.no_continue), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    editor.remove("url");
+                    editor.remove("chap");
+                    editor.remove("totalChap");
+                    editor.apply();
+                }
+            });
+            builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getApplicationContext(), ReadComic.class);
+                    intent.putExtra("url", sharedPreferences.getString("url", "1"));
+                    intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
+                    intent.putExtra("totalChap", sharedPreferences.getInt("totalChap", 3));
+
+                    startActivity(intent);
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setLanguage("no");
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_list, menu);
@@ -419,6 +407,12 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             item3.setIconImg(R.drawable.ic_login);
             // Adding data header
             headerList.add(item3);
+
+            MenuModel item4 = new MenuModel();
+            item4.setIconName(getResources().getString(R.string.change_lang));
+            item4.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item4);
         }
         else {
             MenuModel item3 = new MenuModel();
@@ -438,6 +432,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             item5.setIconImg(R.drawable.ic_logout);
             // Adding data header
             headerList.add(item5);
+
+
+            MenuModel item6 = new MenuModel();
+            item6.setIconName(getResources().getString(R.string.change_lang));
+            item6.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item6);
         }
 
     }
@@ -462,6 +463,30 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                         Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
+                    else if(groupPosition == 3) {
+                        new AlertDialog.Builder(HomeScreenActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
+                    }
                 }else {
                     if(groupPosition == 2)
                     {
@@ -479,6 +504,29 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                         auth.signOut();
                         Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                         startActivity(intent);
+                    }else if(groupPosition == 5) {
+                        new AlertDialog.Builder(HomeScreenActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
                     }
                 }
 
@@ -500,6 +548,69 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 }
 
                 return false;
+            }
+        });
+    }
+
+    public void loadData()
+    {
+        query = databaseReference.child("comics").orderByChild("rating").limitToLast(6);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comic comic = dataSnapshot.getValue(Comic.class);
+                mListTop.add(0, comic);
+                mAdapterTop.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        query = databaseReference.child("comics").orderByChild("id").limitToLast(6);
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comic comic = dataSnapshot.getValue(Comic.class);
+                mListUpdate.add(0, comic);
+                mAdapterUpdate.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

@@ -157,10 +157,14 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(user != null) {
-                    databaseReference.child("comments").child(mListComment.get(position).getId()).removeValue();
-                    mListComment.remove(position);
-                    mAdapter.notifyDataSetChanged();
-                    Toast.makeText(CommentsActivity.this, getResources().getString(R.string.delete_cmt), Toast.LENGTH_SHORT).show();
+                    if(mListComment.get(position).getIdUser() == user.getUid())
+                    {
+                        databaseReference.child("comments").child(mListComment.get(position).getId()).removeValue();
+                        mListComment.remove(position);
+                        mAdapter.notifyDataSetChanged();
+                        Toast.makeText(CommentsActivity.this, getResources().getString(R.string.delete_cmt), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 return false;
             }

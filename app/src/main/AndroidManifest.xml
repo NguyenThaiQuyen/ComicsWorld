@@ -15,18 +15,20 @@
             android:name=".HomeScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".MainActivity">
+            android:windowSoftInputMode="adjustPan"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ReadComic"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainContentActivity" />
+        <activity android:name=".MainContentActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".AddUrlActivity" />
         <activity android:name=".BaseMenu" />
@@ -38,6 +40,7 @@
             android:name=".SearchableActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity
             android:name=".UserActivity"

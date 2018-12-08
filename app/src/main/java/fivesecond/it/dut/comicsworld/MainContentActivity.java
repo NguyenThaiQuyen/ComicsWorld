@@ -392,6 +392,12 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             item3.setIconImg(R.drawable.ic_login);
             // Adding data header
             headerList.add(item3);
+
+            MenuModel item4 = new MenuModel();
+            item4.setIconName(getResources().getString(R.string.change_lang));
+            item4.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item4);
         }
         else {
             MenuModel item3 = new MenuModel();
@@ -411,6 +417,12 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             item5.setIconImg(R.drawable.ic_logout);
             // Adding data header
             headerList.add(item5);
+
+            MenuModel item6 = new MenuModel();
+            item6.setIconName(getResources().getString(R.string.change_lang));
+            item6.setIconImg(R.drawable.ic_change);
+            // Adding data header
+            headerList.add(item6);
         }
 
 
@@ -436,6 +448,29 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                     if(groupPosition == 2 ) {
                         Intent intent = new Intent(MainContentActivity.this, LoginActivity.class);
                         startActivity(intent);
+                    }else if(groupPosition == 3) {
+                        new android.support.v7.app.AlertDialog.Builder(MainContentActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
                     }
                 }else {
                     if(groupPosition == 2)
@@ -456,6 +491,29 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
                         intent.putExtra("comic", comic);
                         intent.putExtra("listType", mListType);
                         startActivity(intent);
+                    }else if(groupPosition == 5) {
+                        new android.support.v7.app.AlertDialog.Builder(MainContentActivity.this)
+                                .setTitle(R.string.title_dialog_main)
+                                .setItems(R.array.languages, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        switch (which) {
+                                            case 0:
+                                                language = "en";
+                                                break;
+                                            case 1: //VI
+                                                language = "vi";
+                                                break;
+                                        }
+                                        setLanguage(language);
+
+                                        //save
+                                        editor.putString("KEY_LANGUAGE", language);
+                                        editor.apply();
+                                        recreate();
+                                    }
+                                }).create().show();
                     }
                 }
 
@@ -483,7 +541,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     public void addComment(View view) {
 
         Intent intent = new Intent(getApplicationContext(), CommentsActivity.class);
-        intent.putExtra("idComic",comic.getId());
+
+        intent.putExtra("idComic", String.valueOf(comic.getId()));
         startActivity(intent);
 
     }

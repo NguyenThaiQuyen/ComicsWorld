@@ -9,7 +9,7 @@ public class Comic implements Serializable {
     private String author;
     private int chap;
     private String desc;
-    private String id;
+    private int id;
     private int idComment;
     private String idType;
     private String name;
@@ -22,7 +22,7 @@ public class Comic implements Serializable {
 
     }
 
-    public Comic(String author, int chap, String desc, String id, int idComment, String idType, String name, int numberRating, float rating, String thumb, String url) {
+    public Comic(String author, int chap, String desc, int id, int idComment, String idType, String name, int numberRating, float rating, String thumb, String url) {
         this.author = author;
         this.chap = chap;
         this.desc = desc;
@@ -60,11 +60,11 @@ public class Comic implements Serializable {
         this.desc = desc;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -124,5 +124,20 @@ public class Comic implements Serializable {
         this.url = url;
     }
 
-
+    @Override
+    public String toString() {
+        return "Comic{" +
+                "author='" + author + '\'' +
+                ", chap=" + chap +
+                ", desc='" + desc + '\'' +
+                ", id=" + id +
+                ", idComment=" + idComment +
+                ", idType='" + idType + '\'' +
+                ", name='" + name + '\'' +
+                ", numberRating=" + numberRating +
+                ", rating=" + rating +
+                ", thumb='" + thumb + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

@@ -24,7 +24,7 @@
     <string name="no_result">No result for</string>
     <string name="next">next</string>
     <string name="pre">pre</string>
-    <string name="continue_reading">CONTINUE READING</string>
+    <string name="continue_reading">Continue reading</string>
 
     <string name="Not_Login">Not member. Register now! </string>
     <string name="Not_Register">Already register. Login now! </string>
@@ -54,6 +54,7 @@
     <string name="login">Login</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
+    <string name="change_lang">Language</string>
 
     <string name="rate">Rate</string>
     <string name="read">Read</string>
@@ -99,6 +100,9 @@
     <string name="love_rm">Remove from loved list comics successfully</string>
     <string name="loved_comics">Loved comics</string>
     <string name="anonymous">Anonymous</string>
+
+    <string name="no_continue">No, thanks</string>
+    <string name="yes_continue">Go now</string>
 
 
 </resources>

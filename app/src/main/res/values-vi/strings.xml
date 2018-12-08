@@ -24,7 +24,7 @@
 
     <string name="next">tiếp</string>
     <string name="pre">trước</string>
-    <string name="continue_reading">TIẾP TỤC</string>
+    <string name="continue_reading">Tiếp tục đọc</string>
 
     <string name="Not_Login">Không phải là thành viên. Đăng kí </string>
     <string name="Not_Register">Đã đăng kí. Đăng nhập! </string>
@@ -53,6 +53,7 @@
     <string name="loved">Yêu thích</string>
     <string name="profile">Trang cá nhân</string>
     <string name="logout">Đăng xuất</string>
+    <string name="change_lang">Ngôn ngữ </string>
 
     <string name="rate">Đ/giá</string>
     <string name="read">Đọc</string>
@@ -101,5 +102,8 @@
     <string name="love_rm">Đã xóa khỏi danh sách yêu thích</string>
     <string name="loved_comics">Truyện yêu thích</string>
     <string name="anonymous">Ẩn danh</string>
+
+    <string name="no_continue">Đọc mới</string>
+    <string name="yes_continue">Tiếp tục</string>
 
 </resources>
