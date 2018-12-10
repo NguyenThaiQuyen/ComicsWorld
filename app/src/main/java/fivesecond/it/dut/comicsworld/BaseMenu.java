@@ -94,7 +94,7 @@ public class BaseMenu extends AppCompatActivity {
     public void setLanguage(String newLanguage) {
         if(newLanguage.equals("no"))
         {
-            newLanguage = language;
+            newLanguage = sharedPreferences.getString("KEY_LANGUAGE", "en");;
         }
 
         Locale locale = new Locale(newLanguage);

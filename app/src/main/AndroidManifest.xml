@@ -38,7 +38,7 @@
             android:name=".SearchableActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
+
         <activity android:name=".ResetPasswordActivity" />
         <activity
             android:name=".UserActivity"

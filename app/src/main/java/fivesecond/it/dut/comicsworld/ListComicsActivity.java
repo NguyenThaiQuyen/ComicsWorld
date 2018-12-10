@@ -87,6 +87,8 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    static boolean loaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,7 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
     private void inits() {
 
+        loaded = false;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -220,6 +223,19 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+            recreate();
+        }
 
     }
 

@@ -110,7 +110,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     Query query;
 
-
+    static boolean loaded = false;
 
     final Handler handler = new Handler();
 
@@ -163,6 +163,8 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     }
 
     private void inits() {
+
+        loaded = false;
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -333,10 +335,24 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        setLanguage("no");
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            mListTop.clear();
+            mListUpdate.clear();
+            loadData();
+            mAdapterTop.notifyDataSetChanged();
+            mAdapterUpdate.notifyDataSetChanged();
+            setLanguage("no");
+
+            recreate();
+        }
+
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_list, menu);
@@ -499,11 +515,11 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                                                 break;
                                         }
                                         setLanguage(language);
+                                        recreate();
 
-                                        //save
                                         editor.putString("KEY_LANGUAGE", language);
                                         editor.apply();
-                                        recreate();
+
                                     }
                                 }).create().show();
                     }

@@ -101,6 +101,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    static boolean loaded = false;
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +172,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     private void init() {
 
+        loaded = false;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -302,6 +304,20 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             }
         });
 
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+            recreate();
+        }
 
     }
 

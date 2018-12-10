@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class ReadComic extends AppCompatActivity {
     private int totalChap;
     private Comic comic;
     private ArrayList<Type> mListType;
+
 
 
     private SharedPreferences sharedPreferences;
@@ -171,6 +173,8 @@ public class ReadComic extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setCurrentChap()
     {

@@ -88,6 +88,8 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    static boolean loaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,7 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
     }
 
     private void inits() {
+        loaded = false;
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -137,50 +140,7 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
         mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
         setTitle(getResources().getString(R.string.loved_comics));
 
-        final DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
-
-        databaseReference.child("loves").child(user.getUid()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                String url = dataSnapshot.getValue().toString();
-                databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Comic comic = dataSnapshot.getValue(Comic.class);
-
-                        mList.add(0, comic);
-                        backup.add(0, comic);
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+       loadLoveComics();
 
     }
 
@@ -233,6 +193,20 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+
+            recreate();
+        }
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -434,8 +408,7 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
                     }
                     else if(groupPosition == 4 ){
                         auth.signOut();
-                        Intent intent = new Intent(LovedComicsActivity.this, LovedComicsActivity.class);
-                        intent.putExtra("listType", mListType);
+                        Intent intent = new Intent(LovedComicsActivity.this, HomeScreenActivity.class);
                         startActivity(intent);
                     }
                     else if(groupPosition == 5) {
@@ -484,6 +457,53 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
                 }
 
                 return false;
+            }
+        });
+    }
+
+    public void loadLoveComics() {
+        final DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child("loves").child(user.getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                String url = dataSnapshot.getValue().toString();
+                databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Comic comic = dataSnapshot.getValue(Comic.class);
+
+                        mList.add(0, comic);
+                        backup.add(0, comic);
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
