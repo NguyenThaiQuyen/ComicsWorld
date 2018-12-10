@@ -43,6 +43,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -296,19 +297,34 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 public void onClick(DialogInterface dialog, int which) {
                     editor.remove("url");
                     editor.remove("chap");
-                    editor.remove("totalChap");
                     editor.apply();
                 }
             });
             builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(getApplicationContext(), ReadComic.class);
-                    intent.putExtra("url", sharedPreferences.getString("url", "1"));
-                    intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
-                    intent.putExtra("totalChap", sharedPreferences.getInt("totalChap", 3));
+                    String url = sharedPreferences.getString("url", "1");
+                    final int chap = sharedPreferences.getInt("chap", 1);
 
-                    startActivity(intent);
+                    databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Comic comic = dataSnapshot.getValue(Comic.class);
+
+                            Intent intent = new Intent(getApplicationContext(), ReadComic.class);
+                            intent.putExtra("chap", chap);
+                            intent.putExtra("comic", comic);
+                            intent.putExtra("listType", mListType);
+
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
             });
             AlertDialog alertDialog = builder.create();
