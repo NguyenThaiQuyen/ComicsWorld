@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,9 +41,19 @@ public class SlideAdapter extends PagerAdapter {
 
     public Object instantiateItem(ViewGroup view, int position) {
         View myImageLayout = inflater.inflate(R.layout.item_slide, view, false);
-        ImageView myImage = (ImageView) myImageLayout
-                .findViewById(R.id.image);
-        Picasso.get().load(images.get(position).getUrl()).into(myImage);
+        ImageView myImage = (ImageView) myImageLayout.findViewById(R.id.image);
+        final ProgressBar progressBar = (ProgressBar) myImageLayout.findViewById(R.id.prBarSlide);
+        Picasso.get().load(images.get(position).getUrl()).into(myImage, new Callback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
 
         view.addView(myImageLayout, 0);
         return myImageLayout;

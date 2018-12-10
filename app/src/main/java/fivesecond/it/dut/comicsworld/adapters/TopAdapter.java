@@ -1,6 +1,5 @@
 package fivesecond.it.dut.comicsworld.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +28,7 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.ViewHolder>{
 
     private ArrayList<Comic> mList ;
     Comic cm1 , cm2 , cm3 ;
-    private Context mContext ;
+
     HomeScreenActivity homeScreenActivity;
 
     public TopAdapter(ArrayList<Comic> mList , HomeScreenActivity home) {
