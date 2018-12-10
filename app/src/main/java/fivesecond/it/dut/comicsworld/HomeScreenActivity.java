@@ -1,12 +1,8 @@
 package fivesecond.it.dut.comicsworld;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +26,6 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +52,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
-import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
@@ -177,8 +170,8 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mListTop = new ArrayList<>();
         mListSlide = new ArrayList<>();
 
-        mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
         mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+        mAdapterUpdate = new TopAdapter(mListUpdate, HomeScreenActivity.this);
         mAdapterSlide = new SlideAdapter(mListSlide, HomeScreenActivity.this);
 
 
