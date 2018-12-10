@@ -198,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:dividerHeight="1px"
-                    android:textSize="20sp">
+                    android:textSize="@dimen/size_discrip">
                 </ListView>
             </LinearLayout>
         </LinearLayout>
