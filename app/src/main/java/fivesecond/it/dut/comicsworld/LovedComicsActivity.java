@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -473,6 +474,8 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
+                    parent.collapseGroup(groupPosition);
+                    drawer.closeDrawer(Gravity.START);
                     Intent intent = new Intent(LovedComicsActivity.this, ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);

@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -454,16 +455,19 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
                 if(groupPosition == 0 )
                 {
+                    drawer.closeDrawer(Gravity.START);
                     Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
                 }
 
                 if(user == null) {
                     if(groupPosition == 2 ) {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
                     else if(groupPosition == 3) {
+                        drawer.closeDrawer(Gravity.START);
                         new AlertDialog.Builder(HomeScreenActivity.this)
                                 .setTitle(R.string.title_dialog_main)
                                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
@@ -490,6 +494,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                 }else {
                     if(groupPosition == 2)
                     {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(getApplicationContext(), LovedComicsActivity.class);
                         intent.putExtra("listType", mListType);
 
@@ -497,14 +502,17 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                     }
                     else if(groupPosition == 3 )
                     {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(HomeScreenActivity.this, UserActivity.class);
                         startActivity(intent);
                     }
                     else if(groupPosition == 4 ){
+                        drawer.closeDrawer(Gravity.START);
                         auth.signOut();
                         Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                         startActivity(intent);
                     }else if(groupPosition == 5) {
+                        drawer.closeDrawer(Gravity.START);
                         new AlertDialog.Builder(HomeScreenActivity.this)
                                 .setTitle(R.string.title_dialog_main)
                                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
@@ -540,11 +548,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
-                        Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
-                        intent.putExtra("idType", String.valueOf(childPosition + 1));
-                        intent.putExtra("listType", mListType);
-                        startActivity(intent);
-                        onBackPressed();
+                    parent.collapseGroup(groupPosition);
+                    drawer.closeDrawer(Gravity.START);
+                    Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
+                    intent.putExtra("idType", String.valueOf(childPosition + 1));
+                    intent.putExtra("listType", mListType);
+                    startActivity(intent);
+                    onBackPressed();
                 }
 
                 return false;
