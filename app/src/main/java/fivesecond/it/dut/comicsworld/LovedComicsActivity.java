@@ -88,6 +88,9 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    FirebaseDatabase mData = FirebaseDatabase.getInstance();
+    DatabaseReference dataRef = mData.getReference();
+
     static boolean loaded = false;
 
     @Override
@@ -189,6 +192,19 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
                 intent.putExtra("comic", mList.get(position));
                 intent.putExtra("listType", mListType);
                 startActivity(intent);
+            }
+        });
+
+
+        lvtest.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                dataRef.child("loves").child(user.getUid()).child(mList.get(position).getUrl()).removeValue();
+                mList.remove(mList.get(position));
+                mAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.love_rm), Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
