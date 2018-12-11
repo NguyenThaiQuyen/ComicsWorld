@@ -24,7 +24,7 @@
     <dimen name="thubnail_width">95dp</dimen>
     <dimen name="thumbnail_height">120dp</dimen>
     <dimen name="margin_right_thumbnail">15dp</dimen>
-    <dimen name="text_size_title">16sp</dimen>
+    <dimen name="text_size_title">14sp</dimen>
     <dimen name="text_size_author">11sp</dimen>
     <dimen name="text_size_desc">13sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
@@ -100,15 +100,15 @@
 
     <dimen name="height_text">50dp</dimen>
     <dimen name="height_button_Login">50dp</dimen>
-    <dimen name="with_button_login">170dp</dimen>
-    <dimen name="with_button_register">140dp</dimen>
+    <dimen name="with_button_login">120dp</dimen>
+    <dimen name="with_button_register">120dp</dimen>
 
     <dimen name="margin_top_buton_register">0dip</dimen>
     <dimen name="text_size_back">22dp</dimen>
     <dimen name="text_size">14dp</dimen>
 
-    <dimen name="height_reset">60dp</dimen>
-    <dimen name="with_reset">170dp</dimen>
+    <dimen name="height_reset">40dp</dimen>
+    <dimen name="with_reset">120dp</dimen>
 
     <dimen name="size_forgot">22dp</dimen>
 

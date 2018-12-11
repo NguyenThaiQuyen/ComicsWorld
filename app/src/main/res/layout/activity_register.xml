@@ -73,7 +73,7 @@
         android:layout_below="@id/edtConfirm"
         android:id="@+id/btnRegister"
         android:layout_width="@dimen/with_button_register"
-        android:layout_height="@dimen/height_button_Login"
+        android:layout_height="@dimen/height_reset"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/edt_margin_left"
         android:layout_marginRight="@dimen/edt_margin_right"
@@ -94,7 +94,7 @@
         android:layout_marginTop="@dimen/margin_top_buton"
         android:textSize="@dimen/size_authur"
         android:background="@null"
-        android:text="Forgot password?"
+        android:text="@string/Forgot"
         android:textAllCaps="false"
         android:textColor="@color/textCommics" />
 
