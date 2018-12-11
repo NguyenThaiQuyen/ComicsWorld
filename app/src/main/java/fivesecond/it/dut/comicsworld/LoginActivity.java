@@ -106,7 +106,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_successfully), Toast.LENGTH_SHORT).show();
                                     user = auth.getCurrentUser();
                                     updateUI(user);
-                                    startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
+                                    onBackPressed();
+                                    //startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
                                 } else {
                                     Log.e("ERROR", task.getException().toString());
                                     Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();

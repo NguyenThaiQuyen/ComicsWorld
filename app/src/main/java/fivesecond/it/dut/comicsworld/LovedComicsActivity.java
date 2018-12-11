@@ -478,14 +478,13 @@ public class LovedComicsActivity extends BaseMenu implements NavigationView.OnNa
     }
 
     public void loadLoveComics() {
-        final DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference();
 
-        databaseReference.child("loves").child(user.getUid()).addChildEventListener(new ChildEventListener() {
+        dataRef.child("loves").child(user.getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 String url = dataSnapshot.getValue().toString();
-                databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                dataRef.child("comics").child(url).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Comic comic = dataSnapshot.getValue(Comic.class);

@@ -116,7 +116,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnBack: {
-                startActivity(new Intent(UserActivity.this, HomeScreenActivity.class));
+                onBackPressed();
+                //startActivity(new Intent(UserActivity.this, HomeScreenActivity.class));
                 break;
             }
             case R.id.btnSave: {
