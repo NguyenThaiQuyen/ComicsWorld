@@ -283,29 +283,29 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         navigationView.setNavigationItemSelectedListener(this);
 
         if (sharedPreferences.contains("url")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getResources().getString(R.string.continue_reading));
-            builder.setMessage("comic name");
-            builder.setCancelable(false);
-            builder.setNegativeButton(getResources().getString(R.string.no_continue), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    editor.remove("url");
-                    editor.remove("chap");
-                    editor.apply();
-                }
-            });
-            builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    String url = sharedPreferences.getString("url", "1");
-                    final int chap = sharedPreferences.getInt("chap", 1);
+            String url = sharedPreferences.getString("url", "1");
+            final int chap = sharedPreferences.getInt("chap", 1);
 
-                    databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+            databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    final Comic comic = dataSnapshot.getValue(Comic.class);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                    builder.setTitle(getResources().getString(R.string.continue_reading));
+                    builder.setMessage(comic.getName());
+                    builder.setCancelable(false);
+                    builder.setNegativeButton(getResources().getString(R.string.no_continue), new DialogInterface.OnClickListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Comic comic = dataSnapshot.getValue(Comic.class);
-
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor.remove("url");
+                            editor.remove("chap");
+                            editor.apply();
+                        }
+                    });
+                    builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             Intent intent = new Intent(getApplicationContext(), ReadComic.class);
                             intent.putExtra("chap", chap);
                             intent.putExtra("comic", comic);
@@ -313,17 +313,17 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
                             startActivity(intent);
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
                     });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+
         }
     }
 
