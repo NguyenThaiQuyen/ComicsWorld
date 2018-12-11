@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,8 @@ public class ReadComic extends AppCompatActivity {
     private int mChap;
     private int totalChap;
     private Comic comic;
+    private ArrayList<Type> mListType;
+
 
 
     private SharedPreferences sharedPreferences;
@@ -80,15 +83,17 @@ public class ReadComic extends AppCompatActivity {
 
         Intent intent = getIntent();
         mChap = intent.getIntExtra("chap", 1);
-        mUrl = intent.getStringExtra("url");
-        totalChap = intent.getIntExtra("totalChap", 1);
+        comic = (Comic)intent.getSerializableExtra("comic");
+        mListType = (ArrayList<Type>) intent.getSerializableExtra("listType");
+
+        mUrl = comic.getUrl();
+        totalChap = comic.getChap();
 
 
         sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("url", mUrl);
         editor.putInt("chap", mChap);
-        editor.putInt("totalChap", totalChap);
 
         editor.apply();
     }
@@ -132,8 +137,8 @@ public class ReadComic extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
 
                     intent.putExtra("chap", mChap + 1);
-                    intent.putExtra("url", mUrl);
-                    intent.putExtra("totalChap", totalChap);
+                    intent.putExtra("comic", comic);
+                    intent.putExtra("listType", mListType);
 
                     startActivity(intent);
                 }
@@ -147,8 +152,8 @@ public class ReadComic extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() ,ReadComic.class);
                     intent.putExtra("chap", mChap - 1);
-                    intent.putExtra("url", mUrl);
-                    intent.putExtra("totalChap", totalChap);
+                    intent.putExtra("comic", comic);
+                    intent.putExtra("listType", mListType);
 
                     startActivity(intent);
                 }
@@ -159,11 +164,17 @@ public class ReadComic extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 removeSharedPre();
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+
+                Intent intent = new Intent(getApplicationContext(), MainContentActivity.class);
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
                 startActivity(intent);
+
             }
         });
     }
+
+
 
     private void setCurrentChap()
     {
@@ -225,7 +236,6 @@ public class ReadComic extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("url");
         editor.remove("chap");
-        editor.remove("totalChap");
         editor.apply();
     }
 }

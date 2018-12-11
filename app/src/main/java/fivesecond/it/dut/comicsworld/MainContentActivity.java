@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +101,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    static boolean loaded = false;
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +172,7 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
 
     private void init() {
 
+        loaded = false;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -282,8 +285,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public void onClick(View v) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("chap", 1);
-                intent.putExtra("url", comic.getUrl());
-                intent.putExtra("totalChap", comic.getChap());
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
 
                 startActivity(intent);
             }
@@ -294,13 +297,27 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainContentActivity.this ,ReadComic.class);
                 intent.putExtra("chap", comic.getChap() - position);
-                intent.putExtra("url", comic.getUrl());
-                intent.putExtra("totalChap", comic.getChap());
+                intent.putExtra("comic", comic);
+                intent.putExtra("listType", mListType);
 
                 startActivity(intent);
             }
         });
 
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+            recreate();
+        }
 
     }
 
@@ -526,6 +543,8 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
+                    parent.collapseGroup(groupPosition);
+                    drawer.closeDrawer(Gravity.START);
                     Intent intent = new Intent(MainContentActivity.this, ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);

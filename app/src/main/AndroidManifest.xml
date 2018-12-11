@@ -15,8 +15,7 @@
             android:name=".HomeScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +38,7 @@
             android:name=".SearchableActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
+
         <activity android:name=".ResetPasswordActivity" />
         <activity
             android:name=".UserActivity"

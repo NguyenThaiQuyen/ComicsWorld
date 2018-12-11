@@ -1,12 +1,8 @@
 package fivesecond.it.dut.comicsworld;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +26,6 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -56,7 +52,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.ExpandableListAdapter;
 import fivesecond.it.dut.comicsworld.adapters.SlideAdapter;
 import fivesecond.it.dut.comicsworld.adapters.TopAdapter;
-import fivesecond.it.dut.comicsworld.adapters.UpdateAdapter;
 import fivesecond.it.dut.comicsworld.async.LoadType;
 import fivesecond.it.dut.comicsworld.models.Comic;
 import fivesecond.it.dut.comicsworld.models.MenuModel;
@@ -108,7 +103,7 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     Query query;
 
-
+    static boolean loaded = false;
 
     final Handler handler = new Handler();
 
@@ -162,6 +157,8 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
     private void inits() {
 
+        loaded = false;
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -173,8 +170,8 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         mListTop = new ArrayList<>();
         mListSlide = new ArrayList<>();
 
-        mAdapterUpdate = new UpdateAdapter(mListUpdate, HomeScreenActivity.this);
         mAdapterTop = new TopAdapter(mListTop, HomeScreenActivity.this);
+        mAdapterUpdate = new TopAdapter(mListUpdate, HomeScreenActivity.this);
         mAdapterSlide = new SlideAdapter(mListSlide, HomeScreenActivity.this);
 
 
@@ -286,40 +283,69 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
         navigationView.setNavigationItemSelectedListener(this);
 
         if (sharedPreferences.contains("url")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getResources().getString(R.string.continue_reading));
-            builder.setMessage("comic name");
-            builder.setCancelable(false);
-            builder.setNegativeButton(getResources().getString(R.string.no_continue), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    editor.remove("url");
-                    editor.remove("chap");
-                    editor.remove("totalChap");
-                    editor.apply();
-                }
-            });
-            builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(getApplicationContext(), ReadComic.class);
-                    intent.putExtra("url", sharedPreferences.getString("url", "1"));
-                    intent.putExtra("chap", sharedPreferences.getInt("chap", 1));
-                    intent.putExtra("totalChap", sharedPreferences.getInt("totalChap", 3));
+            String url = sharedPreferences.getString("url", "1");
+            final int chap = sharedPreferences.getInt("chap", 1);
 
-                    startActivity(intent);
+            databaseReference.child("comics").child(url).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    final Comic comic = dataSnapshot.getValue(Comic.class);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                    builder.setTitle(getResources().getString(R.string.continue_reading));
+                    builder.setMessage(comic.getName());
+                    builder.setCancelable(false);
+                    builder.setNegativeButton(getResources().getString(R.string.no_continue), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor.remove("url");
+                            editor.remove("chap");
+                            editor.apply();
+                        }
+                    });
+                    builder.setPositiveButton(getResources().getString(R.string.yes_continue), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getApplicationContext(), ReadComic.class);
+                            intent.putExtra("chap", chap);
+                            intent.putExtra("comic", comic);
+                            intent.putExtra("listType", mListType);
+
+                            startActivity(intent);
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
             });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+
         }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        setLanguage("no");
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            mListTop.clear();
+            mListUpdate.clear();
+            loadData();
+            mAdapterTop.notifyDataSetChanged();
+            mAdapterUpdate.notifyDataSetChanged();
+            setLanguage("no");
+
+            recreate();
+        }
+
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_list, menu);
@@ -454,16 +480,19 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
 
                 if(groupPosition == 0 )
                 {
+                    drawer.closeDrawer(Gravity.START);
                     Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
                 }
 
                 if(user == null) {
                     if(groupPosition == 2 ) {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
                         startActivity(intent);
                     }
                     else if(groupPosition == 3) {
+                        drawer.closeDrawer(Gravity.START);
                         new AlertDialog.Builder(HomeScreenActivity.this)
                                 .setTitle(R.string.title_dialog_main)
                                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
@@ -479,17 +508,18 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                                                 break;
                                         }
                                         setLanguage(language);
+                                        recreate();
 
-                                        //save
                                         editor.putString("KEY_LANGUAGE", language);
                                         editor.apply();
-                                        recreate();
+
                                     }
                                 }).create().show();
                     }
                 }else {
                     if(groupPosition == 2)
                     {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(getApplicationContext(), LovedComicsActivity.class);
                         intent.putExtra("listType", mListType);
 
@@ -497,14 +527,17 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
                     }
                     else if(groupPosition == 3 )
                     {
+                        drawer.closeDrawer(Gravity.START);
                         Intent intent = new Intent(HomeScreenActivity.this, UserActivity.class);
                         startActivity(intent);
                     }
                     else if(groupPosition == 4 ){
+                        drawer.closeDrawer(Gravity.START);
                         auth.signOut();
                         Intent intent = new Intent(HomeScreenActivity.this, HomeScreenActivity.class);
                         startActivity(intent);
                     }else if(groupPosition == 5) {
+                        drawer.closeDrawer(Gravity.START);
                         new AlertDialog.Builder(HomeScreenActivity.this)
                                 .setTitle(R.string.title_dialog_main)
                                 .setItems(R.array.languages, new DialogInterface.OnClickListener() {
@@ -540,11 +573,13 @@ public class HomeScreenActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
-                        Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
-                        intent.putExtra("idType", String.valueOf(childPosition + 1));
-                        intent.putExtra("listType", mListType);
-                        startActivity(intent);
-                        onBackPressed();
+                    parent.collapseGroup(groupPosition);
+                    drawer.closeDrawer(Gravity.START);
+                    Intent intent = new Intent(HomeScreenActivity.this, ListComicsActivity.class);
+                    intent.putExtra("idType", String.valueOf(childPosition + 1));
+                    intent.putExtra("listType", mListType);
+                    startActivity(intent);
+                    onBackPressed();
                 }
 
                 return false;

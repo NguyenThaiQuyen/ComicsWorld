@@ -20,7 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    protected FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    protected FirebaseAuth auth;
+    protected FirebaseUser user ;
+
     EditText edtEmail, edtPass;
     Button btnRegister, btnForgot, btnLogin;
     String email, password;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void inits() {
+        auth = FirebaseAuth.getInstance();
     }
 
     private void setWidgets() {
@@ -79,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         updateUI(currentUser);
 
     }
@@ -94,14 +97,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin: {
                 getWidgets();
                 final ProgressDialog mProgressDialog = ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.wait), getResources().getString(R.string.processing), true);
-                mAuth.signInWithEmailAndPassword(email, password)
+                auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 mProgressDialog.dismiss();
                                 if (task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_successfully), Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    user = auth.getCurrentUser();
                                     updateUI(user);
                                     startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
                                 } else {

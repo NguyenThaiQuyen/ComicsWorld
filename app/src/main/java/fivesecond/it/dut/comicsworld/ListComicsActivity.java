@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,6 +87,8 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
+    static boolean loaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +127,7 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
 
     private void inits() {
 
+        loaded = false;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -219,6 +223,19 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+            recreate();
+        }
 
     }
 
@@ -462,6 +479,8 @@ public class ListComicsActivity extends BaseMenu implements NavigationView.OnNav
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
                 if (childList.get(headerList.get(groupPosition)) != null) {
+                    parent.collapseGroup(groupPosition);
+                    drawer.closeDrawer(Gravity.START);
                     Intent intent = new Intent(ListComicsActivity.this, ListComicsActivity.class);
                     intent.putExtra("idType", String.valueOf(childPosition + 1));
                     intent.putExtra("listType", mListType);
