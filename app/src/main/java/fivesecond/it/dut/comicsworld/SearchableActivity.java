@@ -83,7 +83,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference storageReference = firebaseStorage.getReference();
 
-
+    static boolean loaded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +122,7 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
 
     private void init() {
 
+        loaded = false;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -231,6 +232,20 @@ public class SearchableActivity extends BaseMenu implements NavigationView.OnNav
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+
+            setLanguage("no");
+            recreate();
+        }
+
+    }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
