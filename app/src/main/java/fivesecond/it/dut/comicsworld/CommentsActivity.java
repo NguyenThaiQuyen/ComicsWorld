@@ -1,6 +1,10 @@
 package fivesecond.it.dut.comicsworld;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fivesecond.it.dut.comicsworld.adapters.CommentAdapter;
@@ -51,6 +56,9 @@ public class CommentsActivity extends AppCompatActivity {
     TextView edtPost;
     EditText editText;
 
+    static boolean loaded = false;
+
+    protected static final String myref = "currentComic";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +72,9 @@ public class CommentsActivity extends AppCompatActivity {
 
 
     private void inits() {
+
+        loaded = false;
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -99,16 +110,88 @@ public class CommentsActivity extends AppCompatActivity {
                 }
 
             });
+            add_comment.setText("");
+            add_comment.setEnabled(true);
         }
         else
         {
-//            Toast.makeText(this, getResources().getString(R.string.toast_cmt), Toast.LENGTH_SHORT).show();
-            editText = (EditText)findViewById(R.id.add_comment);
-            editText.setText(getResources().getString(R.string.disable_cmt));
-            editText.setEnabled(false);
+            add_comment.setHint(getResources().getString(R.string.disable_cmt));
+            add_comment.setEnabled(false);
+            edtPost.setText(getResources().getString(R.string.login));
         }
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        loadComments();
+    }
+
+
+
+    public void addNewComment(View view) {
+        if(user != null)
+        {
+            String content = add_comment.getText().toString();
+            String id = databaseReference.push().getKey();
+            String name = (user.getDisplayName() != null) ? user.getDisplayName() : getResources().getString(R.string.anonymous);
+            Comment comment = new Comment(id, content, idComic, user.getUid(), name);
+            databaseReference.child("comments").child(id).setValue(comment);
+               add_comment.setText("");
+        }
+        else
+        {
+            edtPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CommentsActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+    }
+
+    private void addListeners() {
+        lvCommment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(user != null) {
+
+                    if(mListComment.get(position).getIdUser().equals(user.getUid()))
+                    {
+                        databaseReference.child("comments").child(mListComment.get(position).getId()).removeValue();
+                        mListComment.remove(position);
+                        mAdapter.notifyDataSetChanged();
+                        Toast.makeText(CommentsActivity.this, getResources().getString(R.string.delete_cmt), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loaded) {
+            loaded = true;
+        } else {
+            mListComment.clear();
+            loadComments();
+
+            SharedPreferences sharedPreferences = getSharedPreferences(myref, Context.MODE_PRIVATE);
+            String newLanguage = sharedPreferences.getString("KEY_LANGUAGE", "en");;
+            Locale locale = new Locale(newLanguage);
+            Locale.setDefault(locale);
+            Resources resources = getResources();
+            Configuration con = resources.getConfiguration();
+            con.locale = locale;
+            resources.updateConfiguration(con, resources.getDisplayMetrics());
+            recreate();
+        }
+
+    }
+
+    public void loadComments() {
 
         Query query =  databaseReference.child("comments").orderByChild("idComic").equalTo(idComic);
         query.addChildEventListener(new ChildEventListener() {
@@ -140,40 +223,4 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-    public void addNewComment(View view) {
-        if(user != null)
-        {
-            String content = add_comment.getText().toString();
-            String id = databaseReference.push().getKey();
-            String name = (user.getDisplayName() != null) ? user.getDisplayName() : getResources().getString(R.string.anonymous);
-            Comment comment = new Comment(id, content, idComic, user.getUid(), name);
-            databaseReference.child("comments").child(id).setValue(comment);
-               add_comment.setText("");
-        }
-
-
-    }
-
-    private void addListeners() {
-        lvCommment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(user != null) {
-                    if(mListComment.get(position).getIdUser() == user.getUid())
-                    {
-                        databaseReference.child("comments").child(mListComment.get(position).getId()).removeValue();
-                        mListComment.remove(position);
-                        mAdapter.notifyDataSetChanged();
-                        Toast.makeText(CommentsActivity.this, getResources().getString(R.string.delete_cmt), Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                return false;
-            }
-        });
-    }
-
 }

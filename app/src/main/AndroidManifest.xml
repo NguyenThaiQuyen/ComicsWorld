@@ -28,18 +28,21 @@
             android:screenOrientation="portrait" />
         <activity android:name=".MainContentActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".AddUrlActivity" />
         <activity android:name=".BaseMenu" />
         <activity
             android:name=".ListComicsActivity" />
         <activity android:name=".CommentsActivity" />
         <activity
-            android:name=".SearchableActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".RegisterActivity" />
+            android:name=".SearchableActivity" />
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".ResetPasswordActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UserActivity"
             android:screenOrientation="portrait"/>
