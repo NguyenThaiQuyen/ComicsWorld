@@ -304,7 +304,18 @@ public class MainContentActivity extends BaseMenu implements NavigationView.OnNa
             }
         });
 
+        imgCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
 
+                sendIntent.putExtra(Intent.EXTRA_TEXT,comic.getThumb());
+                //"https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+            }
+        });
     }
 
 
