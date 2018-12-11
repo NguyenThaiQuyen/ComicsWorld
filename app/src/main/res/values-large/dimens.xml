@@ -24,14 +24,14 @@
     <dimen name="thubnail_width">145dp</dimen>
     <dimen name="thumbnail_height">180dp</dimen>
     <dimen name="margin_right_thumbnail">15dp</dimen>
-    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size_title">22sp</dimen>
     <dimen name="text_size_author">17sp</dimen>
     <dimen name="text_size_desc">20sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="text_size_title1">18sp</dimen>
-    <dimen name="text_size_nameComic">15sp</dimen>
+    <dimen name="text_size_title1">25sp</dimen>
+    <dimen name="text_size_nameComic">20sp</dimen>
 
     <dimen name="edt_margin_left">15dp</dimen>
     <dimen name="edt_margin_right">15dp</dimen>
@@ -97,13 +97,13 @@
     <dimen name="height_text">60dp</dimen>
 
     <dimen name="height_button_Login">70dp</dimen>
-    <dimen name="with_button_login">200dp</dimen>
+    <dimen name="with_button_login">180dp</dimen>
     <dimen name="with_button_register">180dp</dimen>
    <dimen name="margin_top_buton_register">25dip</dimen>
     <dimen name="text_size_back">28dp</dimen>
     <dimen name="text_size">20dp</dimen>
 
-    <dimen name="height_reset">75dp</dimen>
+    <dimen name="height_reset">60dp</dimen>
     <dimen name="with_reset">200dp</dimen>
     <dimen name="size_forgot">26dp</dimen>
 

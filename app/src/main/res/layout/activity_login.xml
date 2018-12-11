@@ -51,7 +51,7 @@
         android:layout_below="@id/edt_pass"
         android:id="@+id/btnLogin"
         android:layout_width="@dimen/with_button_login"
-        android:layout_height="@dimen/height_button_Login"
+        android:layout_height="@dimen/height_reset"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/edt_margin_bottom"
         android:layout_marginTop="@dimen/edt_margin_top"
