@@ -49,6 +49,7 @@ public class CommentsActivity extends AppCompatActivity {
     CircleImageView image_profile;
     EditText add_comment;
     TextView edtPost;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,13 @@ public class CommentsActivity extends AppCompatActivity {
 
             });
         }
+        else
+        {
+//            Toast.makeText(this, getResources().getString(R.string.toast_cmt), Toast.LENGTH_SHORT).show();
+            editText = (EditText)findViewById(R.id.add_comment);
+            editText.setText(getResources().getString(R.string.disable_cmt));
+            editText.setEnabled(false);
+        }
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -145,10 +153,7 @@ public class CommentsActivity extends AppCompatActivity {
             databaseReference.child("comments").child(id).setValue(comment);
                add_comment.setText("");
         }
-        else
-        {
-            Toast.makeText(this, getResources().getString(R.string.toast_cmt), Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 

@@ -106,4 +106,8 @@
     <string name="no_continue">Đọc mới</string>
     <string name="yes_continue">Tiếp tục</string>
 
+    <string name="hint_cmt">Nhập bình luận...</string>
+    <string name="add">GỬI</string>
+    <string name="disable_cmt">Đăng nhập để bình luận..</string>
+
 </resources>

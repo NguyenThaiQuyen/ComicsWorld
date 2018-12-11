@@ -91,6 +91,7 @@
     <dimen name="height_ava_cmt">40dp</dimen>
     <dimen name="height_ava">40dp</dimen>
     <dimen name="text_cmt">15dp</dimen>
+    <dimen name="post">18dp</dimen>
 
 
 

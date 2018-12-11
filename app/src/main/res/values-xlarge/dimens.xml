@@ -90,6 +90,8 @@
     <dimen name="height_ava_cmt">100dp</dimen>
     <dimen name="height_ava">100dp</dimen>
     <dimen name="text_cmt">22dp</dimen>
+    <dimen name="post">20dp</dimen>
+
 
     <dimen name="height_logo">270dp</dimen>
     <dimen name="margin_top_buton">40dip</dimen>

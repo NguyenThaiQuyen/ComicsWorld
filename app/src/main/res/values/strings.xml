@@ -104,5 +104,9 @@
     <string name="no_continue">No, thanks</string>
     <string name="yes_continue">Go now</string>
 
+    <string name="hint_cmt">Add new comment...</string>
+    <string name="add">POST</string>
+    <string name="disable_cmt">Please login to comment..</string>
+
 
 </resources>
